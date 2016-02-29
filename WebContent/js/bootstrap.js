@@ -772,8 +772,11 @@ Ext.ClassManager.addNameAlternateMappings({
     "Ext.viewport.WP"
   ],
   "Xedu.Config": [],
+  "Xedu.controller.Main": [],
+  "Xedu.view.Home": [],
   "Xedu.view.Login": [],
-  "Xedu.view.Main": []
+  "Xedu.view.Main": [],
+  "Xedu.view.main.SideMenu": []
 });
 
 Ext.ClassManager.addNameAliasMappings({
@@ -1732,12 +1735,17 @@ Ext.ClassManager.addNameAliasMappings({
   "Xedu.Config": [
     "Config"
   ],
+  "Xedu.controller.Main": [],
+  "Xedu.view.Home": [
+    "widget.home"
+  ],
   "Xedu.view.Login": [
     "widget.loginview"
   ],
   "Xedu.view.Main": [
     "widget.mainview"
-  ]
+  ],
+  "Xedu.view.main.SideMenu": []
 });
 
 

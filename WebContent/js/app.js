@@ -15,12 +15,17 @@ Ext.application({
 
     requires: [
         'Ext.MessageBox',
-        'Xedu.view.Main'
+        'Xedu.view.Main',
+        'Xedu.view.Home',
+        'Xedu.controller.Main',
+        'Xedu.view.main.SideMenu'
     ],
-
+    
+    controllers: ['Main'],
+    
     views: [
         'Main',
-        'Login'
+//        'Login'      
     ],
 
     icon: {
@@ -40,7 +45,32 @@ Ext.application({
         '1536x2008': 'resources/startup/1536x2008.png',
         '1496x2048': 'resources/startup/1496x2048.png'
     },
-
+    /*
+     * logged in user info
+     */
+    loggedInUser: '',     
+    setLoggedInUser: function(user)
+    {
+    	this.loggedInUser = user;
+    },
+    getLoggedInUser: function()
+    {
+    	return this.loggedInUser;
+    },
+    
+    /*
+     * navigation action stack
+     */
+    actionHistoryStack:[],
+    pushActionIntoHistorySack: function(action)
+    {
+    	this.actionHistoryStack.push(action);
+    },
+    popActionFromHistorySack: function()
+    {
+    	this.actionHistoryStack.push(action);
+    },
+    
     launch: function() 
     {
         // Destroy the #appLoadingIndicator element
@@ -48,6 +78,17 @@ Ext.application({
 
         // Initialize the main view
         Ext.Viewport.add(Ext.create('Xedu.view.Main'));
+        
+        /*
+         * set the navigation menu
+         */        
+        Ext.Viewport.setMenu(Ext.create('Xedu.view.main.SideMenu'), 
+        {
+            side: 'right',
+            reveal: true
+        });
+        
+        this.getController('Main').redirectToView('Home');
     },
 
     onUpdated: function() 
@@ -55,7 +96,8 @@ Ext.application({
         Ext.Msg.confirm(
             "Application Update",
             "This application has just successfully been updated to the latest version. Reload now?",
-            function(buttonId) {
+            function(buttonId) 
+            {
                 if (buttonId === 'yes') {
                     window.location.reload();
                 }

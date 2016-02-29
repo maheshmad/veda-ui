@@ -20,7 +20,7 @@ Ext.define('Xedu.view.Main',
 				{
 			            cnt.remove(item, true);
 			        }, 100);
-			    }
+			}
 		},
 		navigationBar: 
 		{
@@ -39,19 +39,23 @@ Ext.define('Xedu.view.Main',
 		                }
 		            },
 		            {
-			            iconCls: 'list',
+			            xtype:'button',
+		            	iconCls: 'list',
 			            iconMask: true,
 			            align: 'right',
-			            id:'mainmenubutton',
-			            action:'showGlobalMenu'
+			            itemId:'mainmenubutton',
+			            handler:function (button)
+			        	{            				            						
+			            	Ext.Viewport.toggleMenu('right');							
+			        	}
 			        }
 			       
 		        ]
 	    },	    
 		items: [
-		        {
-		            xtype:'loginview'
-		        }
+//		        {
+//		            xtype:'loginview'
+//		        }
 		    ]
 	    
 	}

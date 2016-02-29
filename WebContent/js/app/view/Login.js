@@ -9,19 +9,19 @@ Ext.define('Xedu.view.Login',
     config: 
     {
         title: 'Login',
-        itemId:'loginformpanelid',
+        itemId:'loginformpanelid',        
         layout:
         {
         	type:'vbox',
-        	pack:'center',
+        	pack:'start',
         	align:'stretch'
         },
-        items: [
-                    //{
-                    //    xtype: 'image',
-                    //    src: Ext.Viewport.getOrientation() == 'portrait' ? '../images/logo-polaris.jpg' : '../images/logo-polaris.jpg',
-                    //    style: Ext.Viewport.getOrientation() == 'portrait' ? 'width:500px;height:150px' : 'width:500px;height:150px'
-                    //},
+        items: [                   
+//                    {
+//                        xtype: 'image',
+//                        src: Ext.Viewport.getOrientation() == 'portrait' ? '../images/logo-polaris.jpg' : '../images/logo-polaris.jpg',
+//                        style: Ext.Viewport.getOrientation() == 'portrait' ? 'width:500px;height:150px' : 'width:500px;height:150px'
+//                    },
                     {
                         xtype: 'label',
                         html: 'Login failed. Please enter the correct credentials.',
@@ -56,9 +56,10 @@ Ext.define('Xedu.view.Login',
                     {                    	
                     	xtype: 'panel',                        
                         title: '',                        
-                        layout: {
-                         pack: 'center',
-                         type: 'hbox'
+                        layout: 
+                        {
+	                         pack: 'center',
+	                         type: 'hbox'
                         },
                         items: [
                          {
@@ -76,21 +77,21 @@ Ext.define('Xedu.view.Login',
 	                                 xtype: 'loadmask',
 	                                 message: 'Signing In...'
 	                             });
-
+	                             
+	                             var loginForm = Ext.ComponentQuery.query('loginview')[0];	                             
 	                             var authUrl = Xedu.Config.getUrl(Xedu.Config.AUTH_SERVICE);
-	                             Ext.Ajax.request({
-	                                 url: authUrl,
-	                                 method: 'post',
-	                                 form:'loginformpanelid',
+	                             
+	                             loginForm.submit({
+	                            	 url:authUrl,
 	                                 success: function (response) 
 	                                 {
 	                                     var loginResponse = Ext.JSON.decode(response.responseText);
-	                                     var cntrller = this.BCSUI.app.getController('Main');
+	                                     var cntrller = this.Xedu.app.getController('Main');
 	                                     var loginView = cntrller.getLoginView();
 	                                     if (loginResponse.auth == 'SUCCESS') 
 	                                     {                        	              	       
-	                                     	BCSUI.app.setLoggedInUser(loginResponse.authenticatedUser);
-	                                     	loginView.setMasked(false);
+	                                     	Xedu.app.setLoggedInUser(loginResponse.authenticatedUser);
+	                                     	Ext.Viewport.setMasked(false);
 	                                     	/*
 	                                     	 * Go to home page 
 	                                     	 */                        	                    		
@@ -100,20 +101,22 @@ Ext.define('Xedu.view.Login',
 	                                     else 
 	                                     {
 	                                     	loginView.showSignInFailedMessage('Invalid UserID/Password');
-	                                     	loginView.setMasked(false);
+	                                     	Ext.Viewport.setMasked(false);
 	                                     	
 	                                     }
 	                                 },
 	                                 failure: function (response) 
 	                                 {
 	                                     me.sessionToken = null;
+	                                     Ext.Viewport.setMasked(false);
+	                                     Xedu.app.setLoggedInUser('guest');
 	                                     alert('Server failed to respond! Please contact support!');
-	                                 },
-	                                 callback: function()
-	                                 {
-	                                	 Ext.Viewport.setMasked(false);
 	                                 }
+	                                 
+	                            	 
 	                             });
+	                             
+	                             
 		                      
 		                      }/* handler */
                         
