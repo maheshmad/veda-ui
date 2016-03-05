@@ -1,19 +1,29 @@
 Ext.define('Xedu.Config',
 {		
-	alias:'Config',		
-	statics:
-	{
+	alias:'Config',	
+	singleton: true,
+//	statics:
+//	{
 		ns:'Xedu', /* namespace used to create a new view
 		/*
 		 * Base URL
 		 */		
-		REST_SERVICES_APP_CONTEXT_ROOT:'/xedu-services',
+		REST_SERVICES_APP_CONTEXT_ROOT:'/veda',
 							
 		/*
 		 * services
 		 */
-		AUTH_SERVICE:'/api/auth',
+		/* 
+		 * security 
+		 */
+		AUTH_SERVICE:'/api/auth/login',
          
+		/*
+		 * course
+		 */
+		COURSE_SEARCH:'/api/course/search',
+		CHAPTERS_SEARCH:'/api/chapter/search',
+		
         /*
 		 * set to true if the security needs to be switched off
 		 * you will not see the login screen. 
@@ -24,6 +34,7 @@ Ext.define('Xedu.Config',
 		/*
 		 * builds and returns the restful service's url
 		 */
+//	},
 		getUrl:function(serv)
 		{									
 			if (!serv)
@@ -47,5 +58,5 @@ Ext.define('Xedu.Config',
 			//return this.REST_SERVICES_APP_CONTEXT_PATH+serv; /* only to be used for UI local dev testing */
 		}
 				
-	}	
+//	}	
 });

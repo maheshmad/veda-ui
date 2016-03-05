@@ -23,6 +23,16 @@ Ext.define('Xedu.view.main.SideMenu',
                  }
              },
              {
+                 text: 'Courses',
+                 iconCls: 'search',
+                 scope: this,
+                 handler: function() 
+                 {                     
+                	 Ext.Viewport.hideMenu('right');
+                	 Xedu.app.getController('Main').redirectTo('view/course/list');
+                 }
+             },
+             {
                  text: 'Search',
                  iconCls: 'search',
                  scope: this,

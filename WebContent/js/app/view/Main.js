@@ -3,6 +3,7 @@ Ext.define('Xedu.view.Main',
 	extend:'Ext.navigation.View',
     xtype: 'mainview',
     requires:['Xedu.view.Login',
+              'Xedu.view.course.CoursesList',
               'Ext.field.Search'],
 	config:
 	{

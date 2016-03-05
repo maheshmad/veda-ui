@@ -16,10 +16,11 @@ Ext.application({
     requires: [
         'Ext.MessageBox',
         'Xedu.view.Main',
+        'Xedu.Config',
         'Xedu.view.Home',
         'Xedu.controller.Main',
-        'Xedu.view.main.SideMenu'
-    ],
+        'Xedu.view.main.SideMenu',
+        'Ext.data.proxy.Rest' ],
     
     controllers: ['Main'],
     
@@ -27,6 +28,7 @@ Ext.application({
         'Main',
 //        'Login'      
     ],
+    
 
     icon: {
         '57': 'resources/icons/Icon.png',
@@ -78,6 +80,11 @@ Ext.application({
 
         // Initialize the main view
         Ext.Viewport.add(Ext.create('Xedu.view.Main'));
+        
+        /*
+         * Initialize singleton config
+         */
+        var config = Xedu.Config;
         
         /*
          * set the navigation menu

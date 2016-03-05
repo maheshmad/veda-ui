@@ -73,24 +73,22 @@ Ext.define('Xedu.view.Login',
 		                      {	                    		 
 	                    		 var me = this;                	                             
 	                             	                             
-	                             Ext.Viewport.setMasked({
-	                                 xtype: 'loadmask',
-	                                 message: 'Signing In...'
-	                             });
+//	                             Ext.Viewport.setMasked({
+//	                                 xtype: 'loadmask',
+//	                                 message: 'Signing In...'
+//	                             });
 	                             
 	                             var loginForm = Ext.ComponentQuery.query('loginview')[0];	                             
 	                             var authUrl = Xedu.Config.getUrl(Xedu.Config.AUTH_SERVICE);
 	                             
 	                             loginForm.submit({
 	                            	 url:authUrl,
-	                                 success: function (response) 
-	                                 {
-	                                     var loginResponse = Ext.JSON.decode(response.responseText);
-	                                     var cntrller = this.Xedu.app.getController('Main');
-	                                     var loginView = cntrller.getLoginView();
-	                                     if (loginResponse.auth == 'SUCCESS') 
+	                                 success: function (form,response,data1,data2)
+	                                 {	                                    
+	                                     var cntrller = Xedu.app.getController('Main');	                                    
+	                                     if (response.status == 'SUCCESS') 
 	                                     {                        	              	       
-	                                     	Xedu.app.setLoggedInUser(loginResponse.authenticatedUser);
+	                                     	Xedu.app.setLoggedInUser(response.sessionid);
 	                                     	Ext.Viewport.setMasked(false);
 	                                     	/*
 	                                     	 * Go to home page 
@@ -100,8 +98,9 @@ Ext.define('Xedu.view.Login',
 	                                     } 
 	                                     else 
 	                                     {
-	                                     	loginView.showSignInFailedMessage('Invalid UserID/Password');
-	                                     	Ext.Viewport.setMasked(false);
+	                                    	 var loginView = cntrller.getLoginView();
+	                                    	 loginView.showSignInFailedMessage('Invalid UserID/Password');
+	                                     	 Ext.Viewport.setMasked(false);
 	                                     	
 	                                     }
 	                                 },

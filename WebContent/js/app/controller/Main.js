@@ -1,7 +1,8 @@
 Ext.define('Xedu.controller.Main',
 {
 	extend: 'Ext.app.Controller',
-	requires:['Xedu.Config'],	
+	requires:['Xedu.Config',
+	          'Xedu.view.chapter.ChaptersList'],	
 	config:
 	{					
 			before:
@@ -16,6 +17,8 @@ Ext.define('Xedu.controller.Main',
 			routes:
 			{
 				'view/:id':'showView',
+				'view/course/list':'showCourses',
+				'view/course/:id/chapters':'showChapters',
 				'open/:applid':'openApplicationView',
 				'edit/:applid':'editApplicationInfo',
 				'search/name/:param':'showSearchResults'
@@ -61,19 +64,36 @@ Ext.define('Xedu.controller.Main',
     
     /*
      * 
-     * 
+     * show view
      */
-	showView: function(toview)
+	showView: function(toview,params)
 	{
-		console.log("about to render "+toview);
+		console.log("about to render "+toview+" param = "+params);
 		var viewClass = 'Xedu.view.'+toview;
 		var navtoview = Ext.ComponentQuery.query(toview);
 		if (navtoview != null && navtoview[0] != null)
 			navtoview[0].destroy();
-		navtoview = Ext.create(viewClass);
+		if (params)
+			navtoview = Ext.create(viewClass,{p:params});
+		else
+			navtoview = Ext.create(viewClass);
 		
 		this.getMainViewNavigation().push(navtoview);        		        			
 	},
+	/*
+	 * show courses
+	 */
+	showCourses: function(param)
+	{
+		this.showView('course.CoursesList',param);
+	},
+	
+	showChapters: function(courseId,chapterId)
+	{
+		var params = {'courseid':courseId,'chapterid':chapterId};
+		this.showView('chapter.ChaptersList',params);
+	},
+	
 	/*
 	 * redirect is similar to showView except for the fact that
 	 * it will pop the existing view so that there is no back button
