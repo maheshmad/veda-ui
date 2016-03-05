@@ -11,7 +11,9 @@ Ext.define('Xedu.view.chapter.ChaptersList', {
         title:'Chapters',
         scrollable: true,
         autoDestroy:true,
-        store: Ext.create('Xedu.store.ChaptersStore'),
+        store: {
+        	type:'chapters-store'
+        },
         plugins: [
                   {
                       xclass: 'Ext.plugin.PullRefresh',
@@ -29,7 +31,8 @@ Ext.define('Xedu.view.chapter.ChaptersList', {
 			itemsingletap: function(scope, index, target, record)
 			{        		
 				console.log("tapped");
-           	 	Xedu.app.getController('Main').redirectTo('view/chapter/id/'+record.id);
+				var courseId = scope.p.courseid;
+           	 	Xedu.app.getController('Main').redirectTo('view/course/'+courseId+'/chapter/'+record.id+"/topics");
 			}
 		}
 		            

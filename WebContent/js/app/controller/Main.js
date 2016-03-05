@@ -19,6 +19,7 @@ Ext.define('Xedu.controller.Main',
 				'view/:id':'showView',
 				'view/course/list':'showCourses',
 				'view/course/:id/chapters':'showChapters',
+				'view/course/:cid/chapter/:chpid/topics':'showTopics',
 				'open/:applid':'openApplicationView',
 				'edit/:applid':'editApplicationInfo',
 				'search/name/:param':'showSearchResults'
@@ -89,6 +90,12 @@ Ext.define('Xedu.controller.Main',
 	},
 	
 	showChapters: function(courseId,chapterId)
+	{
+		var params = {'courseid':courseId,'chapterid':chapterId};
+		this.showView('chapter.ChaptersList',params);
+	},
+	
+	showTopics: function(courseId,chapterId)
 	{
 		var params = {'courseid':courseId,'chapterid':chapterId};
 		this.showView('chapter.ChaptersList',params);

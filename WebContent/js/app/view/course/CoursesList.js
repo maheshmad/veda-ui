@@ -10,7 +10,9 @@ Ext.define('Xedu.view.course.CoursesList', {
         title:'Courses',
         scrollable: true,
         autoDestroy:true,
-        store: Ext.create('Xedu.store.CoursesStore'),
+        store: {
+        	type:'courses-store'
+        },
         plugins: [
                   {
                       xclass: 'Ext.plugin.PullRefresh',
