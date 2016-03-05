@@ -23,6 +23,7 @@ Ext.define('Xedu.Config',
 		 */
 		COURSE_SEARCH:'/api/course/search',
 		CHAPTERS_SEARCH:'/api/chapter/search',
+		TOPICS_SEARCH:'/api/topic/search',
 		
         /*
 		 * set to true if the security needs to be switched off

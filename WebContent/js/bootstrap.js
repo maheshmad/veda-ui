@@ -775,12 +775,14 @@ Ext.ClassManager.addNameAlternateMappings({
   "Xedu.controller.Main": [],
   "Xedu.store.ChaptersStore": [],
   "Xedu.store.CoursesStore": [],
+  "Xedu.store.TopicsStore": [],
   "Xedu.view.Home": [],
   "Xedu.view.Login": [],
   "Xedu.view.Main": [],
   "Xedu.view.chapter.ChaptersList": [],
   "Xedu.view.course.CoursesList": [],
-  "Xedu.view.main.SideMenu": []
+  "Xedu.view.main.SideMenu": [],
+  "Xedu.view.topic.TopicsList": []
 });
 
 Ext.ClassManager.addNameAliasMappings({
@@ -1746,6 +1748,9 @@ Ext.ClassManager.addNameAliasMappings({
   "Xedu.store.CoursesStore": [
     "store.courses-store"
   ],
+  "Xedu.store.TopicsStore": [
+    "store.topics-store"
+  ],
   "Xedu.view.Home": [
     "widget.home"
   ],
@@ -1761,7 +1766,10 @@ Ext.ClassManager.addNameAliasMappings({
   "Xedu.view.course.CoursesList": [
     "widget.courses-list-panel"
   ],
-  "Xedu.view.main.SideMenu": []
+  "Xedu.view.main.SideMenu": [],
+  "Xedu.view.topic.TopicsList": [
+    "widget.topics-list-panel"
+  ]
 });
 
 

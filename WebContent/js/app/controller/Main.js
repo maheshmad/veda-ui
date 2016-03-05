@@ -89,16 +89,16 @@ Ext.define('Xedu.controller.Main',
 		this.showView('course.CoursesList',param);
 	},
 	
-	showChapters: function(courseId,chapterId)
+	showChapters: function(courseId)
 	{
-		var params = {'courseid':courseId,'chapterid':chapterId};
+		var params = {'courseid':courseId};
 		this.showView('chapter.ChaptersList',params);
 	},
 	
 	showTopics: function(courseId,chapterId)
 	{
 		var params = {'courseid':courseId,'chapterid':chapterId};
-		this.showView('chapter.ChaptersList',params);
+		this.showView('topic.TopicsList',params);
 	},
 	
 	/*
