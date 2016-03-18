@@ -2,6 +2,7 @@ Ext.define('Xedu.controller.Main',
 {
 	extend: 'Ext.app.Controller',
 	requires:['Xedu.Config',
+	          'Xedu.view.slides.SlidesList',
 	          'Xedu.view.chapter.ChaptersList'],	
 	config:
 	{					
@@ -20,6 +21,7 @@ Ext.define('Xedu.controller.Main',
 				'view/course/list':'showCourses',
 				'view/course/:id/chapters':'showChapters',
 				'view/course/:cid/chapter/:chpid/topics':'showTopics',
+				'view/course/:cid/chapter/:chpid/topic/:topicid':'showSlides',
 				'open/:applid':'openApplicationView',
 				'edit/:applid':'editApplicationInfo',
 				'search/name/:param':'showSearchResults'
@@ -99,6 +101,12 @@ Ext.define('Xedu.controller.Main',
 	{
 		var params = {'courseid':courseId,'chapterid':chapterId};
 		this.showView('topic.TopicsList',params);
+	},
+	
+	showSlides: function(courseId,chapterId,topicId)
+	{
+		var params = {'courseid':courseId,'chapterid':chapterId,'topicid':topicId};
+		this.showView('slides.SlidesList',params);
 	},
 	
 	/*

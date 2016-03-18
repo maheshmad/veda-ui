@@ -9,6 +9,12 @@ Ext.define('Xedu.view.topic.TopicsList', {
     {
         itemId:'topics-list-panel-id', 
         title:'Topics',
+        /*
+         * panel custom config params
+         */
+        courseid:null,
+        chapterid:null,
+        
         scrollable: true,
         autoDestroy:true,
         store: {
@@ -32,7 +38,8 @@ Ext.define('Xedu.view.topic.TopicsList', {
 			{        		
 				console.log("tapped");
 				var courseId = scope.p.courseid;
-           	 	Xedu.app.getController('Main').redirectTo('view/course/'+courseId+'/chapter/'+record.id+"/topics");
+				var chapterid = scope.p.chapterid;
+           	 	Xedu.app.getController('Main').redirectTo('view/course/'+courseId+'/chapter/'+chapterid+"/topic/"+record.data.recordId);
 			}
 		}
 		            

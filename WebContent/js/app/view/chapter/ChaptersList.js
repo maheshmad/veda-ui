@@ -9,9 +9,15 @@ Ext.define('Xedu.view.chapter.ChaptersList', {
     {
         itemId:'chapter-list-panel-id', 
         title:'Chapters',
+        /*
+         * panel custom config params
+         */
+        courseid:null,
+        
         scrollable: true,
-        autoDestroy:true,
-        store: {
+        autoDestroy:true,        
+        store: 
+        {
         	type:'chapters-store'
         },
         plugins: [
@@ -32,7 +38,7 @@ Ext.define('Xedu.view.chapter.ChaptersList', {
 			{        		
 				console.log("tapped");
 				var courseId = scope.p.courseid;
-           	 	Xedu.app.getController('Main').redirectTo('view/course/'+courseId+'/chapter/'+record.id+"/topics");
+           	 	Xedu.app.getController('Main').redirectTo('view/course/'+courseId+'/chapter/'+record.data.recordId+"/topics");
 			}
 		}
 		            

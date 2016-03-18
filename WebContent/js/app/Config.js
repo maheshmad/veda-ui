@@ -24,6 +24,8 @@ Ext.define('Xedu.Config',
 		COURSE_SEARCH:'/api/course/search',
 		CHAPTERS_SEARCH:'/api/chapter/search',
 		TOPICS_SEARCH:'/api/topic/search',
+		SLIDES_LIST_SEARCH_BY_TOPIC:'/api/slides/topic/',
+		SLIDE_IMAGE_THUMB:'/api/slides/image/thumb/',
 		
         /*
 		 * set to true if the security needs to be switched off

@@ -18,7 +18,7 @@ Ext.define('Xedu.view.course.CoursesList', {
                       xclass: 'Ext.plugin.PullRefresh',
                       pullText: 'Pull down to refresh the list!'
                   }
-              ],                     
+              ],       
         itemTpl: [
                   '<div>',
                   '			<span style="color:gray">No:</span> {recordId} ',
@@ -30,7 +30,7 @@ Ext.define('Xedu.view.course.CoursesList', {
 			itemsingletap: function(scope, index, target, record)
 			{        		
 				console.log("tapped");
-           	 	Xedu.app.getController('Main').redirectTo('view/course/'+record.id+"/chapters");
+           	 	Xedu.app.getController('Main').redirectTo('view/course/'+record.data.recordId+"/chapters");
 			}
 		}
 		            
