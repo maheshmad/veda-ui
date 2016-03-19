@@ -2,7 +2,7 @@ Ext.define('Xedu.controller.Main',
 {
 	extend: 'Ext.app.Controller',
 	requires:['Xedu.Config',
-	          'Xedu.view.slides.SlidesList',
+	          'Xedu.view.slides.SlidesMain',
 	          'Xedu.view.chapter.ChaptersList'],	
 	config:
 	{					
@@ -22,6 +22,7 @@ Ext.define('Xedu.controller.Main',
 				'view/course/:id/chapters':'showChapters',
 				'view/course/:cid/chapter/:chpid/topics':'showTopics',
 				'view/course/:cid/chapter/:chpid/topic/:topicid':'showSlides',
+//				'view/course/:cid/chapter/:chpid/topic/:topicid':'showSlidesMain',
 				'open/:applid':'openApplicationView',
 				'edit/:applid':'editApplicationInfo',
 				'search/name/:param':'showSearchResults'
@@ -77,7 +78,7 @@ Ext.define('Xedu.controller.Main',
 		if (navtoview != null && navtoview[0] != null)
 			navtoview[0].destroy();
 		if (params)
-			navtoview = Ext.create(viewClass,{p:params});
+			navtoview = Ext.create(viewClass,params);
 		else
 			navtoview = Ext.create(viewClass);
 		
@@ -106,7 +107,7 @@ Ext.define('Xedu.controller.Main',
 	showSlides: function(courseId,chapterId,topicId)
 	{
 		var params = {'courseid':courseId,'chapterid':chapterId,'topicid':topicId};
-		this.showView('slides.SlidesList',params);
+		this.showView('slides.SlidesMain',params);
 	},
 	
 	/*

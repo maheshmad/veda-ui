@@ -37,34 +37,44 @@ Ext.define('Xedu.view.slides.SlidesList',
         {        
         	show:function(thisView,opts)
         	{
-        		console.log("showing...slides");
-        		thisView.setMasked({msg:"Loading slides..."});
-        		var slideListStore = thisView.getStore();
-        		var courseId = thisView.p.courseid;
-				var topicid = thisView.p.topicid;				
-				slideListStore.getProxy().setUrl(slideListStore.getProxy().getUrl()+topicid);
-        		slideListStore.load({callback : function(records, operation, success) 
-					                    {				            	
-					                    	thisView.setMasked(false);		    		                        	                       	                	    			            					            			                        
-					                    }});
-        		
-//        		viewInstance.getControl().loadslides();
+        		if (scope.getTopicid() != '')
+        			thisView.loadslideslist();
         	},
-//        	painted:function(viewInstance,opts)
-//			{
-//        		console.log("painted...slides");
-//        		viewInstance.loadSlidesRecords();
-//			},
         	itemsingletap: function(scope, index, target, record)
 			{        		
 				console.log("tapped");
-				var courseId = scope.p.courseid;
-				var topicid = scope.p.topicid;
-				alert("tapped on slide ="+record.id+"topicid ="+topicid+", courseid = "+courseid);
-//           	 	Xedu.app.getController('Main').redirectTo('view/course/'+courseId+'/chapter/'+record.id+"/topics");
+				var courseId = scope.getCourseid();
+				var topicid = scope.getTopicid();
+				scope.showSlideOnFullView(scope, index, target, record);
+//				alert("tapped on slide ="+record.data.recordId+"topicid ="+topicid+", courseid = "+courseId);				
+//           	Xedu.app.getController('Main').redirectTo('view/course/'+courseId+'/chapter/'+record.id+"/topics");
 			}
 		}	    
 	        
+    },
+    
+    loadslideslist: function()
+    {
+    	console.log("showing...slides from loadslideslist ");
+		var thisView = this;
+    	thisView.setMasked({msg:"Loading slides..."});
+		var slideListStore = thisView.getStore();
+		var courseId = thisView.getCourseid();
+		var topicid = thisView.getTopicid();				
+		slideListStore.getProxy().setUrl(slideListStore.getProxy().getUrl()+topicid);
+		slideListStore.load({callback : function(records, operation, success) 
+			                    {				            	
+			                    	thisView.setMasked(false);		    		                        	                       	                	    			            					            			                        
+			                    }});
+    },
+    
+    showSlideOnFullView: function(scope, index, target, record)
+    {
+    	var fullView = Ext.ComponentQuery.query('slides-fullview-list');
+//    	if (fullView && fullView[0])
+//    	{
+    	fullView[0].addSlide(record);
+//    	}
     }
     
     

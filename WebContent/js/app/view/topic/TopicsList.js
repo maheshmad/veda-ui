@@ -37,8 +37,8 @@ Ext.define('Xedu.view.topic.TopicsList', {
 			itemsingletap: function(scope, index, target, record)
 			{        		
 				console.log("tapped");
-				var courseId = scope.p.courseid;
-				var chapterid = scope.p.chapterid;
+				var courseId = scope.getCourseid();
+				var chapterid = scope.getChapterid();
            	 	Xedu.app.getController('Main').redirectTo('view/course/'+courseId+'/chapter/'+chapterid+"/topic/"+record.data.recordId);
 			}
 		}
