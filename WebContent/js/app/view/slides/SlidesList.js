@@ -28,7 +28,7 @@ Ext.define('Xedu.view.slides.SlidesList',
                   }
               ],                     
         itemTpl: [
-                  '<div>',
+                  '<div style="vertical-align:middle; text-align:center;width:100%;height:100%">',
                   '			<img src="'+Xedu.Config.getUrl(Xedu.Config.SLIDE_IMAGE_THUMB)+'{recordId}" /><br />',                 
                   '			<span style="color:gray">Title: </span>{recordTitle}, ',
                   '</div>',

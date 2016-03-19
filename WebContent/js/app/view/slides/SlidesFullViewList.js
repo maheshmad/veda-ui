@@ -22,7 +22,7 @@ Ext.define('Xedu.view.slides.SlidesFullViewList',
         	type:'slides-list-store'
         },                  
         itemTpl: [
-                  '<div style="display:table-cell; vertical-align:middle; text-align:center;background-color:gray;width:100%">',
+                  '<div style="vertical-align:middle; text-align:center;background-color:black;width:100%;height:100%">',
                   '			<img src="'+Xedu.Config.getUrl(Xedu.Config.SLIDE_IMAGE_LARGE)+'{recordId}" /><br />',                 
                   '</div>',
               ],                        
