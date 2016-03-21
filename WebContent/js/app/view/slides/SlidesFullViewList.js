@@ -8,6 +8,7 @@ Ext.define('Xedu.view.slides.SlidesFullViewList',
     config: 
     {
         itemId:'slides-fullview-list-id', 
+        background:'black',
         title:'Topic',
         /*
          * panel custom config params
@@ -23,7 +24,7 @@ Ext.define('Xedu.view.slides.SlidesFullViewList',
         },                  
         itemTpl: [
                   '<div style="vertical-align:middle; text-align:center;background-color:black;width:100%;height:100%">',
-                  '			<img src="'+Xedu.Config.getUrl(Xedu.Config.SLIDE_IMAGE_LARGE)+'{recordId}" /><br />',                 
+                  '			<img style="max-height:100%; max-width:100%;" src="'+Xedu.Config.getUrl(Xedu.Config.SLIDE_IMAGE_LARGE)+'{recordId}" /><br />',                 
                   '</div>',
               ],                        
         listeners:

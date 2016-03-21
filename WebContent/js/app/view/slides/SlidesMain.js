@@ -3,6 +3,7 @@ Ext.define('Xedu.view.slides.SlidesMain',
     extend: 'Ext.Container',
     xtype: 'slides-main-view',
     requires:['Xedu.view.slides.SlidesList',
+              'Xedu.view.slides.FreeDrawComponent',
               'Xedu.view.slides.SlidesFullViewList'],
     config: 
     {    	
@@ -27,21 +28,52 @@ Ext.define('Xedu.view.slides.SlidesMain',
 						{
 						    docked: 'top',
 						    xtype: 'titlebar',
-						    ui:'light',
-						    title:'test',
+						    ui:'neutral',
+						    title:'',
+						    layout:
+						    {
+						    	pack:'right'
+						    },
+						    defaults:
+						    {
+						    	ui:'plain'
+						    },
 						    items: 
 						    [
+								{
+									xtype:'button',
+									iconCls:'compose',
+								    id: 'whiteboardButton',						            
+								    handler: function (but) 
+								    {
+								    	var slidesfullview = Ext.ComponentQuery.query('slides-fullview-list')[0];
+								    	slidesfullview.getStore().removeAll();								    	
+								    }
+								},
 						        {
 						        	xtype:'button',
-						        	text: 'ALL',
-						            id: 'rightButton'						        		
+						        	iconCls:'refresh',
+						            id: 'undoButton',						            
+						            handler: function () 
+						            {
+		                                var draw = Ext.ComponentQuery.query('slide-draw-component')[0];
+		                                draw.undo();	
+		                            }
 						        }
 						        	
 						    ]
 						},
 						{
 							xtype:'slides-fullview-list',
-						}
+						},
+						{
+		                    xtype: 'slide-draw-component',		                                  
+		                    itemId: 'free-paint',
+		                    top: 0,
+	        	            left: 0,
+	        	            width:Ext.Viewport.getWindowWidth(),
+	        	            height:Ext.Viewport.getWindowHeight()
+		                }
             	],
             	flex:4
             }
@@ -50,7 +82,7 @@ Ext.define('Xedu.view.slides.SlidesMain',
         listeners:
         {        
         	show:function(thisView,opts)
-        	{
+        	{        			
         		if (thisView.getTopicid())
         		{
         			var slidesList = thisView.down('slides-list-panel');        			
