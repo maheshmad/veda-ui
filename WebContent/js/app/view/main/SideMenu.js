@@ -18,8 +18,10 @@ Ext.define('Xedu.view.main.SideMenu',
                  text: 'Settings',
                  iconCls: 'settings',
                  scope: this,
-                 handler: function() {
-                     Ext.Viewport.hideMenu('right');
+                 handler: function() 
+                 {                	 
+                	 Ext.Viewport.hideMenu('right');
+                	 Xedu.app.getController('Main').redirectTo('config');
                  }
              },
              {
@@ -36,7 +38,8 @@ Ext.define('Xedu.view.main.SideMenu',
                  text: 'Search',
                  iconCls: 'search',
                  scope: this,
-                 handler: function() {                     
+                 handler: function() 
+                 {                     
                 	 Ext.Viewport.hideMenu('right');
                 	 Xedu.app.getController('Main').redirectTo('view/SearchInfoFormPanel');
                  }

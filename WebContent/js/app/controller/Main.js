@@ -3,6 +3,8 @@ Ext.define('Xedu.controller.Main',
 	extend: 'Ext.app.Controller',
 	requires:['Xedu.Config',
 	          'Xedu.view.slides.SlidesMain',
+	          'Xedu.view.config.ConfigMain',
+	          'Xedu.view.slides.ContentUpload',
 	          'Xedu.view.chapter.ChaptersList'],	
 	config:
 	{					
@@ -18,10 +20,12 @@ Ext.define('Xedu.controller.Main',
 			routes:
 			{
 				'view/:id':'showView',
+				'config':'showConfig',
 				'view/course/list':'showCourses',
 				'view/course/:id/chapters':'showChapters',
 				'view/course/:cid/chapter/:chpid/topics':'showTopics',
 				'view/course/:cid/chapter/:chpid/topic/:topicid':'showSlides',
+				'view/course/:cid/chapter/:chpid/topic/:topicid/upload':'uploadSlides',
 //				'view/course/:cid/chapter/:chpid/topic/:topicid':'showSlidesMain',
 				'open/:applid':'openApplicationView',
 				'edit/:applid':'editApplicationInfo',
@@ -56,6 +60,15 @@ Ext.define('Xedu.controller.Main',
     {
     	console.log(" showing login screen....");
     	this.showView('Login');
+    },
+    
+    /*
+    * show Login page
+    */
+    showConfig: function()
+    {
+    	console.log(" showing config screen....");
+    	this.showView('config.ConfigMain');
     },
     
     /*
@@ -108,6 +121,15 @@ Ext.define('Xedu.controller.Main',
 	{
 		var params = {'courseid':courseId,'chapterid':chapterId,'topicid':topicId};
 		this.showView('slides.SlidesMain',params);
+	},
+	
+	/**
+	 * upload slides
+	 */
+	uploadSlides: function(courseId,chapterId,topicId)
+	{
+		var params = {'courseid':courseId,'chapterid':chapterId,'topicid':topicId};
+		this.showView('slides.ContentUpload',params);
 	},
 	
 	/*

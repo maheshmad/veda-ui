@@ -10,7 +10,9 @@ Ext.define('Xedu.view.slides.SlidesMain',
     	title: 'Class',
     	fullscreen: false,
     	layout: 'hbox',
-    	topicid: null,	   
+    	topicid: null,	  
+    	courseid:null,
+    	chapterid:null,
     	autoDestroy:true,
     	defaults:
     	{
@@ -18,8 +20,45 @@ Ext.define('Xedu.view.slides.SlidesMain',
         },
         items: [           
             {
-            	xtype:'slides-list-panel', 
-            	flex:1
+            	xtype:'container',            	
+            	layout: 'fit',            	
+            	items:[
+			            	{
+							    docked: 'top',
+							    xtype: 'titlebar',
+							    ui:'neutral',
+							    title:'',
+							    layout:
+							    {
+							    	pack:'right'
+							    },
+							    defaults:
+							    {
+							    	ui:'plain'
+							    },
+							    items: 
+							    [
+									{
+										xtype:'button',
+										iconCls:'compose',
+									    itemId: 'newSlideButton',						            
+									    handler: function (but,action,eOpts) 
+									    {
+									    	var scope = Ext.ComponentQuery.query('slides-main-view')[0];
+									    	var courseId = scope.getCourseid();
+											var chapterid = scope.getChapterid();
+											var topicid = scope.getTopicid();
+									    	Xedu.app.getController('Main').redirectTo('view/course/'+courseId+'/chapter/'+chapterid+"/topic/"+topicid+"/upload");								    	
+									    }
+									}							        
+							        	
+							    ]
+							},
+							{
+								xtype:'slides-list-panel', 
+				            	flex:1
+							}
+						]
             },
             {
             	xtype:'container',            	

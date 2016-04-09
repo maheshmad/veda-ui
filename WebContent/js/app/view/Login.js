@@ -109,7 +109,7 @@ Ext.define('Xedu.view.Login',
 	                                     me.sessionToken = null;
 	                                     Ext.Viewport.setMasked(false);
 	                                     Xedu.app.setLoggedInUser('guest');
-	                                     alert('Server failed to respond! Please contact support!');
+	                                     Ext.Msg.alert('Failed', 'Server failed to respond! Please try again or contact support!', Ext.emptyFn);
 	                                 }
 	                                 
 	                            	 
