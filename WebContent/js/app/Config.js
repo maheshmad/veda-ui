@@ -33,6 +33,11 @@ Ext.define('Xedu.Config',
 		 */
 		CONFIG_SECTIONS:'/api/config',
 		CONFIG_UPDATE_SERVICE:'/api/config',
+		/*
+		 * users
+		 */
+		USER_SEARCH_SERVICE:'/api/user/search',
+		USER_SERVICE:'/api/user',
         /*
 		 * set to true if the security needs to be switched off
 		 * you will not see the login screen. 

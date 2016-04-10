@@ -5,6 +5,7 @@ Ext.define('Xedu.controller.Main',
 	          'Xedu.view.slides.SlidesMain',
 	          'Xedu.view.config.ConfigMain',
 	          'Xedu.view.slides.ContentUpload',
+	          'Xedu.view.users.UserMgmtMain',
 	          'Xedu.view.chapter.ChaptersList'],	
 	config:
 	{					
@@ -22,6 +23,7 @@ Ext.define('Xedu.controller.Main',
 				'view/:id':'showView',
 				'config':'showConfig',
 				'view/course/list':'showCourses',
+				'view/manage/users':'showUserMgmt',
 				'view/course/:id/chapters':'showChapters',
 				'view/course/:cid/chapter/:chpid/topics':'showTopics',
 				'view/course/:cid/chapter/:chpid/topic/:topicid':'showSlides',
@@ -96,6 +98,14 @@ Ext.define('Xedu.controller.Main',
 			navtoview = Ext.create(viewClass);
 		
 		this.getMainViewNavigation().push(navtoview);        		        			
+	},
+	
+	/*
+	 * show user management
+	 */
+	showUserMgmt: function(param)
+	{
+		this.showView('users.UserMgmtMain',param);
 	},
 	/*
 	 * show courses

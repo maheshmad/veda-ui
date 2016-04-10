@@ -17,6 +17,7 @@ Ext.application({
         'Ext.MessageBox',
         'Xedu.view.Main',
         'Xedu.Config',
+        'Xedu.CommonUtils',
         'Xedu.view.Home',
         'Xedu.controller.Main',
         'Xedu.view.main.SideMenu',

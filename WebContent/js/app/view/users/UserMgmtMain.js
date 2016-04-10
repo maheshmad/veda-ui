@@ -1,0 +1,74 @@
+Ext.define('Xedu.view.users.UserMgmtMain', 
+{
+    extend: 'Ext.Container',
+    xtype: 'user-mgmt-main-view',
+    requires:[
+              	'Xedu.view.users.UsersList',
+              	'Xedu.view.users.UserDetailsView'
+              ],
+    config: 
+    {    	
+    	title: 'User Management',
+    	fullscreen: false,
+    	layout: 'hbox',
+    	topicid: null,	  
+    	courseid:null,
+    	chapterid:null,
+    	autoDestroy:true,
+    	defaults:
+    	{
+    		flex:1            
+        },
+        items: [           
+            {
+            	xtype:'container',            	
+            	layout: 'fit',
+            	flex:1,
+            	items:[
+			            	{
+							    docked: 'top',
+							    xtype: 'titlebar',
+							    ui:'neutral',
+							    title:'',
+							    layout:
+							    {
+							    	pack:'right'
+							    },
+							    defaults:
+							    {
+							    	ui:'plain'
+							    },
+							    items:[							           
+											{
+												xtype:'button',
+												iconCls:'user',
+											    handler: function (but,action,eOpts) 
+											    {
+											    	Ext.ComponentQuery.query('user-details-view')[0].createNewUserForm();
+											    }
+											}
+							           ]
+							    
+							},
+							{
+								xtype:'users-list-panel', 
+				            	flex:1
+							}
+						]
+            },
+            {
+            	xtype:"user-details-view",
+            	flex:4
+            }
+            
+        ],
+        listeners:
+        {        
+        	show:function(thisView,opts)
+        	{        			        	
+    			var usersList = thisView.down('users-list-panel');        			
+    			usersList.loadUsers();        		
+        	}
+		}	
+    }
+});
