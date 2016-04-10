@@ -51,7 +51,11 @@ Ext.define('Xedu.view.users.UsersList',
 		}
 		            
     },
-    
+    /*
+     * 
+     * load users
+     * 
+     */
     loadUsers: function()
     {
     	console.log("loading users from DB ");

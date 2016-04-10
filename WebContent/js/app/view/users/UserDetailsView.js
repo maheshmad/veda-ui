@@ -355,14 +355,12 @@ Ext.define('Xedu.view.users.UserDetailsView',
 			    	                                     var maincntrller = Xedu.app.getController('Main');					                                    
 			    	                                     Ext.Viewport.setMasked(false);
 			    	                                     Xedu.CommonUtils.checkServiceError(response);					                                     
-			    	                                     if (response.status == 'SUCCESS') 
-			    	                                     {                        	              	       
-			    	                                    	 Ext.Msg.alert('Success', response.msg, Ext.emptyFn);
-			    	                                    	 var configListPanel = Ext.ComponentQuery.query("users-list-panel");
-			    	                                    	 if (configListPanel && configListPanel[0])
-			    	                                    		 configListPanel[0].getStore().load();								                                    	 
-			    	                                     } 
-			    	                                     else;
+			    	                                                          	              	       
+		    	                                    	 Ext.Msg.alert(response.status, response.msg, Ext.emptyFn);
+		    	                                    	 var configListPanel = Ext.ComponentQuery.query("users-list-panel");
+		    	                                    	 if (configListPanel && configListPanel[0])
+		    	                                    		 configListPanel[0].getStore().load();								                                    	 
+			    	                                    
 			    	                                 },
 			    	                                 failure: function (el,resp,p) 
 			    	                                 {			                                    
