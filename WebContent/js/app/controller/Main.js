@@ -6,6 +6,7 @@ Ext.define('Xedu.controller.Main',
 	          'Xedu.view.config.ConfigMain',
 	          'Xedu.view.slides.ContentUpload',
 	          'Xedu.view.users.UserMgmtMain',
+	          'Xedu.view.ChangePassword',
 	          'Xedu.view.chapter.ChaptersList'],	
 	config:
 	{					
@@ -22,6 +23,8 @@ Ext.define('Xedu.controller.Main',
 			{
 				'view/:id':'showView',
 				'config':'showConfig',
+				'logoff':'logout',
+				'update/password/:token':'chgPassword',
 				'view/course/list':'showCourses',
 				'view/manage/users':'showUserMgmt',
 				'view/course/:id/chapters':'showChapters',
@@ -65,6 +68,26 @@ Ext.define('Xedu.controller.Main',
     },
     
     /*
+     * logoff
+     */
+    logout: function()
+    {
+    	this.getMainViewNavigation().reset();
+    	var params = {'initiateLogout':true};
+		this.showView('Login',params);
+    },
+    
+    /*
+     * logoff
+     */
+    chgPassword: function(p)
+    {
+    	console.log("recived p = "+p)
+    	var params = {'authToken':p};
+		this.showView('ChangePassword',params);
+    },
+    
+    /*
     * show Login page
     */
     showConfig: function()
@@ -97,7 +120,7 @@ Ext.define('Xedu.controller.Main',
 		else
 			navtoview = Ext.create(viewClass);
 		
-		this.getMainViewNavigation().push(navtoview);        		        			
+		this.getMainViewNavigation().push(navtoview); 
 	},
 	
 	/*

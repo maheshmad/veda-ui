@@ -145,8 +145,7 @@ Ext.define('Xedu.view.users.UserDetailsView',
 								        {
 						                    xtype: 'datepickerfield',
 						                    label : 'Last Updated On',
-						                    name: 'lastUpdatedDateTime',
-						                    value: new Date()
+						                    name: 'lastUpdatedDateTime'
 						                }
 								        
 								        
@@ -365,7 +364,7 @@ Ext.define('Xedu.view.users.UserDetailsView',
 			    	                                 failure: function (el,resp,p) 
 			    	                                 {			                                    
 			    	                                     Ext.Viewport.setMasked(false);			                                     
-			    	                                     Xedu.CommonUtils.checkHTTPOperation(resp);
+			    	                                     Xedu.CommonUtils.checkServiceError(resp);
 			    	                                 }
 			    	                                 
 			    	                            	 

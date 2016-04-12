@@ -20,9 +20,17 @@ Ext.define('Xedu.CommonUtils',
     		
     		Ext.Msg.alert("Errors",msg,Ext.emptyFn);
     	}
+    	else if (response.status || response.msg)
+    		console.log("response status = "+response.status+", msg= "+response.msg)
+    	else	
+    		this._checkHTTPOperation(response);
     },
 	
-	checkHTTPOperation: function(resp)
+    /*
+     * this is private method,
+     * call checkServiceError to invoke this
+     */
+	_checkHTTPOperation: function(resp)
     {
     	if (!resp)
     		return;
@@ -46,9 +54,14 @@ Ext.define('Xedu.CommonUtils',
 	    	    	showMsg = "Sorry! This operation is not valid! Please check again! ";	    	        
 	    	        showTitle = "NOT ALLOWED";
 	    	        showIconCls = "error-unauth-icon-cls";
-	    	        break;	    	        
+	    	        break;
+	    	    case 503:
+	    	    	showMsg = "Sorry! The server is currently unavailable to process your request! <br /> Please try again or contact support! ";	    	        
+	    	        showTitle = "Server maintainence";
+	    	        showIconCls = "error-unauth-icon-cls";
+	    	        break;	   
 	    	    default:
-	    	    	showMsg = "Sorry! An exception occured while trying to perform this operation , reason = "+operation.error.statusText+
+	    	    	showMsg = "Sorry! An exception occured while trying to perform this operation , reason = "+resp.status+
 	    	    					"<br /><br /> Please contact support for further assistance";	    	    		    	    
     		}        
 	    	 

@@ -1,4 +1,5 @@
-Ext.define('Xedu.view.chapter.ChaptersList', {
+Ext.define('Xedu.view.chapter.ChaptersList', 
+{
 	extend:'Ext.dataview.List',
 	xtype:'courses-list-panel',	
 	requires: [		    		    		    

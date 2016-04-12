@@ -80,33 +80,8 @@ Ext.define('Xedu.view.main.SideMenu',
                  align: 'right',
             	 handler: function() 
             	 {                     
-                	Ext.Viewport.hideMenu('right');
-                	Ext.Viewport.setMasked({
-            			xtype:'loadmask',
-            			message:'Please wait while we log you out.....',
-            			style:'color:white'
-            				
-                	});	                	
-                	
-                	/* ajax logout */
-                	var authUrl = Xedu.Configuration.getUrl(Xedu.Configuration.AUTH_REST_SERVICE);
-                    Ext.Ajax.request(
-                    {
-                        url: authUrl,
-                        method: 'post',
-                        params: 
-                        {
-                            action:'logout'
-                        },                       
-                        callback: function()
-                        {                        	
-                        	Xedu.app.getController('Main').getMainViewNavigation().reset();
-                        	Xedu.app.getController('Main').redirectTo('view/Login');
-                        	Ext.Viewport.setMasked(false);                        	
-                        }
-                    });
-                	
-                	
+            		 Ext.Viewport.hideMenu('right');
+            		 Xedu.app.getController('Main').redirectTo('logoff');                	
                  }
              }
              
