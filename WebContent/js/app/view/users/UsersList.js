@@ -44,9 +44,14 @@ Ext.define('Xedu.view.users.UsersList',
         		thisView.loadUsers();
         	},
         	itemsingletap: function(scope, index, target, record)
-			{        		
-//				console.log("tapped");
-//           	 	Xedu.app.getController('Main').redirectTo('view/course/'+record.data.recordId+"/chapters");
+			{   
+        		 var userDetailsFormPanel = Ext.ComponentQuery.query('user-details-view')[0];
+                 userDetailsFormPanel.loadUserDetails(record.data.id);
+			},
+			select: function(scope, record, index, target)
+			{   
+        		 var userDetailsFormPanel = Ext.ComponentQuery.query('user-details-view')[0];
+                 userDetailsFormPanel.loadUserDetails(record.data.id);
 			}
 		}
 		            
@@ -65,8 +70,9 @@ Ext.define('Xedu.view.users.UsersList',
 		usersListStore.getProxy().setUrl(Xedu.Config.getUrl(Xedu.Config.USER_SEARCH_SERVICE));
 		usersListStore.load({callback : function(records, operation, success) 
 			                    {				            	
-			                    	thisView.setMasked(false);		    		                        	                       	                	    			            					            			                        
-			                    }});
+			                    	thisView.setMasked(false);
+			                    	thisView.select(0);
+			                    }});		
     }
     
     

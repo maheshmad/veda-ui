@@ -1,3 +1,44 @@
+var mouseWheelHandler = function (e) {
+    var e = window.event || e,
+        el = e.target,
+        cmp,
+        offset,
+        scroller,
+        delta,
+        _results = [];
+    e.preventDefault(); // prevent scrolling when in iframe
+    while (el !== document.body) {
+        if (el && el.className && el.className.indexOf('x-container') >= 0) {
+            cmp = Ext.getCmp(el.id);
+            if (cmp && typeof cmp.getScrollable == 'function' && cmp.getScrollable()) {
+                scroller = cmp.getScrollable().getScroller();
+                if (scroller) {
+                    delta = e.detail ? e.detail*(-120) : e.wheelDelta;
+                    offset = { x:0, y: -delta*0.5 };
+                    scroller.fireEvent('scrollstart', scroller, scroller.position.x, scroller.position.y, e);
+                    scroller.scrollBy(offset.x, offset.y);
+                    scroller.snapToBoundary();
+                    scroller.fireEvent('scrollend', scroller, scroller.position.x, scroller.position.y-offset.y);
+                    break;
+                }
+            }
+        }
+    _results.push(el = el.parentNode);
+    }
+    return _results;
+};
+
+if (document.addEventListener) {
+    // IE9, Chrome, Safari, Opera
+    document.addEventListener('mousewheel', mouseWheelHandler, false);
+    // Firefox
+    document.addEventListener('DOMMouseScroll', mouseWheelHandler, false);
+}
+else {
+    // IE 6/7/8
+    document.attachEvent('onmousewheel', mouseWheelHandler);
+}
+
 /*
     This file is generated and updated by Sencha Cmd. You can edit this file as
     needed for your application, but these edits will have to be merged by

@@ -38,6 +38,7 @@ Ext.define('Xedu.Config',
 		 */
 		USER_SEARCH_SERVICE:'/api/user/search',
 		USER_SERVICE:'/api/user',
+		CHG_PASSWORD_SERVICE:'/api/auth/updatepassword',
         /*
 		 * set to true if the security needs to be switched off
 		 * you will not see the login screen. 

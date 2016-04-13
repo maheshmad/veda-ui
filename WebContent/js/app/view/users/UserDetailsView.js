@@ -7,6 +7,7 @@ Ext.define('Xedu.view.users.UserDetailsView',
 					'Ext.field.Text',
 					'Ext.field.Toggle',
 					'Ext.field.Select',
+					'Ext.field.DatePicker',
 					'Xedu.model.UserModel'
               ],
     config: 
@@ -79,175 +80,189 @@ Ext.define('Xedu.view.users.UserDetailsView',
 					}
 			    ]
 			},    
-            {
-            	xtype:'formpanel',
-            	title:'Personal Details',            	
-            	itemId:'user-personal-info-details-form',
-//            	scrollable:true,
-            	scrollable : 
-            	{
-            	    direction     : 'vertical',
-            	    directionLock : true
-            	},
-//            	flex:1,
-//            	layout:'fit',
-            	layout: 
-            	{
-            		type:'vbox',
-//            		align:'stretch',
-//            		pack:'start'
-            	},            	
-            	items:[
-						{
-							xtype: 'fieldset',
-						    title: 'User Login',
-						    instructions: 'User ',
-						    layout:'fit',
-						    items: [
-								        {
-								            xtype: 'textfield',
-								            name : 'id',
-								            label: 'id',						            
-								        },
-								        {
-								            xtype: 'textfield',
-								            name : 'userId',
-								            label: 'User ID'
-								        },
-								        {
-								            xtype: 'textfield',
-								            name : 'emailId',
-								            label: 'Email ID'
-								        },
-								        {
-						                    xtype: 'selectfield',
-						                    label: 'Role',
-						                    name:'userrole',
-						                    autoSelect:false,
-						                    options: [
-						                        {text: 'ADMIN',  value: 'ADMIN'},
-						                        {text: 'PARENT', value: 'PARENT'},
-						                        {text: 'STUDENT', value: 'STUDENT'},
-						                        {text: 'PRINCIPAL', value: 'PRINCIPAL'},
-						                        {text: 'TEACHER', value: 'TEACHER'}
-						                    ]
-						                },
-						                {
-								            xtype: 'textfield',
-								            label : 'Last Updated By',
-								            name: 'updatedBy'
-								        },
-//								        {
-//								            xtype: 'textfield',
-//								            label : 'Last Updated On',
-//								            name: 'lastUpdatedDateTime'
-//								        },
-								        {
-						                    xtype: 'datepickerfield',
-						                    label : 'Last Updated On',
-						                    name: 'lastUpdatedDateTime'
-						                }
-								        
-								        
-								    ]
-						},
-						{
-							xtype: 'fieldset',
-				            title: 'About You',
-				            layout:'fit',
-				            instructions: 'User name/dob',
-				            items: [
+            {				
+					xtype:'panel',
+					title:"user details",
+					layout:
+	                {
+		                   	type:'fit',
+		                   	pack:'center',
+		                   	align:'center'
+	                },
+	                scrollable : 
+	                {
+	                    direction     : 'vertical',
+	                    directionLock : true
+	                },	                  
+					items:[{				
+				            	xtype:'formpanel',
+				            	title:'Personal Details',            	
+				            	itemId:'user-personal-info-details-form',
+				            	scrollable : 
 				                {
-				                    xtype: 'textfield',
-				                    name : 'firstName',
-				                    label: 'First Name'
-				                },
-				                {
-				                    xtype: 'textfield',
-				                    name : 'middleName',
-				                    label: 'Middle Name'
-				                },
-				                {
-				                    xtype: 'textfield',
-				                    name : 'lastName',
-				                    label: 'Last Name'
-				                }
-				                
-				                
-				            ]
-						},
-						{
-							xtype: 'fieldset',
-				            title: 'Address',
-				            layout:'fit',
-				            instructions: 'User contact address',
-				            items: [
-				                {
-				                    xtype: 'textfield',
-				                    name : 'addressLine1',
-				                    label: 'Street Line 1 '
-				                },
-				                {
-				                    xtype: 'textfield',
-				                    name : 'addressLine2',
-				                    label: 'Street Line 2 '
-				                },
-				                {
-				                    xtype: 'textfield',
-				                    name : 'city',
-				                    label: 'City'
-				                },
-				                {
-				                    xtype: 'textfield',
-				                    name : 'state',
-				                    label: 'State'
-				                },
-				                {
-				                    xtype: 'textfield',
-				                    name : 'country',
-				                    label: 'Country'
-				                },
-				                {
-				                    xtype: 'textfield',
-				                    name : 'postalcode',
-				                    label: 'Postal Code'
-				                }
-				                
-				            ]
-						},
-						{
-							xtype: 'fieldset',
-				            title: 'Contact Info',
-				            layout:'fit',
-				            instructions: 'Contact Info',
-				            items: [
-				                {
-				                    xtype: 'textfield',
-				                    name : 'cellphone',
-				                    label: 'Cell phone '
-				                },
-				                {
-					                xtype: 'togglefield',
-					                name: 'okToText',
-					                label: 'Recieve Text Alerts?'
-				                },
-				                {
-				                    xtype: 'textfield',
-				                    name : 'landlinephone',
-				                    label: 'Land phone'
-				                },
-				                {
-				                    xtype: 'textfield',
-				                    name : 'officephone',
-				                    label: 'Office phone'
-				                },
-				                {
-				                    xtype: 'textfield',
-				                    name : 'officephoneExt',
-				                    label: 'Office phone Ext'
-				                }
-				              
-				            ]
+				                    direction     : 'vertical',
+				                    directionLock : true
+				                },	
+				            	layout: 
+				            	{
+				            		type:'vbox',
+				            		align:'stretch',
+				            		pack:'start'
+				            	},            	
+				            	items:[
+										{
+											xtype: 'fieldset',
+										    title: 'User Login',
+										    instructions: 'User ',
+										    layout:'fit',
+										    items: [
+												        {
+												            xtype: 'textfield',
+												            name : 'id',
+												            label: 'id',						            
+												        },
+												        {
+												            xtype: 'textfield',
+												            name : 'userId',
+												            label: 'User ID'
+												        },
+												        {
+												            xtype: 'textfield',
+												            name : 'emailId',
+												            label: 'Email ID'
+												        },
+												        {
+										                    xtype: 'selectfield',
+										                    label: 'Role',
+										                    name:'userrole',
+										                    autoSelect:false,
+										                    options: [
+										                        {text: 'ADMIN',  value: 'ADMIN'},
+										                        {text: 'PARENT', value: 'PARENT'},
+										                        {text: 'STUDENT', value: 'STUDENT'},
+										                        {text: 'PRINCIPAL', value: 'PRINCIPAL'},
+										                        {text: 'TEACHER', value: 'TEACHER'}
+										                    ]
+										                },
+										                {
+												            xtype: 'textfield',
+												            label : 'Last Updated By',
+												            name: 'updatedBy'
+												        },
+				//								        {
+				//								            xtype: 'textfield',
+				//								            label : 'Last Updated On',
+				//								            name: 'lastUpdatedDateTime'
+				//								        },
+												        {
+										                    xtype: 'datepickerfield',
+										                    label : 'Last Updated On',
+										                    name: 'lastUpdatedDateTime'
+										                }
+												        
+												        
+												    ]
+										},
+										{
+											xtype: 'fieldset',
+								            title: 'About You',
+								            layout:'fit',
+								            instructions: 'User name/dob',
+								            items: [
+								                {
+								                    xtype: 'textfield',
+								                    name : 'firstName',
+								                    label: 'First Name'
+								                },
+								                {
+								                    xtype: 'textfield',
+								                    name : 'middleName',
+								                    label: 'Middle Name'
+								                },
+								                {
+								                    xtype: 'textfield',
+								                    name : 'lastName',
+								                    label: 'Last Name'
+								                }
+								                
+								                
+								            ]
+										},
+										{
+											xtype: 'fieldset',
+								            title: 'Address',
+								            layout:'fit',
+								            instructions: 'User contact address',
+								            items: [
+								                {
+								                    xtype: 'textfield',
+								                    name : 'addressLine1',
+								                    label: 'Street Line 1 '
+								                },
+								                {
+								                    xtype: 'textfield',
+								                    name : 'addressLine2',
+								                    label: 'Street Line 2 '
+								                },
+								                {
+								                    xtype: 'textfield',
+								                    name : 'city',
+								                    label: 'City'
+								                },
+								                {
+								                    xtype: 'textfield',
+								                    name : 'state',
+								                    label: 'State'
+								                },
+								                {
+								                    xtype: 'textfield',
+								                    name : 'country',
+								                    label: 'Country'
+								                },
+								                {
+								                    xtype: 'textfield',
+								                    name : 'postalcode',
+								                    label: 'Postal Code'
+								                }
+								                
+								            ]
+										},
+										{
+											xtype: 'fieldset',
+								            title: 'Contact Info',
+								            layout:'fit',
+								            instructions: 'Contact Info',
+								            items: [
+								                {
+								                    xtype: 'textfield',
+								                    name : 'cellphone',
+								                    label: 'Cell phone '
+								                },
+								                {
+									                xtype: 'togglefield',
+									                name: 'okToText',
+									                label: 'Recieve Text Alerts?'
+								                },
+								                {
+								                    xtype: 'textfield',
+								                    name : 'landlinephone',
+								                    label: 'Land phone'
+								                },
+								                {
+								                    xtype: 'textfield',
+								                    name : 'officephone',
+								                    label: 'Office phone'
+								                },
+								                {
+								                    xtype: 'textfield',
+								                    name : 'officephoneExt',
+								                    label: 'Office phone Ext'
+								                }
+								              
+								            ]
+										}
+										
+							]
 						}
 					]            	
             }

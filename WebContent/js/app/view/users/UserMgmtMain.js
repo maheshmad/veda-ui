@@ -58,7 +58,8 @@ Ext.define('Xedu.view.users.UserMgmtMain',
             },
             {
             	xtype:"user-details-view",
-            	flex:4
+            	flex:4,
+            	height:"100%"
             }
             
         ],
