@@ -8,12 +8,15 @@ Ext.define('Xedu.view.users.UserDetailsView',
 					'Ext.field.Toggle',
 					'Ext.field.Select',
 					'Ext.field.DatePicker',
-					'Xedu.model.UserModel'
+					'Xedu.model.UserModel',					
+					'Xedu.model.UserImageInfoModel'
               ],
     config: 
     {    	
     	fullscreen: false,
     	autoDestroy:true,
+    	plain:true,
+    	ui:'neutral',
     	scrollable:true,
     	layout:
     	{
@@ -25,24 +28,24 @@ Ext.define('Xedu.view.users.UserDetailsView',
         },
         items: [
                 
-			{
-			    docked: 'top',
-			    xtype: 'titlebar',
-			    ui:'neutral',
-			    title:'',
-			    layout:
-			    {
-			    	pack:'right'
-			    },
-			    defaults:
-			    {
-			    	ui:'plain'
-			    },
-			    items: 
-			    [								
-			        	
-			    ]
-			},
+//			{
+//			    docked: 'top',
+//			    xtype: 'titlebar',
+//			    ui:'neutral',
+//			    title:'',
+//			    layout:
+//			    {
+//			    	pack:'right'
+//			    },
+//			    defaults:
+//			    {
+//			    	ui:'plain'
+//			    },
+//			    items: 
+//			    [								
+//			        	
+//			    ]
+//			},
 			{
 			    docked: 'bottom',
 			    xtype: 'toolbar',
@@ -50,12 +53,13 @@ Ext.define('Xedu.view.users.UserDetailsView',
 			    title:'',
 			    layout:
 			    {
+			    	type:'hbox',
 			    	pack:'center'
 			    },
-			    defaults:
-			    {
-			    	ui:'plain'
-			    },
+//			    defaults:
+//			    {
+//			    	ui:'plain'
+//			    },
 			    items: 
 			    [								
 					{
@@ -278,18 +282,56 @@ Ext.define('Xedu.view.users.UserDetailsView',
     loadUserDetails: function(id)
     {
     	var userDetailsFormPanel = this.down("formpanel");
-    	Xedu.model.UserModel.load(id,
-    						{
-				    			scope: this,
-				    		    failure: function(record, operation) 
-				    		    {
-				    		    	alert("failed");
-				    		    },
-				    		    success: function(record, operation) 
-				    		    {
-				    		    	userDetailsFormPanel.setRecord(record);				    		    	
-				    		    }
-    						});
+    	var userDetailsHeaderFormPanel = Ext.ComponentQuery.query('user-details-header-view')[0];
+    	
+//    	Xedu.model.UserFullDetailsModel.load(id,
+//    						{
+//				    			scope: this,
+//				    		    failure: function(record, operation) 
+//				    		    {
+//				    		    	alert("failed");
+//				    		    },
+//				    		    success: function(record, operation) 
+//				    		    {
+//				    		    	userDetailsFormPanel.setRecord(record.data.user);	
+//				    		    					    		    					    		    	
+//				    		    	if (userDetailsHeaderFormPanel)
+//				    		    		userDetailsHeaderFormPanel.setUserDetails(record.data.profileUserImage);
+//				    		    }
+//    						});
+    	
+    	Ext.Ajax.request({
+    						url:Xedu.Config.getUrl(Xedu.Config.USER_SERVICE)+"/"+id,
+				            method: 'GET',
+				            headers: { 'Content-Type': 'application/json' },				            
+				            success: function(response, conn, options, eOpts) 
+				            {
+				                var result = Ext.JSON.decode(response.responseText);
+			    		    	
+				                /*
+				                 * use the json to create records.
+				                 */
+				                var userRecord = Ext.create('Xedu.model.UserModel', result.user);
+				                var userImageInfoRecord = Ext.create('Xedu.model.UserImageInfoModel', result.profileImageInfo);
+				                /*
+				                 * set the data 
+				                 */
+				                userDetailsFormPanel.setRecord(userRecord);					                
+			    		    	
+				                if (userDetailsHeaderFormPanel)
+				                {
+				                	userDetailsHeaderFormPanel.setUserImageInfoDetails(result.profileImageInfo);
+				                	userDetailsHeaderFormPanel.setUserDetails(userRecord);				                	
+				                }
+				            },
+				            failure: function(conn, response, options, eOpts) 
+				            {
+				            	Xedu.CommonUtils.checkServiceError(resp);
+				            }
+				        });
+    	
+  
+    	
     },
     
     /**
@@ -310,11 +352,20 @@ Ext.define('Xedu.view.users.UserDetailsView',
     submitNewUser: function()
     {
     	var userDetailsFrom = Ext.ComponentQuery.query('#user-personal-info-details-form')[0];	
+    	var fields = userDetailsFrom.getFields();
     	var me = this;
+    	var id = fields['id'].getValue();
+    	var restUrl = Xedu.Config.getUrl(Xedu.Config.USER_SERVICE);
+    	var restMethod = "POST";
+    	if (id && id != "")
+    	{
+    		restMethod = "PUT";
+    		restUrl = restUrl + "/" +id;
+    	}
     	Ext.Viewport.mask({msg:"Updating user...Please wait!"});	
     	userDetailsFrom.submit({
-                            	 url:Xedu.Config.getUrl(Xedu.Config.USER_SERVICE),
-                            	 method:'POST',
+                            	 url:restUrl,
+                            	 method:restMethod,
                                  success: function (form,response,data)
                                  {	                                    
                                      var maincntrller = Xedu.app.getController('Main');					                                    

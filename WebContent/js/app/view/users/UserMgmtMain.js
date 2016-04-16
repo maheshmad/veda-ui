@@ -4,7 +4,8 @@ Ext.define('Xedu.view.users.UserMgmtMain',
     xtype: 'user-mgmt-main-view',
     requires:[
               	'Xedu.view.users.UsersList',
-              	'Xedu.view.users.UserDetailsView'
+              	'Xedu.view.users.UserDetailsView',
+              	'Xedu.view.users.UserDetailsHeader'
               ],
     config: 
     {    	
@@ -57,10 +58,23 @@ Ext.define('Xedu.view.users.UserMgmtMain',
 						]
             },
             {
-            	xtype:"user-details-view",
+            	xtype:'container',
             	flex:4,
-            	height:"100%"
-            }
+            	layout:'vbox',
+            	items:[
+							{
+								xtype:"user-details-header-view",								
+								height:200,								
+							},
+							{
+								xtype:"user-details-view",
+								flex:1,
+								height:"100%"
+							}
+            	       
+            	       ]
+            },
+            
             
         ],
         listeners:

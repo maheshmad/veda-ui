@@ -33,9 +33,9 @@ Ext.define('Xedu.view.users.UsersList',
         onItemDisclosure: function(record, btn, index) 
         {
 //              Ext.Msg.alert('Tap', 'Disclose more info for ' + record.get('configGroups'), Ext.emptyFn);
-              var userDetailsFormPanel = Ext.ComponentQuery.query('user-details-view')[0];
-              userDetailsFormPanel.loadUserDetails(record.data.id);
-                            
+//              var userDetailsFormPanel = Ext.ComponentQuery.query('user-details-view')[0];
+//              userDetailsFormPanel.loadUserDetails(record.data.id);
+//                            
         },
         listeners:
         {
@@ -43,19 +43,28 @@ Ext.define('Xedu.view.users.UsersList',
         	{        		
         		thisView.loadUsers();
         	},
-        	itemsingletap: function(scope, index, target, record)
-			{   
-        		 var userDetailsFormPanel = Ext.ComponentQuery.query('user-details-view')[0];
-                 userDetailsFormPanel.loadUserDetails(record.data.id);
-			},
+//        	itemsingletap: function(scope, index, target, record)
+//			{   
+//        		scope.showUserDetails(record);
+//			},
 			select: function(scope, record, index, target)
 			{   
-        		 var userDetailsFormPanel = Ext.ComponentQuery.query('user-details-view')[0];
-                 userDetailsFormPanel.loadUserDetails(record.data.id);
+				scope.showUserDetails(record);
 			}
 		}
 		            
     },
+    
+    /*
+     * show user details
+     */
+    showUserDetails: function(record)
+    {
+	   	 var userDetailsFormPanel = Ext.ComponentQuery.query('user-details-view')[0];
+	     userDetailsFormPanel.loadUserDetails(record.data.id);
+	     
+    },
+    
     /*
      * 
      * load users

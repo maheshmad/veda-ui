@@ -51,6 +51,9 @@ else {
     will need to resolve manually.
 */
 
+
+
+
 Ext.application({
     name: 'Xedu',
 
@@ -136,6 +139,32 @@ Ext.application({
             side: 'right',
             reveal: true
         });
+        
+        
+        /**
+         * google classroom api
+         */
+        // Your Client ID can be retrieved from your project in the Google
+        // Developer Console, https://console.developers.google.com
+        var CLIENT_ID = '';
+
+        var SCOPES = ["https://www.googleapis.com/auth/classroom.courses.readonly"];
+
+        /**
+         * Check if current user has authorized this application.
+         */
+        function checkAuth() 
+        {
+            gapi.auth.authorize(
+            {
+              'client_id': CLIENT_ID,
+              'scope': SCOPES.join(' '),
+              'immediate': true
+            }, handleAuthResult);
+        }
+        
+        
+        
         
         this.getController('Main').redirectToView('Home');
     },

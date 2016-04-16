@@ -21,6 +21,7 @@ Ext.define('Xedu.store.CoursesStore',
 	        reader: 
 	        {
 	            type: 'json',
+	            idProperty:'recordId',
 	            rootProperty: 'hits',
 	            totalProperty: 'totalHits'
 	        },
