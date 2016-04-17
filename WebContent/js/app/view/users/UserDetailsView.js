@@ -342,6 +342,8 @@ Ext.define('Xedu.view.users.UserDetailsView',
     {
     	var userDetailsFormPanel = this.down("formpanel");
     	userDetailsFormPanel.reset();
+    	var userDetailsHeaderPanel = this.up("user-mgmt-main-view").down("user-details-header-view").clearPanel();    	
+    	
     },
     
     /**

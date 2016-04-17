@@ -1,7 +1,7 @@
 Ext.define('Xedu.view.chapter.ChaptersList', 
 {
 	extend:'Ext.dataview.List',
-	xtype:'courses-list-panel',	
+	xtype:'chapters-list-panel',	
 	requires: [		    		    		    
 		    'Xedu.store.ChaptersStore',
 		    'Ext.plugin.PullRefresh'
@@ -14,7 +14,6 @@ Ext.define('Xedu.view.chapter.ChaptersList',
          * panel custom config params
          */
         courseid:null,
-        
         scrollable: true,
         autoDestroy:true,        
         store: 

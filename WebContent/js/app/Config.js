@@ -22,6 +22,7 @@ Ext.define('Xedu.Config',
 		 * course
 		 */
 		COURSE_SEARCH:'/api/course/search',
+		COURSE_API:'/api/course/',
 		CHAPTERS_SEARCH:'/api/chapter/search',
 		TOPICS_SEARCH:'/api/topic/search',
 		SLIDES_LIST_SEARCH_BY_TOPIC:'/api/slides/topic/',

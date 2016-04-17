@@ -169,6 +169,12 @@ Ext.define('Xedu.view.users.UserDetailsHeader',
 	setUserDetails: function(userRecord)
 	{
 		this.setRecord(userRecord);		
+	},
+	
+	clearPanel: function()
+	{
+		this.reset();
+		this.down("#user-profile-image-id").setSrc('resources/icons/user_profilex128.png');	
 	}
     
     

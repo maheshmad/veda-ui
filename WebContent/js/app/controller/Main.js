@@ -6,6 +6,7 @@ Ext.define('Xedu.controller.Main',
 	          'Xedu.view.config.ConfigMain',
 	          'Xedu.view.slides.ContentUpload',
 	          'Xedu.view.users.UserMgmtMain',
+	          'Xedu.view.course.CourseMgmtMain',
 	          'Xedu.view.ChangePassword',
 	          'Xedu.view.chapter.ChaptersList'],	
 	config:
@@ -26,6 +27,7 @@ Ext.define('Xedu.controller.Main',
 				'logoff':'logout',
 				'update/password/:token':'chgPassword',
 				'view/course/list':'showCourses',
+				'view/course/:id/main':'showCourseMgmt',
 				'view/manage/users':'showUserMgmt',
 				'view/course/:id/chapters':'showChapters',
 				'view/course/:cid/chapter/:chpid/topics':'showTopics',
@@ -130,6 +132,16 @@ Ext.define('Xedu.controller.Main',
 	{
 		this.showView('users.UserMgmtMain',param);
 	},
+	
+	/* 
+	 * show course management main
+	 */
+	showCourseMgmt: function(courseId)
+	{
+		var params = {'courseid':courseId};
+		this.showView('course.CourseMgmtMain',params);
+	},
+	
 	/*
 	 * show courses
 	 */
