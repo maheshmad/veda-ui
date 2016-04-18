@@ -31,12 +31,16 @@ Ext.define('Xedu.view.slides.ContentUpload',
 										xtype: 'textfield',
 										label: "topic id",
 										name: 'topicid',
+										allowNull:false,
+										required:true,
 										itemId:"topicid-field"
 									},
 				                	{
 				                    	xtype: 'filefield',
 				                    	label: "Upload slides:",
 				                    	name: 'slidecontent',
+				                    	allowNull:false,
+				                    	required:true,
 				                    	accept: 'pptx'
 				                	}
 				            	]
@@ -44,6 +48,7 @@ Ext.define('Xedu.view.slides.ContentUpload',
 				        	{
 			                      xtype: 'button',
 			                      itemId: 'uploadSlideButton',
+			                      formBind:true,
 			                      ui: 'confirm',
 			                      text: 'Upload',
 			                      width: '20%',
@@ -94,7 +99,8 @@ Ext.define('Xedu.view.slides.ContentUpload',
     {
     	var me = this; 
     	var progressIndicator = Ext.create("Ext.ProgressIndicator");        
-        var uploadApiUrl = Xedu.Config.getUrl(Xedu.Config.SLIDE_CONTENT_UPLOAD);        
+        var uploadApiUrl = Xedu.Config.getUrl(Xedu.Config.SLIDE_CONTENT_UPLOAD); 
+        
         this.submit({
 			       	 	url:uploadApiUrl,
 			       	 	method:'POST',
@@ -122,7 +128,7 @@ Ext.define('Xedu.view.slides.ContentUpload',
 						{							                                    
 							Xedu.CommonUtils.checkServiceError(respObj);
 						}                 	 
-        			});
+        			});        
         
     },
     

@@ -110,13 +110,15 @@ Ext.define('Xedu.CommonUtils',
     		if (typeof options.title != 'undefined')
     			titleOpt = options.title;
     		
-    		if (options.callme)    			
+    		if (options.callme)
+    		{
     			callBackFunction = options.callme;
+    			if (options.callmeScope)
+        			callBackScope = options.callmeScope;
+        		else
+        			console.error("callmeScope is missing!  Please provide a callback scope");
+    		}    		
     		
-    		if (options.callmeScope)
-    			callBackScope = options.callmeScope;
-    		else
-    			console.error("callmeScope is missing !  Please provide a callback scope");
     			
     	}
     	else;

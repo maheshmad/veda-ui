@@ -150,9 +150,13 @@ Ext.define('Xedu.view.slides.SlidesMain',
     },
     
     reloadSlidesList: function(scope)
-    {
-    	console.log("reloading slides");
-    	scope.down("slides-list-panel").reload();
+    {    	
+    	if (scope && scope.down("slides-list-panel"))
+    	{
+    		console.log("reloading slides");
+    		scope.down("slides-list-panel").reload();
+    	}
+    		
     }
     
     
