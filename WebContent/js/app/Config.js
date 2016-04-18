@@ -27,10 +27,14 @@ Ext.define('Xedu.Config',
 		CHAPTER_API:'/api/chapter/',
 		TOPIC_API:'/api/topic/',
 		TOPICS_SEARCH:'/api/topic/search',
+		/*
+		 * slides
+		 */
 		SLIDES_LIST_SEARCH_BY_TOPIC:'/api/slides/topic/',
 		SLIDE_IMAGE_THUMB:'/api/slides/image/thumb/',
 		SLIDE_IMAGE_LARGE:'/api/slides/image/large/',
 		SLIDE_CONTENT_UPLOAD:'/uploadslides',
+		SLIDE_GENERATE:'/api/slides/generate/{topicid}/{uploadedfileid}',
 		/*
 		 * config
 		 */

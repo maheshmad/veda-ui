@@ -103,46 +103,13 @@ Ext.define('Xedu.view.chapter.ChaptersList',
     createNewChapter: function()
     {
     	var courseidParam = this.getCourseid();
-    	if (this.overlay) 
-    		this.overlay.destroy();
     	
+    	var newChapterEditForm = {xtype: 'chapter-edit-form',
+							      courseid:courseidParam	
+						          };
+    	
+    	Xedu.CommonUtils.showOverlay(newChapterEditForm,{title:"Create New Chapter"});
     
-       this.overlay = Ext.Viewport.add({            					
-						                xtype:'panel',
-						                layout:'fit',
-						                itemId:'add-new-chapter-overlay-id',
-						                modal: true,
-						                hideOnMaskTap: true,				                
-						                showAnimation: 
-						                {
-						                    type: 'popIn',
-						                    duration: 250,
-						                    easing: 'ease-out'
-						                },
-						                hideAnimation: 
-						                {
-						                    type: 'popOut',
-						                    duration: 250,
-						                    easing: 'ease-out'
-						                },
-						                centered: true,
-						                width: Ext.filterPlatform('ie10') ? '100%' : (Ext.os.deviceType == 'Phone') ? 260 : 600,
-						                height: Ext.filterPlatform('ie10') ? '30%' : Ext.os.deviceType == 'Phone' ? 220 : 700,				               
-						                items:[
-						                    {
-						                        docked: 'top',
-						                        xtype: 'toolbar',
-						                        title: 'Create New Chapter'
-						                    },
-						                    {
-							                	xtype: 'chapter-edit-form',
-							                	courseid:courseidParam	
-						                    }
-						                ],
-						                scrollable: true
-						            });
-
-        this.overlay.show();
     }
     
 });

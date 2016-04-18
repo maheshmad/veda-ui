@@ -20,7 +20,7 @@ Ext.define('Xedu.CommonUtils',
     		
     		Ext.Msg.alert("Errors",msg,Ext.emptyFn);
     	}
-    	else if (response.status || response.msg)
+    	else if (response && (response.status || response.msg))
     		console.log("response status = "+response.status+", msg= "+response.msg)
     	else	
     		this._checkHTTPOperation(response);
@@ -70,7 +70,120 @@ Ext.define('Xedu.CommonUtils',
     	
     	
     	
+    },
+    
+    /**
+     * 
+     */
+    showOverlay: function(showPanel,options)
+    {
+    	var widthOpt = '42%'; /* default */
+    	var heightOpt = '80%';    	
+    	var closable = false;
+    	var cls = '';
+    	var showByItemEl = null;
+    	var modal = true;
+    	var showHeader = false;
+    	var titleOpt = "";
+    	var callBackFunction = Ext.emptyFn;
+    	var callBackScope = null;
+    	    	
+    	if (typeof options != 'undefined')
+    	{
+    		if (typeof options.width != 'undefined')
+    			widthOpt = options.width;
+    		if (typeof options.height != 'undefined')
+        		heightOpt = options.height;
+    		if (typeof options.closable != 'undefined')
+    		{
+    			closable = options.closable;
+    			showHeader = options.closable;
+    		}
+    		if (typeof options.cls != 'undefined')
+    			cls = options.cls;
+    		if (typeof options.modal != 'undefined')
+    			modal = options.modal;
+    		if (typeof options.showBy != 'undefined')
+    		{
+    			showByItemEl = options.showBy;
+    		}
+    		if (typeof options.title != 'undefined')
+    			titleOpt = options.title;
+    		
+    		if (options.callme)    			
+    			callBackFunction = options.callme;
+    		
+    		if (options.callmeScope)
+    			callBackScope = options.callmeScope;
+    		else
+    			console.error("callmeScope is missing !  Please provide a callback scope");
+    			
+    	}
+    	else;
+    	    	
+    	if (this.overlay) 
+    		this.overlay.destroy();
+    	    
+    	this.overlay = Ext.Viewport.add({            					
+						                xtype:'panel',
+						                layout:'fit',
+						                itemId:'overlay-id',
+						                modal: true,
+						                hideOnMaskTap: true,				                
+						                showAnimation: 
+						                {
+						                    type: 'popIn',
+						                    duration: 250,
+						                    easing: 'ease-out'
+						                },
+						                hideAnimation: 
+						                {
+						                    type: 'popOut',
+						                    duration: 250,
+						                    easing: 'ease-out'
+						                },
+						                centered: true,
+						                width: Ext.filterPlatform('ie10') ? '100%' : (Ext.os.deviceType == 'Phone') ? 260 : widthOpt,
+						                height: Ext.filterPlatform('ie10') ? '30%' : Ext.os.deviceType == 'Phone' ? 220 : heightOpt,				               
+						                items:[
+						                    {
+						                        docked: 'top',
+						                        xtype: 'toolbar',
+						                        title: titleOpt,
+						                        items:[{
+															xtype:'button',
+															text:'close',
+														    handler: function (but,action,eOpts) 
+														    {
+														    	Xedu.CommonUtils.closeOverlay();														    	
+														    }
+														}]
+						                    },
+						                    showPanel
+						                ],
+						                listeners:
+						                {
+						                	destroy: function()
+						                	{						                		
+						                		if (callBackFunction && typeof(callBackFunction) === "function") 
+										    	{
+						                			console.log("overlay destroyed....calling back");	
+										    		callBackFunction(callBackScope);
+										    	}
+						                	}
+						                },
+						                scrollable: true
+						            });
+
+        this.overlay.show();
+    },
+    
+    closeOverlay: function()
+    {
+    	if (this.overlay) 
+    		this.overlay.destroy();
     }
+    
 		
 });
 

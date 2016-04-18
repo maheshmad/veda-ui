@@ -76,7 +76,13 @@ Ext.define('Xedu.view.slides.SlidesList',
 //    	{
     	fullView[0].addSlide(record);
 //    	}
+    },
+    
+    reload: function()
+    {
+    	this.getStore().load();
     }
+    
     
     
 });

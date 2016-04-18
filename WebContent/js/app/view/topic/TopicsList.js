@@ -112,45 +112,14 @@ Ext.define('Xedu.view.topic.TopicsList',
     createNewTopic: function()
     {
     	var chapteridParam = this.getChapterid();
-    	if (this.overlay) 
-    		this.overlay.destroy();
-    	    
-       this.overlay = Ext.Viewport.add({            					
-						                xtype:'panel',
-						                layout:'fit',
-						                itemId:'add-new-topic-overlay-id',
-						                modal: true,
-						                hideOnMaskTap: true,				                
-						                showAnimation: 
-						                {
-						                    type: 'popIn',
-						                    duration: 250,
-						                    easing: 'ease-out'
-						                },
-						                hideAnimation: 
-						                {
-						                    type: 'popOut',
-						                    duration: 250,
-						                    easing: 'ease-out'
-						                },
-						                centered: true,
-						                width: Ext.filterPlatform('ie10') ? '100%' : (Ext.os.deviceType == 'Phone') ? 260 : 600,
-						                height: Ext.filterPlatform('ie10') ? '30%' : Ext.os.deviceType == 'Phone' ? 220 : 700,				               
-						                items:[
-						                    {
-						                        docked: 'top',
-						                        xtype: 'toolbar',
-						                        title: 'Create New Topic'
-						                    },
-						                    {
-							                	xtype: 'topic-edit-form',
-							                	chapterid:chapteridParam	
-						                    }
-						                ],
-						                scrollable: true
-						            });
-
-        this.overlay.show();
+    	        	
+    	var newTopicEditFormPanel = {
+						            	xtype: 'topic-edit-form',
+						            	chapterid:chapteridParam	
+						            };
+    	
+    	Xedu.CommonUtils.showOverlay(newTopicEditFormPanel,{title:"Create New Topic"});
+    	
     }
     
     

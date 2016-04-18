@@ -7,12 +7,10 @@ Ext.define('Xedu.view.slides.SlidesMain',
               'Xedu.view.slides.SlidesFullViewList'],
     config: 
     {    	
-    	title: 'Class',
+    	title: 'Topic Contents',
     	fullscreen: false,
     	layout: 'hbox',
-    	topicid: null,	  
-    	courseid:null,
-    	chapterid:null,
+    	topicid: null,	      	
     	autoDestroy:true,
     	defaults:
     	{
@@ -44,11 +42,16 @@ Ext.define('Xedu.view.slides.SlidesMain',
 									    itemId: 'newSlideButton',						            
 									    handler: function (but,action,eOpts) 
 									    {
-									    	var scope = Ext.ComponentQuery.query('slides-main-view')[0];
-									    	var courseId = scope.getCourseid();
-											var chapterid = scope.getChapterid();
-											var topicid = scope.getTopicid();
-									    	Xedu.app.getController('Main').redirectTo('view/course/'+courseId+'/chapter/'+chapterid+"/topic/"+topicid+"/upload");								    	
+									    	this.up("slides-main-view").topicContentUpload();
+									    	
+//									    	var scope = Ext.ComponentQuery.query('slides-main-view')[0];
+//									    	var courseId = scope.getCourseid();
+//											var chapterid = scope.getChapterid();
+//											var topicid = scope.getTopicid();
+//									    	Xedu.app.getController('Main').redirectTo('view/course/'+courseId+'/chapter/'+chapterid+"/topic/"+topicid+"/upload");
+									    	
+									    	
+									    	
 									    }
 									}							        
 							        	
@@ -130,5 +133,28 @@ Ext.define('Xedu.view.slides.SlidesMain',
         		}
         	}
 		}	
+    },
+    /*
+     * content upload
+     */
+    topicContentUpload: function()
+    {
+    	var topicIdParam = this.getTopicid();    
+    	var me = this;
+    	var newContentUploadFormPanel = {
+						            		xtype: 'content-upload',
+						            		topicid:topicIdParam						            		
+						            	};
+    	
+    	Xedu.CommonUtils.showOverlay(newContentUploadFormPanel,{title:"Upload Topic Slides", width:500, height:400,callme: me.reloadSlidesList,callmeScope:me});
+    },
+    
+    reloadSlidesList: function(scope)
+    {
+    	console.log("reloading slides");
+    	scope.down("slides-list-panel").reload();
     }
+    
+    
+    
 });
