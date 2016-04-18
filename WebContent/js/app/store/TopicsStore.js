@@ -6,25 +6,18 @@ Ext.define('Xedu.store.TopicsStore',
 	extend: 'Ext.data.Store', 
 	config:
 	{
-	    fields:[
-	            {name:'recordId', type:'string'},
-	            {name:'recordTitle', type:'string'},
-	            {name:'recordSubtitle', type:'string'}            
-	        ],       
-	    pageSize: 10,
+		model:'Xedu.model.TopicModel',
 	    remoteSort:false, 
-	    autoLoad:true,
+	    autoLoad:false,
 	    proxy: 
 	    {
 	        type: 'rest',
-	        url : Xedu.Config.getUrl(Xedu.Config.TOPICS_SEARCH),
+	        url : Xedu.Config.getUrl(Xedu.Config.CHAPTER_API),
 	        reader: 
 	        {
 	            type: 'json',
-	            rootProperty: 'hits',
-	            totalProperty: 'totalHits'
-	        },
-	        filterParam: 'name'       
+	            rootProperty: 'chapter.topics'	            
+	        }
 	    }
 	}
 });

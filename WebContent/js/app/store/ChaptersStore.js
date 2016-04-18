@@ -2,29 +2,23 @@ Ext.define('Xedu.store.ChaptersStore',
 {
     alias:'store.chapters-store',
     require:['Xedu.Config',
+             'Xedu.model.ChapterModel',
              'Ext.data.proxy.Rest'],
 	extend: 'Ext.data.Store', 
 	config:
 	{
-	    fields:[
-	            {name:'recordId', type:'string'},
-	            {name:'recordTitle', type:'string'},
-	            {name:'recordSubtitle', type:'string'}            
-	        ],       
-	    pageSize: 10,
+	    model:'Xedu.model.ChapterModel',
 	    remoteSort:false, 
-	    autoLoad:true,
+	    autoLoad:false,
 	    proxy: 
 	    {
 	        type: 'rest',
-	        url : Xedu.Config.getUrl(Xedu.Config.CHAPTERS_SEARCH),
+	        url : Xedu.Config.getUrl(Xedu.Config.COURSE_API),
 	        reader: 
 	        {
 	            type: 'json',
-	            rootProperty: 'hits',
-	            totalProperty: 'totalHits'
-	        },
-	        filterParam: 'name'       
+	            rootProperty: 'course.chapters'	            
+	        }
 	    }
 	}
 });

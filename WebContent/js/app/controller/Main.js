@@ -30,8 +30,9 @@ Ext.define('Xedu.controller.Main',
 				'view/course/:id/main':'showCourseMgmt',
 				'view/manage/users':'showUserMgmt',
 				'view/course/:id/chapters':'showChapters',
-				'view/course/:cid/chapter/:chpid/topics':'showTopics',
-				'view/course/:cid/chapter/:chpid/topic/:topicid':'showSlides',
+//				'view/course/:cid/chapter/:chpid/topics':'showTopics',
+				'view/chapter/:chpid/topics':'showTopics',
+				'view/topic/:topicid':'showSlides',
 				'view/course/:cid/chapter/:chpid/topic/:topicid/upload':'uploadSlides',
 //				'view/course/:cid/chapter/:chpid/topic/:topicid':'showSlidesMain',
 				'open/:applid':'openApplicationView',
@@ -156,15 +157,15 @@ Ext.define('Xedu.controller.Main',
 		this.showView('chapter.ChaptersList',params);
 	},
 	
-	showTopics: function(courseId,chapterId)
+	showTopics: function(chapterId)
 	{
-		var params = {'courseid':courseId,'chapterid':chapterId};
+		var params = {'chapterid':chapterId};
 		this.showView('topic.TopicsList',params);
 	},
 	
-	showSlides: function(courseId,chapterId,topicId)
+	showSlides: function(topicId)
 	{
-		var params = {'courseid':courseId,'chapterid':chapterId,'topicid':topicId};
+		var params = {'topicid':topicId};
 		this.showView('slides.SlidesMain',params);
 	},
 	

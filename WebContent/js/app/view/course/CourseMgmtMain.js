@@ -39,10 +39,9 @@ Ext.define('Xedu.view.course.CourseMgmtMain',
 							    items:[							           
 											{
 												xtype:'button',
-												iconCls:'user',
+												iconCls:'add',
 											    handler: function (but,action,eOpts) 
 											    {
-											    	Ext.ComponentQuery.query('user-details-view')[0].createNewUserForm();
 											    }
 											}
 							           ]
@@ -60,8 +59,7 @@ Ext.define('Xedu.view.course.CourseMgmtMain',
             	items:[							
 							{
 								xtype:"chapters-list-panel",
-								title:"Chapters"
-							},
+								title:"Chapters"							},
 							{
 								xtype:"panel",
 								title:"Enrolled Students"
@@ -86,9 +84,14 @@ Ext.define('Xedu.view.course.CourseMgmtMain',
         	{        			        	
     			var chaptersList = thisView.down('chapters-list-panel');
     			var courseEditForm = thisView.down('course-edit-form');
+    			
+    			chaptersList.setCourseid(thisView.getCourseid())
     			courseEditForm.loadCourse(thisView.getCourseid());
+    			chaptersList.loadChapters(thisView.getCourseid());
 //    			chaptersList.loadChapters();        		
         	}
 		}	
     }
+    
+    
 });

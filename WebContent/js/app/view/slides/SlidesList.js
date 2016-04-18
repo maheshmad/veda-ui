@@ -12,8 +12,7 @@ Ext.define('Xedu.view.slides.SlidesList',
         title:'Slides',
         /*
          * panel custom config params
-         */
-        courseid:null,
+         */      
         topicid: null,	   
         scrollable: true,
         autoDestroy:true,
@@ -42,8 +41,7 @@ Ext.define('Xedu.view.slides.SlidesList',
         	},
         	itemsingletap: function(scope, index, target, record)
 			{        		
-				console.log("tapped");
-				var courseId = scope.getCourseid();
+				console.log("tapped");				
 				var topicid = scope.getTopicid();
 				scope.showSlideOnFullView(scope, index, target, record);
 //				alert("tapped on slide ="+record.data.recordId+"topicid ="+topicid+", courseid = "+courseId);				
@@ -53,13 +51,16 @@ Ext.define('Xedu.view.slides.SlidesList',
 	        
     },
     
-    loadslideslist: function()
+    /*
+     * loadSlides
+     */
+    loadslideslist: function(id)
     {
+    	this.topicid = id;
     	console.log("showing...slides from loadslideslist ");
 		var thisView = this;
     	thisView.setMasked({msg:"Loading slides..."});
 		var slideListStore = thisView.getStore();
-		var courseId = thisView.getCourseid();
 		var topicid = thisView.getTopicid();				
 		slideListStore.getProxy().setUrl(slideListStore.getProxy().getUrl()+topicid);
 		slideListStore.load({callback : function(records, operation, success) 

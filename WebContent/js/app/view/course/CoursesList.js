@@ -4,6 +4,7 @@ Ext.define('Xedu.view.course.CoursesList', {
 	requires: [		    		    		    
 		    'Xedu.store.CoursesStore',
 		    'Ext.plugin.PullRefresh',
+		    'Xedu.view.course.CourseEditForm',
 		    'Ext.dataview.List'],
     config: 
     {
@@ -33,7 +34,7 @@ Ext.define('Xedu.view.course.CoursesList', {
 									iconCls:'add',
 								    handler: function (but,action,eOpts) 
 								    {
-								    	
+								    	this.up("courses-list-panel").createNewCourse();
 								    }
 								}
 				           ]					    
@@ -70,6 +71,83 @@ Ext.define('Xedu.view.course.CoursesList', {
 					}
                }]
 		            
+    },
+    
+    /*
+     * load course
+     */
+    loadChapters: function(id)
+    {
+    	var courseDetailsForm = this;
+    	
+    	console.log("Loading chapters for course id ="+id);
+    	var progressIndicator = Ext.create("Ext.ProgressIndicator");
+    	Ext.Ajax.request({
+			url:Xedu.Config.getUrl(Xedu.Config.COURSE_API)+id,
+            method: 'GET',
+            progress: progressIndicator,			
+            headers: { 'Content-Type': 'application/json' },				            
+            success: function(response, conn, options, eOpts) 
+            {
+                var result = Ext.JSON.decode(response.responseText);
+		    	
+                /*
+                 * use the json to create records.
+                 */
+                this.down("list").getStore().load(result.chapters);				                
+		    	
+            },
+            failure: function(conn, response, options, eOpts) 
+            {
+            	Xedu.CommonUtils.checkServiceError(resp);
+            }
+        });
+    },
+    
+    /*
+     * show create new form popup
+     */    
+    createNewCourse: function()
+    {
+    	if (!this.overlay) 
+    	{
+            this.overlay = Ext.Viewport.add({            					
+						                xtype:'panel',
+						                layout:'fit',
+						                itemId:'add-new-course-overlay-id',
+						                modal: true,
+						                hideOnMaskTap: true,				                
+						                showAnimation: 
+						                {
+						                    type: 'popIn',
+						                    duration: 250,
+						                    easing: 'ease-out'
+						                },
+						                hideAnimation: 
+						                {
+						                    type: 'popOut',
+						                    duration: 250,
+						                    easing: 'ease-out'
+						                },
+						                centered: true,
+						                width: Ext.filterPlatform('ie10') ? '100%' : (Ext.os.deviceType == 'Phone') ? 260 : 600,
+						                height: Ext.filterPlatform('ie10') ? '30%' : Ext.os.deviceType == 'Phone' ? 220 : 700,				               
+						                items:[
+						                    {
+						                        docked: 'top',
+						                        xtype: 'toolbar',
+						                        title: 'Create New Course'
+						                    },
+						                    {
+							                	xtype: 'course-edit-form'
+						                    }
+						                ],
+						                scrollable: true
+						            });
+        }
+
+        this.overlay.show();
     }
+    
     
 });

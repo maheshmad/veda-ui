@@ -126,7 +126,7 @@ Ext.define('Xedu.view.slides.SlidesMain',
         		{
         			var slidesList = thisView.down('slides-list-panel');        			
         			slidesList.setTopicid(thisView.getTopicid());
-        			slidesList.loadslideslist();
+        			slidesList.loadslideslist(thisView.getTopicid());
         		}
         	}
 		}	

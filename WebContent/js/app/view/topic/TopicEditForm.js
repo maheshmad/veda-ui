@@ -1,7 +1,7 @@
-Ext.define('Xedu.view.course.CourseEditForm', 
+Ext.define('Xedu.view.topic.TopicEditForm', 
 {
     extend: 'Ext.form.Panel',
-    xtype: 'course-edit-form',
+    xtype: 'topic-edit-form',
     requires:[
 					'Ext.form.FieldSet',
 					'Ext.field.Text',
@@ -9,12 +9,13 @@ Ext.define('Xedu.view.course.CourseEditForm',
 					'Ext.field.Select',
 					'Ext.field.DatePicker',
 					'Ext.ProgressIndicator',
-					'Xedu.model.CourseModel'
+					'Xedu.model.TopicModel'
               ],
     config: 
     {    	
     	fullscreen: false,
     	autoDestroy:true,
+    	chapterid:null,
     	scrollable:true,    	
     	layout:
     	{
@@ -38,6 +39,13 @@ Ext.define('Xedu.view.course.CourseEditForm',
 							    xtype: 'textfield',
 							    name : 'id',
 							    label:"ID"
+//							    hidden:true,							   
+                            },
+                            {
+							    xtype: 'textfield',
+							    name : 'chapterid',
+							    itemId:"chapterid-field",
+							    label:"ChapterID"
 //							    hidden:true,							   
                             },
                             {
@@ -90,7 +98,7 @@ Ext.define('Xedu.view.course.CourseEditForm',
 	 					    itemId: 'saveChangesButton',						            
 	 					    handler: function (but,action,eOpts) 
 	 					    {
-	 					    	this.up('course-edit-form').updateCourse();			                 						    	
+	 					    	this.up('topic-edit-form').updateTopic();			                 						    	
 	 					    }
 	 					},
 	 					{
@@ -101,7 +109,7 @@ Ext.define('Xedu.view.course.CourseEditForm',
 	 					    itemId: 'deleteChangesButton',						            
 	 					    handler: function (but,action,eOpts) 
 	 					    {
-	 					    	this.up('course-edit-form').deleteCourse();			                 						    	
+	 					    	this.up('topic-edit-form').deleteTopic();			                 						    	
 	 					    }
 	 					}
 //	 					,
@@ -114,8 +122,8 @@ Ext.define('Xedu.view.course.CourseEditForm',
 //	 					    itemId: 'cancelChangesButton',						            
 //	 					    handler: function (but,action,eOpts) 
 //	 					    {
-////	 					    	if (this.up('courses-list-panel'))
-////	 					    		this.up('course-edit-form').hide();
+////	 					    	if (this.up('topics-list-panel'))
+////	 					    		this.up('topic-edit-form').hide();
 ////	 					    		
 //	 					    }
 //	 					}
@@ -125,41 +133,50 @@ Ext.define('Xedu.view.course.CourseEditForm',
 	   			],
 	   	listeners:
 	   	{
-	   		show:function()
+	   		show:function(thisView)
 	   		{
-	   			
+//	   			thisView.down("#chapterid-field").setValue(thisView.getChapterid());
 	   		}
 	   	}
     },
     
     /*
-     * load course
+     * override set function to set the form
      */
-    loadCourse: function(id)
+    setChapterid: function(chapterid)
     {
-    	var courseDetailsForm = this;
-    	var fields = courseDetailsForm.getFields();
+    	this.chapterid = chapterid;
+    	console.log("setting in topic edit form chapterid = "+chapterid);
+    	this.down("#chapterid-field").setValue(chapterid);
+    },
+    
+    /*
+     * load topic
+     */
+    loadTopic: function(id)
+    {
+    	var topicDetailsForm = this;
+    	var fields = topicDetailsForm.getFields();
     	
-    	console.log("Loading course id ="+id);
+    	console.log("Loading topic id ="+id);
     	var progressIndicator = Ext.create("Ext.ProgressIndicator");
     	Ext.Ajax.request({
-			url:Xedu.Config.getUrl(Xedu.Config.COURSE_API)+id,
+			url:Xedu.Config.getUrl(Xedu.Config.TOPIC_API)+id,
             method: 'GET',
             progress: progressIndicator,			
             headers: { 'Content-Type': 'application/json' },				            
             success: function(response, conn, options, eOpts) 
             {
-                var result = Ext.JSON.decode(response.responseText);
-		    	
+                var result = Ext.JSON.decode(response.responseText);		    	
                 /*
                  * use the json to create records.
                  */
-                var courseRecord = Ext.create('Xedu.model.CourseModel', result.course);
+                var topicRecord = Ext.create('Xedu.model.TopicModel', result.topic);
                 /*
                  * set the data 
                  */
-                courseDetailsForm.setRecord(courseRecord);
-                courseDetailsForm.down("#deleteChangesButton").setHidden(false);
+                topicDetailsForm.setRecord(topicRecord);
+                topicDetailsForm.down("#deleteChangesButton").setHidden(false);
 
 		    	
             },
@@ -173,12 +190,12 @@ Ext.define('Xedu.view.course.CourseEditForm',
     /*
      * upload form
      */
-    updateCourse: function()
+    updateTopic: function()
 	{
-		var courseForm = this;
-    	var fields = courseForm.getFields();
+		var topicForm = this;
+    	var fields = topicForm.getFields();
 		var id = fields['id'].getValue();
-    	var restUrl = Xedu.Config.getUrl(Xedu.Config.COURSE_API);
+    	var restUrl = Xedu.Config.getUrl(Xedu.Config.TOPIC_API);
     	var restMethod = "POST";
     	if (id && id != "")
     	{
@@ -186,7 +203,7 @@ Ext.define('Xedu.view.course.CourseEditForm',
     		restUrl = restUrl +id;
     	}
     	var progressIndicator = Ext.create("Ext.ProgressIndicator");
-    	courseForm.submit(
+    	topicForm.submit(
 		{
 				url:restUrl,
        	 		method:restMethod,		
@@ -202,10 +219,10 @@ Ext.define('Xedu.view.course.CourseEditForm',
 	                   	  * load the created user
 	                   	  */
                     	Ext.Msg.alert("SUCCESS",response.msg);
-                    	var courselistpanel = Ext.ComponentQuery.query("courses-list-panel list");
-                    	courseForm.reset();
-                    	if (courselistpanel && courselistpanel[0])
-                    		courselistpanel[0].getStore().load();
+                    	var topiclistpanel = Ext.ComponentQuery.query("topics-list-panel list");
+                    	topicForm.reset();
+                    	if (topiclistpanel && topiclistpanel[0])
+                    		topiclistpanel[0].getStore().load();
                     } 
                     else;
 				},
@@ -221,33 +238,33 @@ Ext.define('Xedu.view.course.CourseEditForm',
 	/**
 	 * delete user
 	 */
-    deleteCourse: function()
+    deleteTopic: function()
     {
-    	var courseDetailsForm = this;
-    	var fields = courseDetailsForm.getFields();
+    	var topicDetailsForm = this;
+    	var fields = topicDetailsForm.getFields();
     	var id = fields['id'].getValue();
     	if (id && id != '' )
     	{
     		Ext.Msg.alert("Not allowed","Delete operation not available");
     	}
     	
-    	var courseName = fields['title'].getValue() +" " + fields['subTitle'].getValue();
+    	var topicName = fields['title'].getValue() +" " + fields['subTitle'].getValue();
     	
-    	Ext.Msg.confirm("Delete Course?", 
-    				"Are you sure you want to delete the course <br />id:"+id+"<br /> Name:"+courseName, 
+    	Ext.Msg.confirm("Delete Topic?", 
+    				"Are you sure you want to delete the topic <br />id:"+id+"<br /> Name:"+topicName, 
 			    	function(btn)
 			    	{
 			    		if (btn == 'yes')
 			    		{
 			    			var progressIndicator = Ext.create("Ext.ProgressIndicator");
-			    			courseDetailsForm.submit({
-			    	                            	 url:Xedu.Config.getUrl(Xedu.Config.COURSE_API)+id,
+			    			topicDetailsForm.submit({
+			    	                            	 url:Xedu.Config.getUrl(Xedu.Config.TOPIC_API)+id,
 			    	                            	 method:'DELETE',
 			    	                            	 progress: progressIndicator,	
 			    	                                 success: function (form,response,data)
 			    	                                 {	                                    			    	                                     
 			    	                                	 Ext.Msg.alert(response.status,response.msg);
-			    	                                	 var configListPanel = Ext.ComponentQuery.query("courses-list-panel list");
+			    	                                	 var configListPanel = Ext.ComponentQuery.query("topics-list-panel list");
 		    	                                    	 if (configListPanel && configListPanel[0])
 		    	                                    		 configListPanel[0].getStore().load();								                                    	 
 			    	                                    
