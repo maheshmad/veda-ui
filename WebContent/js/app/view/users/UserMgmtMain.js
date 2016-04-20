@@ -12,9 +12,6 @@ Ext.define('Xedu.view.users.UserMgmtMain',
     	title: 'User Management',
     	fullscreen: false,
     	layout: 'hbox',
-    	topicid: null,	  
-    	courseid:null,
-    	chapterid:null,
     	autoDestroy:true,
     	defaults:
     	{

@@ -18,6 +18,7 @@ Ext.define('Xedu.view.users.UserDetailsView',
     	plain:true,
     	ui:'neutral',
     	scrollable:true,
+    	userid:null,
     	layout:
     	{
     		type:'fit'

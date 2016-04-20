@@ -8,6 +8,8 @@ Ext.define('Xedu.controller.Main',
 	          'Xedu.view.users.UserMgmtMain',
 	          'Xedu.view.course.CourseMgmtMain',
 	          'Xedu.view.ChangePassword',
+	          'Xedu.view.classroom.ClassroomsList',
+	          'Xedu.view.classroom.ClassroomMgmtMain',
 	          'Xedu.view.chapter.ChaptersList'],	
 	config:
 	{					
@@ -25,10 +27,22 @@ Ext.define('Xedu.controller.Main',
 				'view/:id':'showView',
 				'config':'showConfig',
 				'logoff':'logout',
-				'update/password/:token':'chgPassword',
+				'update/password/:token':'chgPassword',				
+				/*
+				 * classroom
+				 */
+				'view/classroom/list':'showClassrooms',
+				'view/classroom/:id/main':'showClassroomMgmt',
+				/*
+				 * users
+				 */
+				'view/manage/users':'showUserMgmt',
+				'view/user/:id':'showUserDetails',
+				/*
+				 * courses
+				 */
 				'view/course/list':'showCourses',
 				'view/course/:id/main':'showCourseMgmt',
-				'view/manage/users':'showUserMgmt',
 				'view/course/:id/chapters':'showChapters',
 //				'view/course/:cid/chapter/:chpid/topics':'showTopics',
 				'view/chapter/:chpid/topics':'showTopics',
@@ -133,6 +147,30 @@ Ext.define('Xedu.controller.Main',
 	{
 		this.showView('users.UserMgmtMain',param);
 	},
+	/* 
+	 * show user details
+	 */
+	showUserDetails: function(param)
+	{
+		var params = {'userid':param};
+		this.showView('users.UserDetailsView',params);
+	},
+	/* 
+	 * show classroom management main
+	 */
+	showClassroomMgmt: function(classroomId)
+	{
+		var params = {'classroomid':classroomId};
+		this.showView('classroom.ClassroomMgmtMain',params);
+	},
+	
+	/*
+	 * show classrooms
+	 */
+	showClassrooms: function(param)
+	{
+		this.showView('classroom.ClassroomsList',param);
+	},
 	
 	/* 
 	 * show course management main
@@ -142,7 +180,7 @@ Ext.define('Xedu.controller.Main',
 		var params = {'courseid':courseId};
 		this.showView('course.CourseMgmtMain',params);
 	},
-	
+			
 	/*
 	 * show courses
 	 */
@@ -150,6 +188,7 @@ Ext.define('Xedu.controller.Main',
 	{
 		this.showView('course.CoursesList',param);
 	},
+	
 	
 	showChapters: function(courseId)
 	{

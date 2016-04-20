@@ -48,6 +48,12 @@ Ext.define('Xedu.Config',
 		CHG_PASSWORD_SERVICE:'/api/auth/updatepassword',
 		UPLOAD_PROFILE_IMAGE_SERVICE:'/upload_profile_image',
 		PROFILE_IMAGE_THUMB_SERVICE:'/api/user/image/large/',
+		/*
+		 * 
+		 */
+		CLASSROOM_API:'/api/classroom/',
+		CLASSROOM_SEARCH:'/api/classroom/search',
+		CLASSROOM_ENROLLED_STUDENTS_SEARCH:'/api/enrollment/search',
         /*
 		 * set to true if the security needs to be switched off
 		 * you will not see the login screen. 
