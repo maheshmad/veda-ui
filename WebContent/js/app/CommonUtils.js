@@ -77,6 +77,7 @@ Ext.define('Xedu.CommonUtils',
      */
     showOverlay: function(showPanel,options)
     {
+    	var scope = this;
     	var widthOpt = '42%'; /* default */
     	var heightOpt = '80%';    	
     	var closable = false;
@@ -122,16 +123,24 @@ Ext.define('Xedu.CommonUtils',
     			
     	}
     	else;
-    	    	
-    	if (this.overlay) 
-    		this.overlay.destroy();
+    	
+    	try
+    	{
+	    	if (scope.overlay) 
+	    		scope.overlay.destroy();
+    	}
+    	catch(e)
+    	{
+    		console.log(e);
+    	}
     	    
-    	this.overlay = Ext.Viewport.add({            					
+    	scope.overlay = Ext.Viewport.add({            					
 						                xtype:'panel',
 						                layout:'fit',
 						                itemId:'overlay-id',
 						                modal: true,
-						                hideOnMaskTap: true,				                
+						                autoDestroy:true,
+						                hideOnMaskTap: false,				                
 						                showAnimation: 
 						                {
 						                    type: 'popIn',
@@ -157,15 +166,15 @@ Ext.define('Xedu.CommonUtils',
 															text:'close',
 														    handler: function (but,action,eOpts) 
 														    {
-														    	Xedu.CommonUtils.closeOverlay();														    	
+														    	Xedu.CommonUtils.closeOverlay(scope);														    	
 														    }
 														}]
 						                    },
-						                    showPanel
+//						                    showPanel
 						                ],
 						                listeners:
 						                {
-						                	destroy: function()
+						                	hide: function()
 						                	{						                		
 						                		if (callBackFunction && typeof(callBackFunction) === "function") 
 										    	{
@@ -176,14 +185,17 @@ Ext.define('Xedu.CommonUtils',
 						                },
 						                scrollable: true
 						            });
-
-        this.overlay.show();
+        
+    	scope.overlay.show();
+    	var addPanel = Ext.create(showPanel.xtype,showPanel);
+    	scope.overlay.add(addPanel);
+    	addPanel.show();
     },
     
-    closeOverlay: function()
+    closeOverlay: function(scope)
     {
-    	if (this.overlay) 
-    		this.overlay.destroy();
+    	if (scope.overlay) 
+    		scope.overlay.hide();
     }
     
 		

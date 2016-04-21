@@ -102,21 +102,13 @@ Ext.define('Xedu.view.classroom.EnrolledStudentsList',
 			                    	thisView.setMasked(false);
 			                    }});		
     },
-    
-    /*
-     * show create new form popup
-     */    
-    createNewClassroom: function()
-    {    	    	    	
-    	Xedu.CommonUtils.showOverlay({xtype: 'classroom-edit-form'},{title:"Create New Classroom"});    	
-    },
-    
+       
     /*
      * show user details preview
      */    
     viewStudentsInfo: function(id)
     {    	    	    	
-    	Xedu.CommonUtils.showOverlay({xtype: 'user-details-preview',userid:id},{title:"Student Info"});    	
+    	Xedu.CommonUtils.showOverlay({xtype: 'Xedu.view.users.UserDetailsPreview',userid:id},{title:"Student Info"});    	
     }
     
 });

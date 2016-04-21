@@ -109,7 +109,7 @@ Ext.define('Xedu.view.course.CoursesList', {
      */    
     createNewCourse: function()
     {    	    	    	
-    	Xedu.CommonUtils.showOverlay({xtype: 'course-edit-form'},{title:"Create New Course"});    	
+    	Xedu.CommonUtils.showOverlay({xtype: 'Xedu.view.course.CourseEditForm'},{title:"Create New Course"});    	
     }
     
     

@@ -114,7 +114,7 @@ Ext.define('Xedu.view.topic.TopicsList',
     	var chapteridParam = this.getChapterid();
     	        	
     	var newTopicEditFormPanel = {
-						            	xtype: 'topic-edit-form',
+						            	xtype: 'Xedu.view.topic.TopicEditForm',
 						            	chapterid:chapteridParam	
 						            };
     	

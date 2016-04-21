@@ -142,7 +142,7 @@ Ext.define('Xedu.view.slides.SlidesMain',
     	var topicIdParam = this.getTopicid();    
     	var me = this;
     	var newContentUploadFormPanel = {
-						            		xtype: 'content-upload',
+						            		xtype: 'Xedu.view.slides.ContentUpload',
 						            		topicid:topicIdParam						            		
 						            	};
     	

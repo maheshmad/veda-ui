@@ -104,7 +104,7 @@ Ext.define('Xedu.view.chapter.ChaptersList',
     {
     	var courseidParam = this.getCourseid();
     	
-    	var newChapterEditForm = {xtype: 'chapter-edit-form',
+    	var newChapterEditForm = {xtype: 'Xedu.view.chapter.ChapterEditForm',
 							      courseid:courseidParam	
 						          };
     	

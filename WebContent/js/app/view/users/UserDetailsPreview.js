@@ -1,13 +1,9 @@
 Ext.define('Xedu.view.users.UserDetailsPreview', 
 {
-    extend: 'Ext.form.Panel',
+    extend: 'Ext.Panel',
     xtype: 'user-details-preview',
     requires:[
-					'Ext.form.FieldSet',
-					'Ext.field.Text',
-					'Ext.field.Toggle',
-					'Ext.field.Select',
-					'Ext.field.DatePicker',
+					'Ext.dataview.DataView',
 					'Xedu.model.UserModel',
 					'Ext.ProgressIndicator'
               ],
@@ -20,59 +16,63 @@ Ext.define('Xedu.view.users.UserDetailsPreview',
     	layout:
     	{
     		type:'vbox',
-    		pack:'center'    		
-    	},    	
+    		pack:'center',
+    		align:'stretch'
+    	},
+    	init: function() 
+    	{            
+    		this.callParent(arguments);
+    		console.log("initialized");
+        },
         items: [
                 {
-                    xtype:'fieldset',
-                    layout:'vbox',		
-                    items:[                          
-                            {
-					            xtype: 'image',
-					            itemId:"user-profile-image-id",
-					            src: 'resources/icons/user_profilex128.png',
-					            flex: 3					           
-                            },							                            
-                            ]
-	   			},
+		            xtype: 'image',
+		            autoDestroy:true,
+		            itemId:"user-profile-image-id",
+		            src: 'resources/icons/user_profilex128.png',
+		            flex: 1					           
+                },	
 	   			{
-	               	xtype:'fieldset',
-	               	layout:'hbox',
-	               	flex:1,			                    	
-	               	items:[
-									{
-									    xtype: 'textfield',
-									    name : 'firstName'
-									},
-									{
-									    xtype: 'textfield',
-									    name : 'middleName'												    
-									},
-									{
-									    xtype: 'textfield',
-									    name : 'lastName'												    
-									}								                    	       
-	               	       ]
+	               	xtype:'dataview',
+	               	autoDestroy:true,
+	               	flex:4,
+	               	store:
+	               	{
+	               		model:'Xedu.model.UserModel',
+	               	},	               	
+	                itemTpl: ['<h1><b>Name:</b> {lastName},{firstName}</h1>',
+	                          '<p><b>userId :</b> {userId}</p>',
+	                          '<p><b>emailId :</b> {emailId}</p>',
+	                          '<p><b>userPswd :</b> {userPswd}</p>',
+	                          '<p><b>userrole :</b> {userrole}</p>',
+	                          '<p><b>firstName :</b> {firstName}</p>',
+	                          '<p><b>middleName :</b> {middleName}</p>',
+	                          '<p><b>lastName :</b> {lastName}</p>',
+	                          '<p><b>Address :</b> {addressLine1} {addressLine2}, {city} {state} {country} - {postalcode}</p>',	                          
+	                          '<p><b>cell phone :</b> {cellphone} <b>RecieveText :</b> {okToText}</p>',	                          
+	                          '<p><b>Home Phone :</b> {landlinephone}</p>',
+	                          '<p><b>Office phone :</b> {officephone} - Ext: {officephoneExt} </p>',	                          
+	                          '<p><b>Last updated by :</b> {updatedBy} <b>on:</b> {lastUpdatedDateTime}</p>'	                          
+	                          ]
+                  
+	                     	    
+	                		
+	                		
 	   			}],
-   		listeners:
-   		{
-   			show: function(thisView)
-   			{
-   				thisView.loadUserDetails();
-   			}
-   		}
+	   			listeners:
+         		{
+         			show: function(thisView)
+         			{
+         				thisView.loadUserDetails();
+         			},
+         			hide: function()
+         			{
+         				thisView.removeAllItems();
+         			}
+         		}
              
     },
 
-    setUserid: function(id)
-    {
-    	this.userid = id;
-    },
-    
-    getUserid: function()
-    {
-    	return this.userid;
-    },
     /**
      * load user details 
      * 
@@ -117,27 +117,30 @@ Ext.define('Xedu.view.users.UserDetailsPreview',
 			if (refreshImage)
 				imageUrl = imageUrl + "?dc="+new Date().getTime();
 			this.down("#user-profile-image-id").setSrc(imageUrl);	
-			this.down("#imageid").setValue(userImageInfo.imageid);
 		}
 		else
 		{
 			this.down("#user-profile-image-id").setSrc('resources/icons/user_profilex128.png');	
-			this.down("#imageid").setValue('');
 		}
 		
 	},
 	
 	setUserDetails: function(userRecord)
 	{
-		this.setRecord(userRecord);		
+		this.down('dataview').setRecord(userRecord);		
 	},
 	
 	clearPanel: function()
 	{
 		this.reset();
 		this.down("#user-profile-image-id").setSrc('resources/icons/user_profilex128.png');	
-	}
+	},
     
+	removeAllItems: function()
+	{
+		console.log("removing all items");
+		this.down('dataview').destroy();
+	}
     
     
     

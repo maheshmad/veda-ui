@@ -103,7 +103,7 @@ Ext.define('Xedu.view.classroom.ClassroomsList',
      */    
     createNewClassroom: function()
     {    	    	    	
-    	Xedu.CommonUtils.showOverlay({xtype: 'classroom-edit-form'},{title:"Create New Classroom"});    	
+    	Xedu.CommonUtils.showOverlay({xtype: 'Xedu.view.classroom.ClassroomEditForm'},{title:"Create New Classroom"});    	
     }
     
     
