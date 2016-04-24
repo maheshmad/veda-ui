@@ -18,42 +18,11 @@ Ext.define('Xedu.view.users.UserMgmtMain',
     		flex:1            
         },
         items: [           
-            {
-            	xtype:'container',            	
-            	layout: 'fit',
-            	flex:1,
-            	items:[
-			            	{
-							    docked: 'top',
-							    xtype: 'titlebar',
-							    ui:'neutral',
-							    title:'',
-							    layout:
-							    {
-							    	pack:'right'
-							    },
-							    defaults:
-							    {
-							    	ui:'plain'
-							    },
-							    items:[							           
-											{
-												xtype:'button',
-												iconCls:'user',
-											    handler: function (but,action,eOpts) 
-											    {
-											    	Ext.ComponentQuery.query('user-details-view')[0].createNewUserForm();
-											    }
-											}
-							           ]
-							    
-							},
-							{
-								xtype:'users-list-panel', 
-				            	flex:1
-							}
-						]
-            },
+          	            	
+			{
+				xtype:'users-list-panel', 
+            	flex:1
+			},
             {
             	xtype:'container',
             	flex:4,
@@ -70,7 +39,7 @@ Ext.define('Xedu.view.users.UserMgmtMain',
 							}
             	       
             	       ]
-            },
+            }
             
             
         ],

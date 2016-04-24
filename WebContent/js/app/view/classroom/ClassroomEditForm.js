@@ -15,63 +15,93 @@ Ext.define('Xedu.view.classroom.ClassroomEditForm',
     {    	
     	fullscreen: false,
     	autoDestroy:true,
-    	scrollable:true,    	
+    	scrollable:true, 
+    	 /* 
+    	  * previewonly show in a non editable 
+    	  * dataview format
+    	  */
+    	previewOnly:true,
     	layout:
     	{
     		type:'vbox'
     	},    	
-        items: [                
+        items: [
+                {                	
+	               	xtype:'dataview',
+	               	itemId:'preview-classroom-details-id',
+	               	autoDestroy:true,
+	               	flex:1,
+	               	store:
+	               	{
+	               		model:'Xedu.model.ClassroomModel',
+	               	},	               	
+	                itemTpl: ['<h1><b>id:</b> {lastName},{id}</h1>',
+	                          '<p><b>name :</b> {name}</p>',
+	                          '<p><b>title :</b> {title}</p>',
+	                          '<p><b>subTitle :</b> {subTitle}</p>',
+	                          '<p><b>description :</b> {description}</p>'	                                              
+	                          ]                        		    	   			
+                },
                 {
-                    xtype:'fieldset',
-                    flex:2,	
-                    layout:
-                    {
-                    	type:'vbox',
-                    	pack:'start'
-                    },
-                    defaults:
-                    {
-                    	labelAlign:'top'
-                    },
-                    items:[
-                           {
-							    xtype: 'textfield',
-							    name : 'id',
-							    label:"ID"
-//							    hidden:true,							   
-                            },
-                            {
-							    xtype: 'textfield',
-							    name : 'name',
-							    label:"Name"
-                            },
-                            {
-							    xtype: 'textfield',
-							    name : 'title',	
-							    label:"Title"
-                            },
-                            {
-							    xtype: 'textfield',
-							    name : 'subTitle',	
-							    label:"Sub Title"
-                            }
-                            ]
-	   			},
-	   			{
-	               	xtype:'fieldset',
-	               	layout:'fit',
-	               	flex:1,			                    	
-	               	items:[
-									{
-									    xtype: 'textareafield',
-									    label: 'Description',
-									    labelAlign:'top',
-									    name : 'description'
-									}
-												                    	       
-	               	       ]
-	             },
-	             {
+	                xtype:'container',
+	                flex:1,
+	                itemId:'classroom-form-container-id',
+	                layout:
+	            	{
+	            		type:'vbox'
+	            	},   
+	                items:[{
+			                    xtype:'fieldset',
+			                    flex:4,	
+			                    layout:
+			                    {
+			                    	type:'vbox',
+			                    	pack:'start'
+			                    },
+			                    defaults:
+			                    {
+			                    	labelAlign:'top'
+			                    },
+			                    items:[
+			                           {
+										    xtype: 'textfield',
+										    name : 'id',
+										    label:"ID"
+			//							    hidden:true,							   
+			                            },
+			                            {
+										    xtype: 'textfield',
+										    name : 'name',
+										    label:"Name"
+			                            },
+			                            {
+										    xtype: 'textfield',
+										    name : 'title',	
+										    label:"Title"
+			                            },
+			                            {
+										    xtype: 'textfield',
+										    name : 'subTitle',	
+										    label:"Sub Title"
+			                            }
+			                            ]
+				   			},
+				   			{
+				               	xtype:'fieldset',
+				               	layout:'fit',
+				               	flex:1,			                    	
+				               	items:[
+											{
+											    xtype: 'textareafield',
+											    label: 'Description',
+											    labelAlign:'top',
+											    name : 'description'
+											}
+															                    	       
+				               	       ]
+				             }]
+                },
+	            {
 	 			    docked: 'bottom',
 	 			    xtype: 'toolbar',
 	 			    ui:'dark',
@@ -133,12 +163,35 @@ Ext.define('Xedu.view.classroom.ClassroomEditForm',
     },
     
     /*
+     * show preview details only
+     */
+    togglePreviewAndEdit: function()
+    {
+    	console.log("showing only preview ="+this.getPreviewOnly());
+    	if (this.getPreviewOnly())
+    	{    		
+    		this.down('#preview-classroom-details-id').setHidden(false);
+    		this.down('#classroom-form-container-id').setHidden(true);
+    		this.down('toolbar').setHidden(true);
+    	}
+    	else
+    	{
+    		this.down('#preview-classroom-details-id').setHidden(true);
+    		this.down('#classroom-form-container-id').setHidden(false);
+    		this.down('toolbar').setHidden(false);
+    	}
+    },
+    
+    /*
      * load classroom
      */
     loadClassroom: function(id)
     {
     	var classroomDetailsForm = this;
     	var fields = classroomDetailsForm.getFields();
+    	var previewPanel = this.down('dataview');
+    	    	
+    	this.togglePreviewAndEdit();
     	
     	console.log("Loading classroom id ="+id);
     	var progressIndicator = Ext.create("Ext.ProgressIndicator");
@@ -157,10 +210,13 @@ Ext.define('Xedu.view.classroom.ClassroomEditForm',
                 var classroomRecord = Ext.create('Xedu.model.ClassroomModel', result.classroom);
                 /*
                  * set the data 
-                 */
+                 */                
                 classroomDetailsForm.setRecord(classroomRecord);
                 classroomDetailsForm.down("#deleteChangesButton").setHidden(false);
-
+                /*
+                 * set data to preview panel
+                 */
+                previewPanel.setRecord(classroomRecord);
 		    	
             },
             failure: function(conn, response, options, eOpts) 

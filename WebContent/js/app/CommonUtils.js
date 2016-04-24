@@ -78,7 +78,7 @@ Ext.define('Xedu.CommonUtils',
     showOverlay: function(showPanel,options)
     {
     	var scope = this;
-    	var widthOpt = '42%'; /* default */
+    	var widthOpt = '65%'; /* default */
     	var heightOpt = '80%';    	
     	var closable = false;
     	var cls = '';

@@ -8,6 +8,7 @@ Ext.define('Xedu.view.users.UserDetailsView',
 					'Ext.field.Toggle',
 					'Ext.field.Select',
 					'Ext.field.DatePicker',
+					'Xedu.view.users.UserEnrolledClassesList',
 					'Xedu.model.UserModel',					
 					'Xedu.model.UserImageInfoModel'
               ],
@@ -19,10 +20,10 @@ Ext.define('Xedu.view.users.UserDetailsView',
     	ui:'neutral',
     	scrollable:true,
     	userid:null,
-    	layout:
-    	{
-    		type:'fit'
-    	},
+//    	layout:
+//    	{
+//    		type:'fit'
+//    	},
     	defaults:
     	{
     		styleHtmlContent: true          
@@ -84,7 +85,11 @@ Ext.define('Xedu.view.users.UserDetailsView',
 					    }
 					}
 			    ]
-			},    
+			},
+			{
+					xtype:'user-enrolled-classes-list',
+					title:'Enrolled Classes'
+			},
             {				
 					xtype:'panel',
 					title:"user details",
@@ -284,23 +289,8 @@ Ext.define('Xedu.view.users.UserDetailsView',
     {
     	var userDetailsFormPanel = this.down("formpanel");
     	var userDetailsHeaderFormPanel = Ext.ComponentQuery.query('user-details-header-view')[0];
-    	
-//    	Xedu.model.UserFullDetailsModel.load(id,
-//    						{
-//				    			scope: this,
-//				    		    failure: function(record, operation) 
-//				    		    {
-//				    		    	alert("failed");
-//				    		    },
-//				    		    success: function(record, operation) 
-//				    		    {
-//				    		    	userDetailsFormPanel.setRecord(record.data.user);	
-//				    		    					    		    					    		    	
-//				    		    	if (userDetailsHeaderFormPanel)
-//				    		    		userDetailsHeaderFormPanel.setUserDetails(record.data.profileUserImage);
-//				    		    }
-//    						});
-    	
+    	var userEnrolledClassesPanel = this.down('user-enrolled-classes-list');
+    	    	
     	Ext.Ajax.request({
     						url:Xedu.Config.getUrl(Xedu.Config.USER_SERVICE)+"/"+id,
 				            method: 'GET',
@@ -313,12 +303,15 @@ Ext.define('Xedu.view.users.UserDetailsView',
 				                 * use the json to create records.
 				                 */
 				                var userRecord = Ext.create('Xedu.model.UserModel', result.user);
-				                var userImageInfoRecord = Ext.create('Xedu.model.UserImageInfoModel', result.profileImageInfo);
+				                var userImageInfoRecord = Ext.create('Xedu.model.UserImageInfoModel', result.profileImageInfo);				                
 				                /*
 				                 * set the data 
 				                 */
-				                userDetailsFormPanel.setRecord(userRecord);					                
-			    		    	
+				                userDetailsFormPanel.setRecord(userRecord);		
+				                /* enrolled classes */
+				                userEnrolledClassesPanel.setUserid(result.user.userId);
+				                userEnrolledClassesPanel.loadEnrolledClasses();
+				                /* header panel */
 				                if (userDetailsHeaderFormPanel)
 				                {
 				                	userDetailsHeaderFormPanel.setUserImageInfoDetails(result.profileImageInfo);

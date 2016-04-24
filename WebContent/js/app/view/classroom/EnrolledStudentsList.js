@@ -50,21 +50,26 @@ Ext.define('Xedu.view.classroom.EnrolledStudentsList',
 			        autoDestroy:true,
 			        store: 
 			        {
-			        	type:'search-store'
+			        	type:'search-store',
+			        	autoLoad:false,
 			        },
 			        plugins: [
 			                  {
 			                      xclass: 'Ext.plugin.PullRefresh',
-			                      pullText: 'Pull down to refresh the list!'
+			                      pullText: 'Pull down to refresh the list!',
+			                      refreshFn:function()
+			                      {
+			                    	  scope.up('enrolled-students-list-panel').loadEnrolledStudents();
+			                      }
 			                  }
-			              ],       
-			        itemTpl: [
-			                  '<div>',
-			                  '			<span style="color:gray">Title: </span>{recordTitle}, ',
-			                  '</div>',
-			                  '<div>',
-			                  '			<span style="color:gray">{recordSubTitle} </span> ',
-			                  '</div>',
+			              ],
+			        itemTpl: [			                 
+			                  '		<div>',
+			                  '			<div>',
+			                  '				<span style="color:gray">Title: </span>{recordTitle}, ',			        
+			                  '				<span style="color:gray">{recordSubTitle} </span> ',
+			                  '			</div>',
+			                  '		</div>'			                  			                  			                  
 			              ],        
 			        listeners:
 			        {			        	
@@ -95,11 +100,11 @@ Ext.define('Xedu.view.classroom.EnrolledStudentsList',
     	console.log("Loading enrolled students...");
     	thisView.setMasked({msg:"Loading classrooms..."});
 		var classroomListStore = thisView.down('list').getStore();				
-		classroomListStore.getProxy().setUrl(Xedu.Config.getUrl(Xedu.Config.CLASSROOM_ENROLLED_STUDENTS_SEARCH));
-		classroomListStore.setParams({'classroomid':this.getClassroomid()});
+		classroomListStore.getProxy().setUrl(Xedu.Config.getUrl(Xedu.Config.CLASSROOM_ENROLLED_STUDENTS_SEARCH)+"?classroomid="+this.getClassroomid());		
+//		classroomListStore.setParams({'classroomid':this.getClassroomid()});
 		classroomListStore.load({callback : function(records, operation, success) 
 			                    {				            	
-			                    	thisView.setMasked(false);
+			                    	thisView.setMasked(false);			                    	
 			                    }});		
     },
        
