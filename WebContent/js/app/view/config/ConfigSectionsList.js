@@ -37,6 +37,11 @@ Ext.define('Xedu.view.config.ConfigSectionsList',
 			itemsingletap: function(scope, index, target, record)
 			{        		
 				this.showSectionDetails(record);
+			},
+			show: function(thisView)
+			{
+				console.log("showing config list");
+				thisView.select(0);
 			}
 		}
 		            
@@ -44,6 +49,7 @@ Ext.define('Xedu.view.config.ConfigSectionsList',
     
     showSectionDetails: function(record) 
     {
+    	var HeightOfField = 50;
     	var configGroupFormPanel = Ext.ComponentQuery.query('#config-group-form')[0];
         configGroupFormPanel.removeAll(true);
         var configGroupsData = record.get('configGroups');
@@ -61,27 +67,34 @@ Ext.define('Xedu.view.config.ConfigSectionsList',
       	  var configFieldSet = Ext.create('Ext.form.FieldSet',
       			  							{
 							            		  itemId:'fieldset-'+configGrp.id,
-      		  									title: configGrp.configGroupName,
-							                      instructions: configGrp.footerNote,
-							                      layout:'vbox'
-									        	});
-      	  
-      	  console.log(" adding fieldset = "+configGrp.configGroupName);
-      	  configGroupFormPanel.add(configFieldSet);            	  
+							            		  title: configGrp.configGroupName,
+							                      instructions: configGrp.footerNote,							                      
+							                      layout:
+							                      {
+							                    	type:'vbox',
+							                    	pack:'start'
+							                      }
+									        });
+      	        	  
       	  for (var cfg=0;cfg<configGrp.configs.length;cfg++)
-            {
+          {
       		  var config = configGrp.configs[cfg];
       		  var configTextField = Ext.create('Ext.field.Text',{
 										            	name: config.id,
 										            	label: config.id,
 										            	value: config.configValue,
+										            	height:HeightOfField
 										        	});            	              	  
       		  
-      		  configFieldSet.add(configTextField);            		  
-            }
-      	  
-      	  
-      	  
+      		  var fieldSetHeight = (cfg * HeightOfField) + HeightOfField + 100;
+      		  console.log("height = "+fieldSetHeight);
+    		  configFieldSet.setHeight(fieldSetHeight);
+      		  configFieldSet.add(configTextField);
+      		  
+          }
+      	        	  
+      	  console.log(" adding fieldset = "+configGrp.configGroupName);
+    	  configGroupFormPanel.add(configFieldSet);            	  
       	  
         }
     }

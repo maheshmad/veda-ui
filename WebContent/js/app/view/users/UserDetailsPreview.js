@@ -64,11 +64,8 @@ Ext.define('Xedu.view.users.UserDetailsPreview',
          			show: function(thisView)
          			{
          				thisView.loadUserDetails();
-         			},
-         			hide: function()
-         			{
-         				thisView.removeAllItems();
          			}
+         			
          		}
              
     },

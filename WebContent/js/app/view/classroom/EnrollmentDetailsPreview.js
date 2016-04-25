@@ -7,6 +7,7 @@ Ext.define('Xedu.view.classroom.EnrollmentDetailsPreview',
 				'Xedu.model.EnrollmentModel',
 				'Xedu.view.users.UserDetailsPreview',
 				'Xedu.view.classroom.ClassroomEditForm',
+				'Xedu.view.classroom.EnrollmentEditForm',
 				'Ext.ProgressIndicator'
               ],
     config: 
@@ -17,7 +18,7 @@ Ext.define('Xedu.view.classroom.EnrollmentDetailsPreview',
     	enrollmentId:null,
     	layout:
     	{
-    		type:'vbox',
+    		type:'hbox',
     		pack:'center',
     		align:'stretch'
     	},
@@ -27,15 +28,6 @@ Ext.define('Xedu.view.classroom.EnrollmentDetailsPreview',
     		console.log("initialized");
         },
         items: [               
-//	   			{
-//	   			 	xtype:'user-details-preview',
-//	   			 	flex:1
-//	   			},
-//	   			{
-//	   			 	xtype:'classroom-edit-form',
-//	   			 	flex:1,
-//	   			 	previewOnly:true
-//	   			},
 				{
 	 			    docked: 'bottom',
 	 			    xtype: 'toolbar',
@@ -111,6 +103,10 @@ Ext.define('Xedu.view.classroom.EnrollmentDetailsPreview',
 	                          '</tpl>',
 	                          ]
                   
+	   			},
+	   			{
+	   				xtype:'enrollment-edit-form',
+	   				flex:3
 	   			}],
 	   	listeners:
  		{
@@ -161,7 +157,8 @@ Ext.define('Xedu.view.classroom.EnrollmentDetailsPreview',
 		
 	setEnrollmentRecord: function(enrollmentRecord)
 	{
-		this.down('dataview').setRecord(enrollmentRecord);		
+		this.down('dataview').setRecord(enrollmentRecord);	
+		this.down('enrollment-edit-form').setRecord(enrollmentRecord);	
 	},
 	
 	setUserDetails: function(userRecord)

@@ -140,7 +140,8 @@ Ext.define('Xedu.CommonUtils',
 						                itemId:'overlay-id',
 						                modal: true,
 						                autoDestroy:true,
-						                hideOnMaskTap: false,				                
+						                hideOnMaskTap: false,
+						                showBy:showByItemEl,
 						                showAnimation: 
 						                {
 						                    type: 'popIn',

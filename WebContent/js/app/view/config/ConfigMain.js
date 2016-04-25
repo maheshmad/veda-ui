@@ -20,7 +20,8 @@ Ext.define('Xedu.view.config.ConfigMain',
         items: [           
             {
             	xtype:'container',            	
-            	layout: 'fit',            	
+            	layout: 'fit',
+            	flex:1,
             	items:[
 			            	{
 							    docked: 'top',
@@ -46,10 +47,11 @@ Ext.define('Xedu.view.config.ConfigMain',
             {
             	xtype:'formpanel',
             	itemId:'config-group-form',
+            	flex:4,
+            	height:'100%',
             	layout: 
             	{
-            		type:'vbox',
-            		align:'stretch',
+            		type:'fit',
             		pack:'start'
             	},
             	scrollable: 
@@ -128,12 +130,12 @@ Ext.define('Xedu.view.config.ConfigMain',
 								                            	 
 								                             });
 			                             						    	
-								    }
-								}		
-						    ]
-						}
-            	],
-            	flex:4
+									    }
+									}		
+							    ]
+							}
+						]
+            	
             }
             
         ],
@@ -141,12 +143,7 @@ Ext.define('Xedu.view.config.ConfigMain',
         {        
         	show:function(thisView,opts)
         	{        			
-        		if (thisView.getTopicid())
-        		{
-        			var slidesList = thisView.down('slides-list-panel');        			
-        			slidesList.setTopicid(thisView.getTopicid());
-        			slidesList.loadslideslist();
-        		}
+        		console.log("showing config main");
         	}
 		}	
     }

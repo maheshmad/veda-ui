@@ -84,7 +84,7 @@ Ext.define('Xedu.view.users.UsersList',
 						select: function(scope, record, index, target)
 						{   							
 					    	console.log("select details....");
-							scope.up('users-list-panel').userSelected(record);
+							scope.up('users-list-panel').showUserDetails(record);
 						}
 					 }
 					 
@@ -124,7 +124,7 @@ Ext.define('Xedu.view.users.UsersList',
     /*
      * show user details
      */
-    userSelected: function(record)
+    showUserDetails: function(record)
     {
     	if (this.getCallbackOnSelect())
     	{

@@ -5,6 +5,7 @@ Ext.define('Xedu.view.classroom.EnrolledStudentsList',
 	requires: [		    		    		    
 		    'Xedu.store.SearchStore',
 		    'Ext.plugin.PullRefresh',
+		    'Xedu.view.users.UserSelection',
 		    'Xedu.view.users.UserDetailsPreview',
 		    'Ext.dataview.List'],
     config: 
@@ -36,7 +37,7 @@ Ext.define('Xedu.view.classroom.EnrolledStudentsList',
 									iconCls:'add',
 								    handler: function (but,action,eOpts) 
 								    {
-								    	this.up("enrolled-students-list-panel").createNewClassroom();
+								    	this.up("enrolled-students-list-panel").addNewUser();
 								    }
 								}
 				           ]					    
@@ -114,6 +115,15 @@ Ext.define('Xedu.view.classroom.EnrolledStudentsList',
     viewStudentsInfo: function(id)
     {    	    	    	
     	Xedu.CommonUtils.showOverlay({xtype: 'Xedu.view.users.UserDetailsPreview',userid:id},{title:"Student Info"});    	
+    },
+    
+    /*
+     * add a new user to classroom
+     */
+    addNewUser: function()
+    {
+//    	Xedu.CommonUtils.showOverlay({xtype: 'Xedu.view.users.UserSelection'},{title:"Select student"});
+    	Xedu.app.getController('Main').redirectTo('view/enrollment/user/new/classroom/'+this.getClassroomid());
     }
     
 });

@@ -51,7 +51,11 @@ Ext.define('Xedu.controller.Main',
 //				'view/course/:cid/chapter/:chpid/topic/:topicid':'showSlidesMain',
 				'open/:applid':'openApplicationView',
 				'edit/:applid':'editApplicationInfo',
-				'search/name/:param':'showSearchResults'
+				'search/name/:param':'showSearchResults',
+				/*
+				 * enrollment
+				 */	
+				'view/enrollment/user/:userid/classroom/:classid':'showEnrollmentEditForm',
 			}
 									
 	},
@@ -140,6 +144,14 @@ Ext.define('Xedu.controller.Main',
 		this.getMainViewNavigation().push(navtoview); 
 	},
 	
+	/*
+	 * show enrollment
+	 */
+	showEnrollmentEditForm: function(userid,classid)
+	{
+		var params = {'userid':userid,'classroomid':classid};
+		this.showView('classroom.EnrollmentEditForm',params);
+	},
 	/*
 	 * show user management
 	 */

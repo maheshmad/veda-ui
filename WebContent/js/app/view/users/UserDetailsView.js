@@ -96,8 +96,8 @@ Ext.define('Xedu.view.users.UserDetailsView',
 					layout:
 	                {
 		                   	type:'fit',
-		                   	pack:'center',
-		                   	align:'center'
+//		                   	pack:'center',
+//		                   	align:'center'
 	                },
 	                scrollable : 
 	                {
