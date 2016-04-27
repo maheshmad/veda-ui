@@ -21,6 +21,7 @@ Ext.Loader.addClassPathMappings({
   "Ext.Element-static": "touch/src/dom/Element.static.js",
   "Ext.Element-style": "touch/src/dom/Element.style.js",
   "Ext.Element-traversal": "touch/src/dom/Element.traversal.js",
+  "Ext.cmd": "../../../../Sencha/SenchaCmd6/plugins/src",
   "Ext.core.DomQuery": "touch/src/dom/Query.js",
   "Ext.device.Purchases.Product": "touch/src/device/purchases/Sencha.js",
   "Ext.device.filesystem.DirectoryEntry": "touch/src/device/filesystem/Sencha.js",
@@ -636,17 +637,6 @@ Ext.ClassManager.addNameAlternateMappings({
   "Ext.layout.wrapper.BoxDock": [],
   "Ext.layout.wrapper.Dock": [],
   "Ext.layout.wrapper.Inner": [],
-  "Ext.log.Base": [],
-  "Ext.log.Logger": [],
-  "Ext.log.filter.Filter": [],
-  "Ext.log.filter.Priority": [],
-  "Ext.log.formatter.Default": [],
-  "Ext.log.formatter.Formatter": [],
-  "Ext.log.formatter.Identity": [],
-  "Ext.log.writer.Console": [],
-  "Ext.log.writer.DocumentTitle": [],
-  "Ext.log.writer.Remote": [],
-  "Ext.log.writer.Writer": [],
   "Ext.mixin.Bindable": [],
   "Ext.mixin.Filterable": [],
   "Ext.mixin.Mixin": [],
@@ -771,18 +761,59 @@ Ext.ClassManager.addNameAlternateMappings({
   "Ext.viewport.WindowsPhone": [
     "Ext.viewport.WP"
   ],
+  "Xedu.CommonUtils": [],
   "Xedu.Config": [],
   "Xedu.controller.Main": [],
+  "Xedu.field.DateTextField": [],
+  "Xedu.model.AddressModel": [],
+  "Xedu.model.ChapterModel": [],
+  "Xedu.model.ClassroomModel": [],
+  "Xedu.model.CourseModel": [],
+  "Xedu.model.EnrollmentModel": [],
+  "Xedu.model.SlideModel": [],
+  "Xedu.model.TopicModel": [],
+  "Xedu.model.UserImageInfoModel": [],
+  "Xedu.model.UserModel": [],
   "Xedu.store.ChaptersStore": [],
+  "Xedu.store.ConfigSectionsStore": [],
   "Xedu.store.CoursesStore": [],
+  "Xedu.store.SearchStore": [],
+  "Xedu.store.SlidesListStore": [],
   "Xedu.store.TopicsStore": [],
+  "Xedu.view.ChangePassword": [],
   "Xedu.view.Home": [],
   "Xedu.view.Login": [],
   "Xedu.view.Main": [],
+  "Xedu.view.chapter.ChapterEditForm": [],
   "Xedu.view.chapter.ChaptersList": [],
+  "Xedu.view.classroom.ClassroomEditForm": [],
+  "Xedu.view.classroom.ClassroomMgmtMain": [],
+  "Xedu.view.classroom.ClassroomsList": [],
+  "Xedu.view.classroom.EnrolledStudentsList": [],
+  "Xedu.view.classroom.EnrollmentDetailsPreview": [],
+  "Xedu.view.classroom.EnrollmentEditForm": [],
+  "Xedu.view.config.ConfigMain": [],
+  "Xedu.view.config.ConfigSectionsList": [],
+  "Xedu.view.course.CourseEditForm": [],
+  "Xedu.view.course.CourseMgmtMain": [],
   "Xedu.view.course.CoursesList": [],
   "Xedu.view.main.SideMenu": [],
-  "Xedu.view.topic.TopicsList": []
+  "Xedu.view.slides.ContentUpload": [],
+  "Xedu.view.slides.FreeDrawComponent": [],
+  "Xedu.view.slides.SlideFreeDraw": [],
+  "Xedu.view.slides.SlidesFullViewList": [],
+  "Xedu.view.slides.SlidesList": [],
+  "Xedu.view.slides.SlidesMain": [],
+  "Xedu.view.topic.TopicEditForm": [],
+  "Xedu.view.topic.TopicsList": [],
+  "Xedu.view.users.UserDetailsHeader": [],
+  "Xedu.view.users.UserDetailsPreview": [],
+  "Xedu.view.users.UserDetailsView": [],
+  "Xedu.view.users.UserEnrolledClassesList": [],
+  "Xedu.view.users.UserMgmtMain": [],
+  "Xedu.view.users.UserSelection": [],
+  "Xedu.view.users.UsersList": [],
+  "Xedu.view.users.UsersList2": []
 });
 
 Ext.ClassManager.addNameAliasMappings({
@@ -1587,17 +1618,6 @@ Ext.ClassManager.addNameAliasMappings({
   "Ext.layout.wrapper.BoxDock": [],
   "Ext.layout.wrapper.Dock": [],
   "Ext.layout.wrapper.Inner": [],
-  "Ext.log.Base": [],
-  "Ext.log.Logger": [],
-  "Ext.log.filter.Filter": [],
-  "Ext.log.filter.Priority": [],
-  "Ext.log.formatter.Default": [],
-  "Ext.log.formatter.Formatter": [],
-  "Ext.log.formatter.Identity": [],
-  "Ext.log.writer.Console": [],
-  "Ext.log.writer.DocumentTitle": [],
-  "Ext.log.writer.Remote": [],
-  "Ext.log.writer.Writer": [],
   "Ext.mixin.Bindable": [],
   "Ext.mixin.Filterable": [],
   "Ext.mixin.Mixin": [],
@@ -1738,18 +1758,45 @@ Ext.ClassManager.addNameAliasMappings({
   "Ext.viewport.Ios": [],
   "Ext.viewport.Viewport": [],
   "Ext.viewport.WindowsPhone": [],
+  "Xedu.CommonUtils": [
+    "CommonUtils"
+  ],
   "Xedu.Config": [
     "Config"
   ],
   "Xedu.controller.Main": [],
+  "Xedu.field.DateTextField": [
+    "widget.datetextfield"
+  ],
+  "Xedu.model.AddressModel": [],
+  "Xedu.model.ChapterModel": [],
+  "Xedu.model.ClassroomModel": [],
+  "Xedu.model.CourseModel": [],
+  "Xedu.model.EnrollmentModel": [],
+  "Xedu.model.SlideModel": [],
+  "Xedu.model.TopicModel": [],
+  "Xedu.model.UserImageInfoModel": [],
+  "Xedu.model.UserModel": [],
   "Xedu.store.ChaptersStore": [
     "store.chapters-store"
+  ],
+  "Xedu.store.ConfigSectionsStore": [
+    "store.config-sections-store"
   ],
   "Xedu.store.CoursesStore": [
     "store.courses-store"
   ],
+  "Xedu.store.SearchStore": [
+    "store.search-store"
+  ],
+  "Xedu.store.SlidesListStore": [
+    "store.slides-list-store"
+  ],
   "Xedu.store.TopicsStore": [
     "store.topics-store"
+  ],
+  "Xedu.view.ChangePassword": [
+    "widget.change-pswd-view"
   ],
   "Xedu.view.Home": [
     "widget.home"
@@ -1760,15 +1807,93 @@ Ext.ClassManager.addNameAliasMappings({
   "Xedu.view.Main": [
     "widget.mainview"
   ],
+  "Xedu.view.chapter.ChapterEditForm": [
+    "widget.chapter-edit-form"
+  ],
   "Xedu.view.chapter.ChaptersList": [
-    "widget.courses-list-panel"
+    "widget.chapters-list-panel"
+  ],
+  "Xedu.view.classroom.ClassroomEditForm": [
+    "widget.classroom-edit-form"
+  ],
+  "Xedu.view.classroom.ClassroomMgmtMain": [
+    "widget.classroom-mgmt-main-view"
+  ],
+  "Xedu.view.classroom.ClassroomsList": [
+    "widget.classrooms-list-panel"
+  ],
+  "Xedu.view.classroom.EnrolledStudentsList": [
+    "widget.enrolled-students-list-panel"
+  ],
+  "Xedu.view.classroom.EnrollmentDetailsPreview": [
+    "widget.enrollment-details-preview"
+  ],
+  "Xedu.view.classroom.EnrollmentEditForm": [
+    "widget.enrollment-edit-form"
+  ],
+  "Xedu.view.config.ConfigMain": [
+    "widget.config-main-view"
+  ],
+  "Xedu.view.config.ConfigSectionsList": [
+    "widget.config-sections-list-panel"
+  ],
+  "Xedu.view.course.CourseEditForm": [
+    "widget.course-edit-form"
+  ],
+  "Xedu.view.course.CourseMgmtMain": [
+    "widget.course-mgmt-main-view"
   ],
   "Xedu.view.course.CoursesList": [
     "widget.courses-list-panel"
   ],
   "Xedu.view.main.SideMenu": [],
+  "Xedu.view.slides.ContentUpload": [
+    "widget.content-upload"
+  ],
+  "Xedu.view.slides.FreeDrawComponent": [
+    "widget.slide-draw-component"
+  ],
+  "Xedu.view.slides.SlideFreeDraw": [
+    "widget.slides-free-draw"
+  ],
+  "Xedu.view.slides.SlidesFullViewList": [
+    "widget.slides-fullview-list"
+  ],
+  "Xedu.view.slides.SlidesList": [
+    "widget.slides-list-panel"
+  ],
+  "Xedu.view.slides.SlidesMain": [
+    "widget.slides-main-view"
+  ],
+  "Xedu.view.topic.TopicEditForm": [
+    "widget.topic-edit-form"
+  ],
   "Xedu.view.topic.TopicsList": [
     "widget.topics-list-panel"
+  ],
+  "Xedu.view.users.UserDetailsHeader": [
+    "widget.user-details-header-view"
+  ],
+  "Xedu.view.users.UserDetailsPreview": [
+    "widget.user-details-preview"
+  ],
+  "Xedu.view.users.UserDetailsView": [
+    "widget.user-details-view"
+  ],
+  "Xedu.view.users.UserEnrolledClassesList": [
+    "widget.user-enrolled-classes-list"
+  ],
+  "Xedu.view.users.UserMgmtMain": [
+    "widget.user-mgmt-main-view"
+  ],
+  "Xedu.view.users.UserSelection": [
+    "widget.user-selection-view"
+  ],
+  "Xedu.view.users.UsersList": [
+    "widget.users-list-panel"
+  ],
+  "Xedu.view.users.UsersList2": [
+    "widget.users-list-panel"
   ]
 });
 

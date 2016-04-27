@@ -1,4 +1,4 @@
-Ext.define('Xedu.view.users.UsersList', 
+Ext.define('Xedu.view.users.UsersList2', 
 {
 	extend:'Ext.Panel',
 	xtype:'users-list-panel',	

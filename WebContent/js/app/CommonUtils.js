@@ -88,6 +88,11 @@ Ext.define('Xedu.CommonUtils',
     	var titleOpt = "";
     	var callBackFunction = Ext.emptyFn;
     	var callBackScope = null;
+    	/**
+    	 * @Param closeActionFn:
+    	 * Callback function when close button on the overlay is clicked
+    	 */
+    	var closeActionFn = null;
     	    	
     	if (typeof options != 'undefined')
     	{
@@ -120,6 +125,15 @@ Ext.define('Xedu.CommonUtils',
         			console.error("callmeScope is missing!  Please provide a callback scope");
     		}    		
     		
+    		
+    		if (options.closeActionFn)
+    		{
+    			closeActionFn = options.closeActionFn;
+    			if (options.callbackScope)
+        			callBackScope = options.callbackScope;
+        		else
+        			console.error("callbackScope is missing!  Please provide a callback scope, if you have a closeActionFn is taken");
+    		}
     			
     	}
     	else;
@@ -174,13 +188,13 @@ Ext.define('Xedu.CommonUtils',
 //						                    showPanel
 						                ],
 						                listeners:
-						                {
+						                {						                	
 						                	hide: function()
 						                	{						                		
-						                		if (callBackFunction && typeof(callBackFunction) === "function") 
+						                		if (closeActionFn && typeof(closeActionFn) === "function") 
 										    	{
-						                			console.log("overlay destroyed....calling back");	
-										    		callBackFunction(callBackScope);
+						                			console.log("overlay destroyed....calling back closeActionFn");	
+						                			closeActionFn(callBackScope);
 										    	}
 						                	}
 						                },
@@ -192,6 +206,30 @@ Ext.define('Xedu.CommonUtils',
     	scope.overlay.add(addPanel);
     	addPanel.show();
     },
+    
+    
+    /**
+     * 
+     */
+    showOverlay2: function(showPanel,showByEl)
+    {
+    	try
+    	{
+	    	if (this.overlay) 
+	    		this.overlay.destroy();
+    	}
+    	catch(e)
+    	{
+    		console.log(e);
+    	}
+    	
+    	this.overlay= Ext.Viewport.add(showPanel);
+    	if (showByEl)
+    		this.overlay.showBy(showByEl);
+    	else
+    		this.overlay.show();
+    },
+    
     
     closeOverlay: function(scope)
     {

@@ -19,6 +19,7 @@ Ext.define('Xedu.view.users.UsersList',
          */
         callbackScope: null,
         callbackOnSelect: null,
+        closeOnSelect: true,
         
         layout:
         {
@@ -90,7 +91,15 @@ Ext.define('Xedu.view.users.UsersList',
 					 
         
                }
-        ]        
+        ],
+        listeners:
+        {
+        	show: function(thisView)
+        	{
+        		console.log("showing user list panel....");
+        		thisView.down('list').show();
+        	}
+        }
         
 		            
     },
@@ -151,13 +160,16 @@ Ext.define('Xedu.view.users.UsersList',
     	console.log("handling callback... ");
     	var callbck = this.getCallbackOnSelect();
     	var scope = this.getCallbackScope();
-    	if (callbck)
+    	if (typeof callbck == "function")
     	{
     		if (!scope)
     			console.error("Missing scope inside callbackConfig ");
     		else
-    			scope.onUserSelect(param);
+    			callbck.apply(scope,[param]);
     	}
+    	
+    	if (this.getCloseOnSelect())
+    		this.hide();
     	    	
     },
     

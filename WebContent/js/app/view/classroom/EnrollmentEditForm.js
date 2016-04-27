@@ -9,6 +9,8 @@ Ext.define('Xedu.view.classroom.EnrollmentEditForm',
 					'Ext.field.Select',
 					'Ext.field.DatePicker',
 					'Ext.ProgressIndicator',
+					'Xedu.field.DateTextField',
+					'Xedu.view.users.UsersList',
 					'Xedu.model.EnrollmentModel'
               ],
     config: 
@@ -16,11 +18,26 @@ Ext.define('Xedu.view.classroom.EnrollmentEditForm',
     	fullscreen: false,
     	autoDestroy:true,
     	scrollable:true, 
-    	 /* 
-    	  * previewonly show in a non editable 
-    	  * dataview format
-    	  */
-    	previewOnly:true,
+    	title:'Enroll a new Student',
+    	
+    	/**
+    	 * @cfg {string} classroomid
+    	 * this is used to capture the classroom id
+    	 */
+    	classroomid:null,
+    	/**
+    	 * @cfg {string} userRecordId
+    	 * this is the userid of the student to be enrolled
+    	 */
+    	userRecordId:null,
+    	/**
+    	 * @cfg {Boolean} showPreview
+    	 * this should be used if preview of the enrollment record is supposed to be displayed first
+    	 * Default: false
+    	 * 
+    	 */
+    	showPreview:false,
+    	
     	layout:
     	{
     		type:'fit'
@@ -61,53 +78,50 @@ Ext.define('Xedu.view.classroom.EnrollmentEditForm',
 										    xtype: 'textfield',
 										    name : 'classroomid',
 										    itemId:'classroomid-field-id',
-										    label:"Class ID"
+										    label:"Class ID",
+										    placeHolder:'Please select the class',
 			//							    hidden:true,							   
-			                            },
+			                            },			                    
 			                            {
 										    xtype: 'textfield',
-										    name : 'userId',
-										    itemId:'userid-field-id',
-										    label:"User ID",
+										    name : 'userRecordId',
+										    itemId:'user-record-id-field-id',
+										    label:"User Record Id",
+										    placeHolder:'Please select the user',
 										    listeners:
 										    {
 										    	focus: function( el, event, eOpts )
 										    	{
 										    		
-										    		Xedu.CommonUtils.showOverlay({xtype: 'Xedu.view.users.UserSelection'},
-										    				{
+										    		Xedu.CommonUtils.showOverlay2(
+										    				{	xtype: 'users-list-panel',										    				
 										    					title:"Select student",
-										    					showBy:el,
-										    					width:'45%',
+										    					width:'35%',
 										    					height:'50%',
+										    					modal:true,
+												                autoDestroy:true,
+												                hideOnMaskTap: true,
 										    					callbackScope:el,
 										    					callbackOnSelect: function(id)
 										    					{
-										    						el.setValue(id);
+										    						el.setValue(id);										    						
 										    					}
-										    				});
+										    				},el);
 										    	}
 										    }
 			                            },
 			                            {
-										    xtype: 'textfield',
-										    name : 'id',
+										    xtype: 'datetextfield',
+										    name : 'enrolledOn',
 										    itemId:'enrolledondate-field-id',
-										    label:"Enroll Date"
+										    dateFormat:'Y-m-d',
+										    label:"Enroll Date (YYYY-MM-DD)",
+										    placeHolder:'YYYY-MM-DD',
+										    value:new Date()
+										    
 			//							    hidden:true,							   
 			                            },
-//			                            {
-//										    xtype: 'datepicker',
-//										    name : 'enrolledOn',	
-//										    label: 'Enrolled On',
-//										    height:50,
-////										    destroyPickerOnHide: true,		                        					                        
-//					                        value: new Date(),
-//					                        picker: 
-//					                        {
-//					                            yearFrom: 1990		
-//					                        }
-//			                            }
+			                            
 			                           
 			                            ]
 				   			},
@@ -170,6 +184,7 @@ Ext.define('Xedu.view.classroom.EnrollmentEditForm',
 						                    labelAlign:'left',
 						                    name:'status',
 						                    autoSelect:false,
+						                    placeHolder:'Please select the status',
 						                    options: [
 						                        {text: 'ACTIVE',  value: 'ACTIVE'},
 						                        {text: 'SUSPENDED', value: 'SUSPENDED'},
@@ -219,9 +234,10 @@ Ext.define('Xedu.view.classroom.EnrollmentEditForm',
 	   			],
 	   	listeners:
 	   	{
-	   		show:function()
+	   		show:function(thisView)
 	   		{
 	   			console.log("showing enrollment edit form");
+	   			thisView.setDataToForm();
 	   		}
 	   	}
     },
@@ -239,6 +255,12 @@ Ext.define('Xedu.view.classroom.EnrollmentEditForm',
 //    	useridTextField.setValue(id);		
 //    },
     
+    setDataToForm: function()
+    {
+    	this.down('#classroomid-field-id').setValue(this.getClassroomid());
+    	if (this.getUserRecordId() != 'new')
+    		this.down('#user-record-id-field-id').setValue(this.getUserRecordId());
+    },
     
     /*
      * upload form
@@ -248,7 +270,7 @@ Ext.define('Xedu.view.classroom.EnrollmentEditForm',
 		var enrollmentForm = this;
     	var fields = enrollmentForm.getFields();
 		var id = fields['id'].getValue();
-    	var restUrl = Xedu.Config.getUrl(Xedu.Config.CLASSROOM_API);
+    	var restUrl = Xedu.Config.getUrl(Xedu.Config.ENROLLMENT_API);
     	var restMethod = "POST";
     	if (id && id != "")
     	{
@@ -281,7 +303,7 @@ Ext.define('Xedu.view.classroom.EnrollmentEditForm',
 				},
 				failure: function(form, response) 
 				{
-                    Xedu.CommonUtils.checkServiceError(resp);
+                    Xedu.CommonUtils.checkServiceError(response);
 				}
 		});
     	

@@ -55,7 +55,8 @@ Ext.define('Xedu.controller.Main',
 				/*
 				 * enrollment
 				 */	
-				'view/enrollment/user/:userid/classroom/:classid':'showEnrollmentEditForm',
+				'view/enrollment/user/:userrecordid/classroom/:classid':'showEnrollmentEditForm',
+				'edit/enrollment/:enrollmentid':'showEnrollmentEditForm',
 			}
 									
 	},
@@ -147,9 +148,12 @@ Ext.define('Xedu.controller.Main',
 	/*
 	 * show enrollment
 	 */
-	showEnrollmentEditForm: function(userid,classid)
+	showEnrollmentEditForm: function(id1,id2)
 	{
-		var params = {'userid':userid,'classroomid':classid};
+		var params = {};
+		if (!id2)
+			var params = {'userRecordId':userRecordId,'classroomid':classid};
+		var params = {'userRecordId':userRecordId,'classroomid':classid};
 		this.showView('classroom.EnrollmentEditForm',params);
 	},
 	/*

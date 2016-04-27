@@ -64,6 +64,7 @@ Ext.application({
         'Xedu.CommonUtils',
         'Xedu.view.Home',
         'Xedu.controller.Main',
+        'Xedu.field.DateTextField',
         'Xedu.view.main.SideMenu',
         'Ext.data.proxy.Rest' ],
     

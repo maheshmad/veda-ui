@@ -53,7 +53,7 @@ Ext.define('Xedu.view.classroom.EnrollmentDetailsPreview',
 	 					{
 	 						xtype:'button',
 	 						ui:'decline',
-	 						text:'Remove user',
+	 						text:'Edit',
 	 					    itemId: 'unEnrollButton',						            
 	 					    handler: function (but,action,eOpts) 
 	 					    {
@@ -79,6 +79,8 @@ Ext.define('Xedu.view.classroom.EnrollmentDetailsPreview',
 		                      '<p><b>end date :</b> {endDate}</p>',
 		                      '<p><b>status :</b> {status}</p>',
 	                          '<p><b>Last updated by :</b> {updatedBy} <b>on:</b> {lastUpdatedDateTime}</p>',
+	                          '<h1>STUDENT INFO:</h1>',
+	                          '<h1>---------------------------------------------------------------------------</h1>',
 	                          '<tpl for="student" >',
 	                          '		<h1><b>id:</b> {id},{id}</h1>',
 	                          '		<p><b>userId :</b> {userId}</p>',
@@ -94,6 +96,8 @@ Ext.define('Xedu.view.classroom.EnrollmentDetailsPreview',
 	                          '		<p><b>Office phone :</b> {officephone} - Ext: {officephoneExt} </p>',	                          
 	                          '		<p><b>Last updated by :</b> {updatedBy} <b>on:</b> {lastUpdatedDateTime}</p>',
 	                          '</tpl>',
+	                          '<h1>CLASSROOM INFO:</h1>',
+	                          '<h1>---------------------------------------------------------------------------</h1>',
 	                          '<tpl for="classroom" >',
 	                          '		<h1><b>id:</b> {id},{id}</h1>',
 	                          '		<p><b>name :</b> {name}</p>',
@@ -103,11 +107,8 @@ Ext.define('Xedu.view.classroom.EnrollmentDetailsPreview',
 	                          '</tpl>',
 	                          ]
                   
-	   			},
-	   			{
-	   				xtype:'enrollment-edit-form',
-	   				flex:3
-	   			}],
+	   			}
+	   			],
 	   	listeners:
  		{
  			show: function(thisView)
@@ -158,7 +159,7 @@ Ext.define('Xedu.view.classroom.EnrollmentDetailsPreview',
 	setEnrollmentRecord: function(enrollmentRecord)
 	{
 		this.down('dataview').setRecord(enrollmentRecord);	
-		this.down('enrollment-edit-form').setRecord(enrollmentRecord);	
+//		this.down('enrollment-edit-form').setRecord(enrollmentRecord);	
 	},
 	
 	setUserDetails: function(userRecord)
@@ -169,47 +170,50 @@ Ext.define('Xedu.view.classroom.EnrollmentDetailsPreview',
 	/**
 	 * 
 	 */
-	unEnrollFromClass: function()
+	editEnrollment: function()
 	{		
     	var id = this.getEnrollmentId();
 		if (id && id != '' )
     	{
     		Ext.Msg.alert("Not allowed","Operation not available!");
     	}
-    	var me = this;
-    	var progressIndicator = Ext.create("Ext.ProgressIndicator");
-    	Ext.Msg.confirm("Un-Enroll from classroom?", 
-    				"Are you sure you want to remove user from classroom?", 
-			    	function(btn)
-			    	{
-			    		if (btn == 'yes')
-			    		{
-			    			var progressIndicator = Ext.create("Ext.ProgressIndicator");
-			    			Ext.Ajax.request({
-		    	                            	 url:Xedu.Config.getUrl(Xedu.Config.ENROLLMENT_API)+id,
-		    	                            	 method:'DELETE',
-		    	                            	 progress: progressIndicator,	
-		    	                                 success: function (resp)
-		    	                                 {	                                    			    	                                     
-		    	                                	 var response = Ext.JSON.decode(resp.responseText);			 
-		    	                                	 Ext.Msg.alert(response.status,response.msg, function()
-		    	                                			 {
-				    	                                		 var enrolledStudentsListPanel = Ext.ComponentQuery.query("enrolled-students-list-panel list");
-				    	                                    	 if (enrolledStudentsListPanel && enrolledStudentsListPanel[0])
-				    	                                    		 enrolledStudentsListPanel[0].getStore().load();	
-				    	                                    	 
-				    	                                    	 me.down("unEnrollButton").setHidden(true);
-		    	                                			 });		    	                                	   	                                    	 		    	                                    
-		    	                                 },
-		    	                                 failure: function (el,resp,p) 
-		    	                                 {			                                    			    	                                   	                                    
-		    	                                     Xedu.CommonUtils.checkServiceError(resp);
-		    	                                 }
-		    	                                 
-		    	                            	 
-		    	                             });
-			    		}
-			    	});
+		
+   	 	Xedu.app.getController('Main').redirectTo('edit/enrollment/'+id);
+				
+//    	var me = this;
+//    	var progressIndicator = Ext.create("Ext.ProgressIndicator");
+//    	Ext.Msg.confirm("Un-Enroll from classroom?", 
+//    				"Are you sure you want to remove user from classroom?", 
+//			    	function(btn)
+//			    	{
+//			    		if (btn == 'yes')
+//			    		{
+//			    			var progressIndicator = Ext.create("Ext.ProgressIndicator");
+//			    			Ext.Ajax.request({
+//		    	                            	 url:Xedu.Config.getUrl(Xedu.Config.ENROLLMENT_API)+id,
+//		    	                            	 method:'DELETE',
+//		    	                            	 progress: progressIndicator,	
+//		    	                                 success: function (resp)
+//		    	                                 {	                                    			    	                                     
+//		    	                                	 var response = Ext.JSON.decode(resp.responseText);			 
+//		    	                                	 Ext.Msg.alert(response.status,response.msg, function()
+//		    	                                			 {
+//				    	                                		 var enrolledStudentsListPanel = Ext.ComponentQuery.query("enrolled-students-list-panel list");
+//				    	                                    	 if (enrolledStudentsListPanel && enrolledStudentsListPanel[0])
+//				    	                                    		 enrolledStudentsListPanel[0].getStore().load();	
+//				    	                                    	 
+//				    	                                    	 me.down("unEnrollButton").setHidden(true);
+//		    	                                			 });		    	                                	   	                                    	 		    	                                    
+//		    	                                 },
+//		    	                                 failure: function (el,resp,p) 
+//		    	                                 {			                                    			    	                                   	                                    
+//		    	                                     Xedu.CommonUtils.checkServiceError(resp);
+//		    	                                 }
+//		    	                                 
+//		    	                            	 
+//		    	                             });
+//			    		}
+//			    	});
     	    	
     		
 	},
@@ -217,20 +221,7 @@ Ext.define('Xedu.view.classroom.EnrollmentDetailsPreview',
 	setClassroomDetails: function(classroomRecord)
 	{
 		this.down('classroom-edit-form').down('dataview').setRecord(classroomRecord);		
-	},
-	
-	clearPanel: function()
-	{
-		this.reset();
-		this.down("#user-profile-image-id").setSrc('resources/icons/user_profilex128.png');	
-	},
-    
-	removeAllItems: function()
-	{
-		console.log("removing all items");
-		this.down('dataview').destroy();
 	}
-    
-    
+	
     
 });
