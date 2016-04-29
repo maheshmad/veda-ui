@@ -151,9 +151,11 @@ Ext.define('Xedu.controller.Main',
 	showEnrollmentEditForm: function(id1,id2)
 	{
 		var params = {};
-		if (!id2)
-			var params = {'userRecordId':userRecordId,'classroomid':classid};
-		var params = {'userRecordId':userRecordId,'classroomid':classid};
+		console.log(" param 1 = "+id1+" param 2 "+id2);
+		if (id2)
+			params = {'userRecordId':id1,'classroomid':id2};
+		else
+			params = {'enrollmentid':id1};
 		this.showView('classroom.EnrollmentEditForm',params);
 	},
 	/*

@@ -5,6 +5,7 @@ Ext.define('Xedu.model.UserModel',
     {	    
     	fields: [
 				{name:'id', type:'string'},
+				{name:'userRecordId', type:'string'},
 				{name:'userId', type:'string'},
 				{name:'emailId', type:'string'},
 				{name:'userPswd', type:'string'},

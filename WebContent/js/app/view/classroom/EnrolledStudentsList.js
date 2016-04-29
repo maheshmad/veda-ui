@@ -78,7 +78,7 @@ Ext.define('Xedu.view.classroom.EnrolledStudentsList',
 						{        		
 							console.log("tapped student");
 //			           	 	Xedu.app.getController('Main').redirectTo('view/user/'+record.data.recordId+"/main");
-							scope.up('enrolled-students-list-panel').viewEnrollmentInfo(record.data.recordId);
+							scope.up('enrolled-students-list-panel').viewEnrollmentInfo(record, target);
 						}
 					}
                }],
@@ -112,9 +112,19 @@ Ext.define('Xedu.view.classroom.EnrolledStudentsList',
     /*
      * show user details preview
      */    
-    viewEnrollmentInfo: function(id)
+    viewEnrollmentInfo: function(record,target)
     {    	    	    	
-    	Xedu.CommonUtils.showOverlay({xtype: 'Xedu.view.classroom.EnrollmentDetailsPreview',enrollmentId:id},{title:"Enrollment Info"});    	
+    	Xedu.CommonUtils.showOverlay2({
+    									xtype: 'enrollment-details-preview',
+    									enrollmentid:record.data.id,
+    									title:record.data.title,
+				    					modal:true,
+						                autoDestroy:true,
+						                hideOnMaskTap: true,
+    									width:'50%',
+    									height:'65%',
+    									title:"Enrollment Info"
+    								},target);    	
     },
     
     /*

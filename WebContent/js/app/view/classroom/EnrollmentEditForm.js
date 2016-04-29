@@ -21,6 +21,11 @@ Ext.define('Xedu.view.classroom.EnrollmentEditForm',
     	title:'Enroll a new Student',
     	
     	/**
+    	 * @cfg {string} enrollmentid
+    	 * this is used to capture the enrollment id
+    	 */
+    	enrollmentid:null,
+    	/**
     	 * @cfg {string} classroomid
     	 * this is used to capture the classroom id
     	 */
@@ -182,13 +187,13 @@ Ext.define('Xedu.view.classroom.EnrollmentEditForm',
 						                    xtype: 'selectfield',
 						                    label: 'Status',
 						                    labelAlign:'left',
-						                    name:'status',
+						                    name:'enrollStatus',
 						                    autoSelect:false,
 						                    placeHolder:'Please select the status',
 						                    options: [
 						                        {text: 'ACTIVE',  value: 'ACTIVE'},
 						                        {text: 'SUSPENDED', value: 'SUSPENDED'},
-						                        {text: 'INACTIVE', value: 'INACTIVE'},
+						                        {text: 'CLOSED', value: 'CLOSED'},
 						                    ]
 						                }
 							   		]
@@ -222,7 +227,7 @@ Ext.define('Xedu.view.classroom.EnrollmentEditForm',
 	 						ui:'decline',
 	 						text:'Delete',
 	 						hidden:true,
-	 					    itemId: 'unEnrollButton',						            
+	 					    itemId: 'editEnrollButton',						            
 	 					    handler: function (but,action,eOpts) 
 	 					    {
 	 					    	this.up('enrollment-edit-form').deleteEnrollment();			                 						    	
@@ -257,10 +262,51 @@ Ext.define('Xedu.view.classroom.EnrollmentEditForm',
     
     setDataToForm: function()
     {
+    	this.down('#enrollmentid-field-id').setValue(this.getEnrollmentid());
     	this.down('#classroomid-field-id').setValue(this.getClassroomid());
     	if (this.getUserRecordId() != 'new')
     		this.down('#user-record-id-field-id').setValue(this.getUserRecordId());
+    	
+    	this.loadEnrollmentDetails();
     },
+    
+    /*
+     * load the 
+     */
+    loadEnrollmentDetails: function()
+    {
+    	console.log("about to load enrollment info id ="+this.getEnrollmentid());
+    	if (this.getEnrollmentid() == null || this.getEnrollmentid() == '')
+    		return;
+    	
+    	me = this;
+    	var progressIndicator = Ext.create("Ext.ProgressIndicator");
+    	Ext.Ajax.request({
+    						url:Xedu.Config.getUrl(Xedu.Config.ENROLLMENT_API)+me.getEnrollmentid(),
+				            method: 'GET',
+				            headers: { 'Content-Type': 'application/json' },	
+							progress: progressIndicator,				
+				            success: function(response, conn, options, eOpts) 
+				            {
+				                var result = Ext.JSON.decode(response.responseText);			    		    	
+				                /*
+				                 * use the json to create records.
+				                 */
+				                var enrollmentRecord = Ext.create('Xedu.model.EnrollmentModel', result.enrollment);
+				                
+				                /*
+				                 * set the data 
+				                 */				                					                			    		    
+				                me.setRecord(enrollmentRecord);
+				                
+				            },
+				            failure: function(conn, response, options, eOpts) 
+				            {
+				            	Xedu.CommonUtils.checkServiceError(resp);
+				            }
+				        });
+    			
+	},
     
     /*
      * upload form
@@ -295,7 +341,7 @@ Ext.define('Xedu.view.classroom.EnrollmentEditForm',
 	                   	  */
                     	Ext.Msg.alert("SUCCESS",response.msg);
                     	var enrollmentlistpanel = Ext.ComponentQuery.query("enrollments-list-panel list");
-                    	enrollmentForm.reset();
+//                    	enrollmentForm.reset();
                     	if (enrollmentlistpanel && enrollmentlistpanel[0])
                     		enrollmentlistpanel[0].getStore().load();
                     } 
