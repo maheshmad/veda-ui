@@ -74,7 +74,7 @@ Ext.define('Xedu.view.Login',
 	                          action:'login',
 	                    	  handler: function(btn)
 		                      {	                    		 
-	                    		  Ext.ComponentQuery.query('loginview')[0].login();		                             		                      
+	                    		  this.up("loginview").login();		                             		                      
 		                      }/* handler */
                         
                          },
@@ -87,7 +87,7 @@ Ext.define('Xedu.view.Login',
 	                          width: '20%',
 	                    	  handler: function(btn)
 		                      {	                    		 
-	                    		  Ext.ComponentQuery.query('loginview')[0].changePassword();		                             		                      
+	                    		  this.up("loginview").forgotPassword();		                             		                      
 		                      }/* handler */
                        
                          }	
@@ -206,12 +206,47 @@ Ext.define('Xedu.view.Login',
      /*
       * change password
       */
-     changePassword: function()
+     forgotPassword: function()
      {
-    	 var cntrller = Xedu.app.getController('Main');
-    	 cntrller.redirectTo('update/password/12121231212');
+    	 var me = this;
+         var authUrl = Xedu.Config.getUrl(Xedu.Config.AUTH_FORGOT_PASSWORD_SERVICE);
+        
+         Ext.Msg.prompt("Reset Password",
+        		 		"Please provide your account email address",
+        		 		function(but,val)
+        		 		{
+        	 				console.log("resetting password for email ="+val);
+        	 				if (but == "ok")
+        	 				{
+	        	 				
+	        	 				Ext.Viewport.mask({msg:"Resetting your password"});
+	        	 				var me = this;
+	        	 		        Ext.Ajax.request(
+	        	 		        {
+	        	 		             url: authUrl,
+	        	 		             method: 'POST',
+	        	 		             params: 
+	        	 		             {
+	        	 		                 email:val
+	        	 		             },                       
+	        	 		             callback: function(opts, success, response) 
+	        	 		             {	        	 		                                     	
+	        	 		            	Ext.Viewport.setMasked(false);
+	        	 		            	Xedu.CommonUtils.checkServiceError(response);
+	        	 		            	var srvRespse = Ext.JSON.decode(response.responseText);
+	        	 		            	Ext.Msg.alert(srvRespse.status,srvRespse.msg,Ext.emptyFn);
+	        	 		             }
+	        	 		         });
+        	 				}
+        	 
+         				});
+         
+         
+    	 
      
-     }             	
+     },
+     
+     
      	
 	 
 });

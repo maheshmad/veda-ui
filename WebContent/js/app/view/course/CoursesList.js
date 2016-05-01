@@ -1,4 +1,5 @@
-Ext.define('Xedu.view.course.CoursesList', {
+Ext.define('Xedu.view.course.CoursesList', 
+{
 	extend:'Ext.Panel',
 	xtype:'courses-list-panel',	
 	requires: [		    		    		    

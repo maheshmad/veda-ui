@@ -23,13 +23,15 @@ Ext.define('Xedu.view.classroom.ClassroomEditForm',
     	previewOnly:true,
     	layout:
     	{
-    		type:'vbox'
+    		type:'vbox',
+    		pack:'start'
     	},    	
         items: [
                 {                	
 	               	xtype:'dataview',
 	               	itemId:'preview-classroom-details-id',
 	               	autoDestroy:true,
+	               	hidden:true,
 	               	flex:1,
 	               	store:
 	               	{
@@ -52,7 +54,7 @@ Ext.define('Xedu.view.classroom.ClassroomEditForm',
 	            	},   
 	                items:[{
 			                    xtype:'fieldset',
-			                    flex:4,	
+			                    height:	170,		                    
 			                    layout:
 			                    {
 			                    	type:'vbox',
@@ -60,14 +62,15 @@ Ext.define('Xedu.view.classroom.ClassroomEditForm',
 			                    },
 			                    defaults:
 			                    {
-			                    	labelAlign:'top'
+//			                    	labelAlign:'left',
+			                    	height:50,
 			                    },
 			                    items:[
 			                           {
 										    xtype: 'textfield',
 										    name : 'id',
-										    label:"ID"
-			//							    hidden:true,							   
+										    label:"ID",
+										    hidden:true,							   
 			                            },
 			                            {
 										    xtype: 'textfield',
@@ -172,13 +175,13 @@ Ext.define('Xedu.view.classroom.ClassroomEditForm',
     	{    		
     		this.down('#preview-classroom-details-id').setHidden(false);
     		this.down('#classroom-form-container-id').setHidden(true);
-    		this.down('toolbar').setHidden(true);
+//    		this.down('toolbar').setHidden(true);    		
     	}
     	else
     	{
     		this.down('#preview-classroom-details-id').setHidden(true);
     		this.down('#classroom-form-container-id').setHidden(false);
-    		this.down('toolbar').setHidden(false);
+//    		this.down('toolbar').setHidden(false);
     	}
     },
     

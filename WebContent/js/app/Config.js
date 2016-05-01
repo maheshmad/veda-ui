@@ -17,6 +17,7 @@ Ext.define('Xedu.Config',
 		 * security 
 		 */
 		AUTH_SERVICE:'/api/auth/login',
+		AUTH_FORGOT_PASSWORD_SERVICE:'/api/auth/forgotpassword',
          
 		/*
 		 * course

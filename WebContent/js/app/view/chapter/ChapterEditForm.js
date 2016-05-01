@@ -161,30 +161,30 @@ Ext.define('Xedu.view.chapter.ChapterEditForm',
     	console.log("Loading chapter id ="+id);
     	var progressIndicator = Ext.create("Ext.ProgressIndicator");
     	Ext.Ajax.request({
-			url:Xedu.Config.getUrl(Xedu.Config.CHAPTER_API)+id,
-            method: 'GET',
-            progress: progressIndicator,			
-            headers: { 'Content-Type': 'application/json' },				            
-            success: function(response, conn, options, eOpts) 
-            {
-                var result = Ext.JSON.decode(response.responseText);
-		    	
-                /*
-                 * use the json to create records.
-                 */
-                var chapterRecord = Ext.create('Xedu.model.ChapterModel', result.chapter);
-                /*
-                 * set the data 
-                 */
-                chapterDetailsForm.setRecord(chapterRecord);
-                chapterDetailsForm.down("#deleteChangesButton").setHidden(false);
-
-		    	
-            },
-            failure: function(conn, response, options, eOpts) 
-            {
-            	Xedu.CommonUtils.checkServiceError(resp);
-            }
+							url:Xedu.Config.getUrl(Xedu.Config.CHAPTER_API)+id,
+				            method: 'GET',
+				            progress: progressIndicator,			
+				            headers: { 'Content-Type': 'application/json' },				            
+				            success: function(response, conn, options, eOpts) 
+				            {
+				                var result = Ext.JSON.decode(response.responseText);
+						    	
+				                /*
+				                 * use the json to create records.
+				                 */
+				                var chapterRecord = Ext.create('Xedu.model.ChapterModel', result.chapter);
+				                /*
+				                 * set the data 
+				                 */
+				                chapterDetailsForm.setRecord(chapterRecord);
+				                chapterDetailsForm.down("#deleteChangesButton").setHidden(false);
+				
+						    	
+				            },
+				            failure: function(conn, response, options, eOpts) 
+				            {
+				            	Xedu.CommonUtils.checkServiceError(resp);
+				            }
         });
     },
     

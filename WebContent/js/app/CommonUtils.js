@@ -20,8 +20,10 @@ Ext.define('Xedu.CommonUtils',
     		
     		Ext.Msg.alert("Errors",msg,Ext.emptyFn);
     	}
-    	else if (response && (response.status || response.msg))
-    		console.log("response status = "+response.status+", msg= "+response.msg)
+    	else if (response && (response.status || response.msg) && isNaN(response.status))
+    	{
+    		console.log("response status = "+response.status+", msg= "+response.msg)    		
+    	}
     	else	
     		this._checkHTTPOperation(response);
     },
@@ -50,7 +52,12 @@ Ext.define('Xedu.CommonUtils',
 	    	        showTitle = "UNAUTHORIZED";
 	    	        showIconCls = "error-unauth-icon-cls";
 	    	        break;
-	    	    case 405:
+    			case 404:
+	    	    	showMsg = "Sorry! The server could not be reached! Please try after sometime or contact support! ";	    	        
+	    	        showTitle = "Server error!";
+	    	        showIconCls = "error-unauth-icon-cls";
+	    	        break;
+    			case 405:
 	    	    	showMsg = "Sorry! This operation is not valid! Please check again! ";	    	        
 	    	        showTitle = "NOT ALLOWED";
 	    	        showIconCls = "error-unauth-icon-cls";
