@@ -309,7 +309,7 @@ Ext.define('Xedu.view.users.UserDetailsView',
 				                 */
 				                userDetailsFormPanel.setRecord(userRecord);		
 				                /* enrolled classes */
-				                userEnrolledClassesPanel.setUserid(result.user.userId);
+				                userEnrolledClassesPanel.setUserid(result.user.id);
 				                userEnrolledClassesPanel.loadEnrolledClasses();
 				                /* header panel */
 				                if (userDetailsHeaderFormPanel)

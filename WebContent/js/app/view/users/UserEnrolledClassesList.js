@@ -72,7 +72,7 @@ Ext.define('Xedu.view.users.UserEnrolledClassesList',
 						{        		
 							console.log("tapped class");
 //			           	 	Xedu.app.getController('Main').redirectTo('view/user/'+record.data.recordId+"/main");
-							scope.up('user-enrolled-classes-list').viewEnrollmentInfo(record.data.recordId);
+							scope.up('user-enrolled-classes-list').viewEnrollmentInfo(record,target);
 						}
 					}
                }]
@@ -90,7 +90,7 @@ Ext.define('Xedu.view.users.UserEnrolledClassesList',
     	thisView.setMasked({msg:"Loading classrooms..."});
 		var classroomListStore = thisView.down('list').getStore();				
 		classroomListStore.getProxy().setUrl(Xedu.Config.getUrl(Xedu.Config.STUDENT_ENROLLED_CLASSES_SEARCH));
-		classroomListStore.setParams({'userid':this.getUserid()});
+		classroomListStore.setParams({'urecid':this.getUserid()});
 		classroomListStore.load({callback : function(records, operation, success) 
 			                    {				            	
 			                    	thisView.setMasked(false);
@@ -100,10 +100,19 @@ Ext.define('Xedu.view.users.UserEnrolledClassesList',
     /*
      * show user details preview
      */    
-    viewEnrollmentInfo: function(id)
+    viewEnrollmentInfo: function(record,target)
     {    	    	    	
-    	Xedu.CommonUtils.showOverlay({xtype: 'Xedu.view.classroom.EnrollmentDetailsPreview',enrollmentId:id},
-    			{title:"Enrollment Info",callBackFunction:this.loadEnrolledClasses,callBackScope:this});    	
+    	Xedu.CommonUtils.showOverlay2({
+											xtype: 'enrollment-details-preview',
+											enrollmentid:record.data.id,
+											title:record.data.title,
+											modal:true,
+								            autoDestroy:true,
+								            hideOnMaskTap: true,
+											width:'50%',
+											height:'65%',
+											title:"Enrollment Info"
+										},target);    		
     },
     
     unEnrollFromClass: function(enrollid)
