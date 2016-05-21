@@ -2,30 +2,39 @@ Ext.define('Xedu.view.Home',
 {
     extend: 'Ext.Panel',
     xtype: 'home',
-    requires:[],
+    requires:['Xedu.view.users.StudentDashBoard'],
     config: 
     {    	
     	title: 'Home',
-    	fullscreen: true,
-    	layout: 'vbox',
-    	autoDestroy:true,
-    	defaults:{
+    	fullscreen: false,
+    	layout: 
+    	{
+    		type:'hbox',
+    		pack:'center',
+    		align:'stretch'
+    	},
+    	defaults:
+    	{
     		flex:1            
         },
-        items: [           
-            {
-            	xtype:'container',
-                layout: 'hbox',
-                defaults: {
-                    flex: 1
-                },        
-                items:[                		
-                		{
-                			xtype:'panel',
-                			html:"<h1> This is home!!!!!!!!!</h1>"
-                		}
-                	]                              
-            }
-        ]
+        items: [                                      		
+            		{
+            			xtype:'student-dashboard-view',
+            			bodyStyle:'background-color="yellow"'
+            		},
+            		{
+            			xtype:'panel',
+            			html:'something else cool',
+            			bodyStyle:'background-color="red"'
+            		}
+            	],
+        listeners:
+        {
+        	show:function()
+        	{
+        		this.down('student-dashboard-view').show();
+        	}
+        }
+            
     }
 });

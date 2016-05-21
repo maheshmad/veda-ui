@@ -3,14 +3,27 @@ Ext.define('Xedu.view.slides.SlidesMain',
     extend: 'Ext.Container',
     xtype: 'slides-main-view',
     requires:['Xedu.view.slides.SlidesList',
+              'Xedu.view.slides.SlidesFullView',
               'Xedu.view.slides.FreeDrawComponent',
               'Xedu.view.slides.SlidesFullViewList'],
     config: 
     {    	
-    	title: 'Topic Contents',
+    	title: 'Slides Contents',
     	fullscreen: false,
     	layout: 'hbox',
-    	topicid: null,	      	
+    	/**
+    	 * @cfg topicid
+    	 */
+    	topicid: null,	 
+    	
+    	/**
+    	 * @cfg classroomSessionMode
+    	 * 
+    	 * Default is true
+    	 * this indicator will be used to show slides in a session mode, when the teacher is giving a lecture.
+    	 */
+    	classroomSessionMode:true,
+    	
     	autoDestroy:true,
     	defaults:
     	{
@@ -85,7 +98,7 @@ Ext.define('Xedu.view.slides.SlidesMain',
 								{
 									xtype:'button',
 									iconCls:'compose',
-								    id: 'whiteboardButton',						            
+								    itemId: 'whiteboardButton',						            
 								    handler: function (but) 
 								    {
 								    	var slidesfullview = Ext.ComponentQuery.query('slides-fullview-list')[0];
@@ -95,7 +108,7 @@ Ext.define('Xedu.view.slides.SlidesMain',
 						        {
 						        	xtype:'button',
 						        	iconCls:'refresh',
-						            id: 'undoButton',						            
+						            itemId: 'undoButton',						            
 						            handler: function () 
 						            {
 		                                var draw = Ext.ComponentQuery.query('slide-draw-component')[0];
@@ -105,8 +118,11 @@ Ext.define('Xedu.view.slides.SlidesMain',
 						        	
 						    ]
 						},
+//						{
+//							xtype:'slides-fullview-list',
+//						},
 						{
-							xtype:'slides-fullview-list',
+							xtype:'slides-fullview',
 						},
 						{
 		                    xtype: 'slide-draw-component',		                                  

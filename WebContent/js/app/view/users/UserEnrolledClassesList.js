@@ -9,8 +9,23 @@ Ext.define('Xedu.view.users.UserEnrolledClassesList',
 		    'Ext.dataview.List'],
     config: 
     {
-        layout:'fit',
+        layout:
+        {
+        	type:'fit'        	
+        },
+        /**
+         * @cfg userid
+         * userid of the student 
+         */
         userid:null,
+        /**
+         * @cfg editMode
+         * editMode will allow the user to select the class to make changes. Otherwise
+         * when the user clicks on the link , It will join him to the class.
+         * Default: false
+         */
+        editMode:false,
+        
     	items:[
         	   {
 				    docked: 'top',
@@ -20,7 +35,8 @@ Ext.define('Xedu.view.users.UserEnrolledClassesList',
 				    layout:
 				    {
 				    	type:'hbox',
-				    	pack:'right'
+				    	pack:'right',
+				    	align:'stretch'
 				    },
 				    defaults:
 				    {
@@ -72,7 +88,10 @@ Ext.define('Xedu.view.users.UserEnrolledClassesList',
 						{        		
 							console.log("tapped class");
 //			           	 	Xedu.app.getController('Main').redirectTo('view/user/'+record.data.recordId+"/main");
-							scope.up('user-enrolled-classes-list').viewEnrollmentInfo(record,target);
+							if (scope.up('user-enrolled-classes-list').getEditMode())
+								scope.up('user-enrolled-classes-list').viewEnrollmentInfo(record,target);
+							else
+								scope.up('user-enrolled-classes-list').joinClassroomSession(record);
 						}
 					}
                }]
@@ -96,7 +115,17 @@ Ext.define('Xedu.view.users.UserEnrolledClassesList',
 			                    	thisView.setMasked(false);
 			                    }});		
     },
-       
+    
+    /**
+     * @method
+     */
+    joinClassroomSession: function(record)
+    {
+   	 	Xedu.app.getController('Main').redirectTo('join/classroom/session/'+record.data.recordId);
+   	 	
+    },
+    
+    
     /*
      * show user details preview
      */    
@@ -115,6 +144,9 @@ Ext.define('Xedu.view.users.UserEnrolledClassesList',
 										},target);    		
     },
     
+    /**
+     * 
+     */
     unEnrollFromClass: function(enrollid)
     {
     	thisView.setMasked({msg:"Un-enrolling user = "+this.getUserid()+"... Please wait"});

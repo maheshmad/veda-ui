@@ -1,15 +1,25 @@
 Ext.define('Xedu.view.course.CoursesList', 
 {
 	extend:'Ext.Panel',
-	xtype:'courses-list-panel',	
+	xtype:'courses-list-panel',
 	requires: [		    		    		    
 		    'Xedu.store.CoursesStore',
 		    'Ext.plugin.PullRefresh',
 		    'Xedu.view.course.CourseEditForm',
 		    'Ext.dataview.List'],
     config: 
-    {
-        layout:'fit',
+    {        
+        /*
+         * callback options
+         */
+        callbackScope: null,
+        callbackOnSelect: null,
+        closeOnSelect: true,
+        layout:
+        {
+        	type:'vbox',
+        	pack:'start'
+        },
     	items:[
         	   {
 				    docked: 'top',
@@ -26,10 +36,7 @@ Ext.define('Xedu.view.course.CoursesList',
 				    	ui:'plain'
 				    },
 				    items:[							           
-								{
-									   xtype:'searchfield',
-									   name:'searchcourses'
-								},
+								
 								{
 									xtype:'button',
 									iconCls:'add',
@@ -40,12 +47,27 @@ Ext.define('Xedu.view.course.CoursesList',
 								}
 				           ]					    
                },
-               
+               {
+				   xtype:'searchfield',
+				   name:'searchcourses',				 
+	               placeHolder: 'search courses..',
+	               align: 'center',
+	               ui:'dark',
+	               height:50,
+				   listeners:
+	               {
+	                	keyup:function(el, e, eOpts )
+	                	{		                		
+	                		this.up('courses-list-panel').searchRecords(el.getValue());	                		
+	                	}
+	               }
+               },
                {
 			    	xtype:'list',
             	    itemId:'courses-list-panel-id', 
 			        title:'Courses',
 			        scrollable: true,
+			        flex:1,
 			        autoDestroy:true,
 			        store: {
 			        	type:'courses-store'
@@ -67,12 +89,18 @@ Ext.define('Xedu.view.course.CoursesList',
 						itemsingletap: function(scope, index, target, record)
 						{        		
 							console.log("tapped");
-			           	 	Xedu.app.getController('Main').redirectTo('view/course/'+record.data.recordId+"/main");
+							scope.up('courses-list-panel').courseSelected(record);
 						}
 					}
                }]
 		            
     },
+    
+    searchRecords: function(searchvalue)
+    {    	
+    	Xedu.CommonUtils.filterStore(this.down('list'),searchvalue)
+    },
+    
     
     /*
      * load course
@@ -111,7 +139,42 @@ Ext.define('Xedu.view.course.CoursesList',
     createNewCourse: function()
     {    	    	    	
     	Xedu.CommonUtils.showOverlay({xtype: 'Xedu.view.course.CourseEditForm'},{title:"Create New Course"});    	
-    }
+    },
+    
+    /*
+     * when course selected
+     */    
+    courseSelected: function(record)
+    {
+    	if (this.getCallbackOnSelect())
+    	{
+			this.handleCallback(record.data.id);
+    	}
+    	else
+    	{
+    		Xedu.app.getController('Main').redirectTo('view/course/'+record.data.recordId+"/main");
+    	}
+    },
+    /*
+     * handle call back
+     */
+    handleCallback: function(param)
+    {
+    	console.log("handling callback for courses... ");
+    	var callbck = this.getCallbackOnSelect();
+    	var scope = this.getCallbackScope();
+    	if (typeof callbck == "function")
+    	{
+    		if (!scope)
+    			console.error("Missing scope inside callbackConfig ");
+    		else
+    			callbck.apply(scope,[param]);
+    	}
+    	
+    	if (this.getCloseOnSelect())
+    		this.hide();
+    	    	
+    },
     
     
 });

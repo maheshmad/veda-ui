@@ -6,6 +6,7 @@ Ext.define('Xedu.model.ClassroomModel',
     {	    
     	fields: [
  				{name:'id', type:'string'},
+ 				{name:'courseRecordId', type:'string'},
  				{name:'name', type:'string'},
  				{name:'title', type:'string'},
  				{name:'subTitle', type:'string'},

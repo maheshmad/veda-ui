@@ -11,7 +11,7 @@ Ext.define('Xedu.view.main.SideMenu',
 				    {                     
 					   Ext.Viewport.hideMenu('right');
 					   var main = Xedu.app.getController('Main');
-					   main.redirectTo('view/Home');
+					   main.redirectTo('home');
 					}
 			},
              {

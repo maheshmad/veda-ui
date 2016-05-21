@@ -38,6 +38,7 @@ Ext.define('Xedu.view.classroom.ClassroomEditForm',
 	               		model:'Xedu.model.ClassroomModel',
 	               	},	               	
 	                itemTpl: ['<h1><b>id:</b> {lastName},{id}</h1>',
+	                          '<p><b>course id :</b> {courseRecordId}</p>',
 	                          '<p><b>name :</b> {name}</p>',
 	                          '<p><b>title :</b> {title}</p>',
 	                          '<p><b>subTitle :</b> {subTitle}</p>',
@@ -89,6 +90,43 @@ Ext.define('Xedu.view.classroom.ClassroomEditForm',
 			                            }
 			                            ]
 				   			},
+				   			
+				   			{
+				               	xtype:'fieldset',
+				               	layout:'fit',
+				               	height:60,	                    	
+				               	items:[
+						               	    {
+											    xtype: 'textfield',
+											    name : 'courseRecordId',
+											    itemId:'course-record-id-field-id',
+											    label:"Course Id",
+											    placeHolder:'Please select course',
+											    listeners:
+											    {
+											    	focus: function( el, event, eOpts )
+											    	{
+											    		
+											    		Xedu.CommonUtils.showOverlay2(
+											    				{	xtype: 'courses-list-panel',										    				
+											    					title:"Select student",
+											    					width:'35%',
+											    					height:'50%',
+											    					modal:true,
+													                autoDestroy:true,
+													                hideOnMaskTap: true,
+											    					callbackScope:el,
+											    					callbackOnSelect: function(id)
+											    					{
+											    						el.setValue(id);										    						
+											    					}
+											    				},el);
+											    	}
+											    }
+				                            }		
+															                    	       
+				               	       ]
+				            },
 				   			{
 				               	xtype:'fieldset',
 				               	layout:'fit',
@@ -116,11 +154,33 @@ Ext.define('Xedu.view.classroom.ClassroomEditForm',
 	 			    },
 	 			    items: 
 	 			    [								
+	 			     	{
+							xtype:'button',
+							ui:'decline',
+							text:'Edit',
+						    itemId: 'editFormButton',						            
+						    handler: function (but,action,eOpts) 
+						    {
+						    	this.up('classroom-edit-form').togglePreviewAndEdit(true);			                 						    	
+						    }
+						},
+						{
+							xtype:'button',
+							ui:'light',
+							text:'Cancel Edit',
+						    itemId: 'cancelEditFormButton',	
+						    hidden:true,
+						    handler: function (but,action,eOpts) 
+						    {
+						    	this.up('classroom-edit-form').togglePreviewAndEdit(false);			                 						    	
+						    }
+						},
 	 					{
 	 						xtype:'button',
 	 						ui:'confirm',
 	 						text:'Save',
-	 					    itemId: 'saveChangesButton',						            
+	 					    itemId: 'saveChangesButton',
+	 					    hidden:true,
 	 					    handler: function (but,action,eOpts) 
 	 					    {
 	 					    	this.up('classroom-edit-form').updateClassroom();			                 						    	
@@ -168,19 +228,25 @@ Ext.define('Xedu.view.classroom.ClassroomEditForm',
     /*
      * show preview details only
      */
-    togglePreviewAndEdit: function()
+    togglePreviewAndEdit: function(showEdit)
     {
     	console.log("showing only preview ="+this.getPreviewOnly());
-    	if (this.getPreviewOnly())
+    	if (!showEdit)
     	{    		
     		this.down('#preview-classroom-details-id').setHidden(false);
     		this.down('#classroom-form-container-id').setHidden(true);
+    		this.down('#cancelEditFormButton').setHidden(true);
+    		this.down('#editFormButton').setHidden(false);
+    		this.down('#saveChangesButton').setHidden(true);
 //    		this.down('toolbar').setHidden(true);    		
     	}
     	else
     	{
     		this.down('#preview-classroom-details-id').setHidden(true);
     		this.down('#classroom-form-container-id').setHidden(false);
+    		this.down('#cancelEditFormButton').setHidden(false);
+    		this.down('#editFormButton').setHidden(true);
+    		this.down('#saveChangesButton').setHidden(false);
 //    		this.down('toolbar').setHidden(false);
     	}
     },
@@ -262,7 +328,7 @@ Ext.define('Xedu.view.classroom.ClassroomEditForm',
 	                   	  */
                     	Ext.Msg.alert("SUCCESS",response.msg);
                     	var classroomlistpanel = Ext.ComponentQuery.query("classrooms-list-panel list");
-                    	classroomForm.reset();
+//                    	classroomForm.reset();
                     	if (classroomlistpanel && classroomlistpanel[0])
                     		classroomlistpanel[0].getStore().load();
                     } 

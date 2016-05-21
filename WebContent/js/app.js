@@ -93,32 +93,7 @@ Ext.application({
         '1536x2008': 'resources/startup/1536x2008.png',
         '1496x2048': 'resources/startup/1496x2048.png'
     },
-    /*
-     * logged in user info
-     */
-    loggedInUser: '',     
-    setLoggedInUser: function(user)
-    {
-    	this.loggedInUser = user;
-    },
-    getLoggedInUser: function()
-    {
-    	return this.loggedInUser;
-    },
-    
-    /*
-     * navigation action stack
-     */
-    actionHistoryStack:[],
-    pushActionIntoHistorySack: function(action)
-    {
-    	this.actionHistoryStack.push(action);
-    },
-    popActionFromHistorySack: function()
-    {
-    	this.actionHistoryStack.push(action);
-    },
-    
+     
     launch: function() 
     {
         // Destroy the #appLoadingIndicator element
@@ -164,10 +139,7 @@ Ext.application({
             }, handleAuthResult);
         }
         
-        
-        
-        
-        this.getController('Main').redirectToView('Home');
+//        this.getController('Main').redirectToView('home');
     },
 
     onUpdated: function() 

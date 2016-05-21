@@ -242,7 +242,44 @@ Ext.define('Xedu.CommonUtils',
     {
     	if (scope.overlay) 
     		scope.overlay.hide();
+    },
+    
+    getLoggedInUserId: function()
+    {
+    	var cntrller = Xedu.app.getController('Main');	   
+		if (cntrller.getLoggedInUser())
+			return cntrller.getLoggedInUser();
+		else
+			return null;
+    },
+    
+    filterStore: function(searchOnlist,searchvalue)
+    {
+    	/*
+    	 * search with the store
+    	 */
+    	searchOnlist.getStore().clearFilter();
+    	searchOnlist.getStore().filter(function(rec)
+		{
+			var searchOnString = "";
+			var recData = rec.getData();
+			for(var val in recData)
+			{
+				searchOnString += " "+recData[val];  
+			}
+			
+//			console.log("search on string ="+searchOnString + " on "+searchvalue);
+			searchOnString = searchOnString.toLowerCase();
+			searchvalue = searchvalue.toLowerCase();				
+			if (searchOnString.indexOf(searchvalue) > -1)
+				return true;
+			else
+				return false;
+			
+		});		
     }
+    
+    
     
 		
 });

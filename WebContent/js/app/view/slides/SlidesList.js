@@ -71,10 +71,11 @@ Ext.define('Xedu.view.slides.SlidesList',
     
     showSlideOnFullView: function(scope, index, target, record)
     {
-    	var fullView = Ext.ComponentQuery.query('slides-fullview-list');
+    	var fullView = this.up('slides-main-view').down('slides-fullview');
 //    	if (fullView && fullView[0])
 //    	{
-    	fullView[0].addSlide(record);
+//    	fullView[0].addSlide(record);
+    	fullView.addSlide(record);
 //    	}
     },
     

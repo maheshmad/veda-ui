@@ -11,7 +11,7 @@ Ext.define('Xedu.view.classroom.ClassroomMgmtMain',
     {    	
     	title: 'Classroom Management',
     	fullscreen: false,
-    	layout: 'hbox',    		  
+    	layout: 'fit',    		  
     	classroomid:null,    	
     	autoDestroy:true,
     	defaults:
@@ -19,45 +19,47 @@ Ext.define('Xedu.view.classroom.ClassroomMgmtMain',
     		flex:1            
         },
         items: [           
-            {
-            	xtype:'container',            	
-            	layout: 'fit',
-            	flex:1,
-            	items:[
-			            	{
-							    docked: 'top',
-							    xtype: 'titlebar',
-							    ui:'neutral',
-							    title:'',
-							    layout:
-							    {
-							    	pack:'right'
-							    },
-							    defaults:
-							    {
-							    	ui:'plain'
-							    },
-							    items:[							           
-											{
-												xtype:'button',
-												iconCls:'add',
-											    handler: function (but,action,eOpts) 
-											    {
-											    }
-											}
-							           ]
-							    
-							},
-							{
-								xtype:'classroom-edit-form', 
-				            	flex:1
-							}
-						]
-            },
+            
             {
             	xtype:'tabpanel',
             	flex:4,
             	items:[														
+							{
+								title:'Classroom Info',
+								xtype:'container',            	
+								layout: 'fit',
+								flex:1,
+								items:[
+							            	{
+											    docked: 'top',
+											    xtype: 'titlebar',
+											    ui:'neutral',
+											    title:'',
+											    layout:
+											    {
+											    	pack:'right'
+											    },
+											    defaults:
+											    {
+											    	ui:'plain'
+											    },
+											    items:[							           
+															{
+																xtype:'button',
+																iconCls:'add',
+															    handler: function (but,action,eOpts) 
+															    {
+															    }
+															}
+											           ]
+											    
+											},
+											{
+												xtype:'classroom-edit-form', 
+								            	flex:1
+											}
+										]
+							},
 							{
 								xtype:"enrolled-students-list-panel",
 								title:"Enrolled Students",								

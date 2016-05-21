@@ -95,16 +95,14 @@ Ext.define('Xedu.view.Login',
 	                }
          ],
          
-         listeners:[
-                    {
+         listeners:{
                     	show:function(thisView)
                     	{
-                    		console.log("showing login...");
-                    		if (thisView.getInitiateLogout())
-                    			thisView.logout();
+                    		console.log("showing login view...");                    		
+                    		thisView.checkSession();
                     	}
                     }
-                    ]
+                   
     },
         
 	showMessage: function (status, msg) 
@@ -113,6 +111,53 @@ Ext.define('Xedu.view.Login',
 	    label.setHtml(status+" - "+msg);
 	    label.setHidden(false);
 	},
+	
+	/**
+	 * if the user is already logged in then refetch the user data 
+	 * and set it to the app context.
+	 */
+	checkSession: function()
+	{
+		var cntrller = Xedu.app.getController('Main');	   
+		if (cntrller.getLoggedInUser())
+			return;
+			
+		var authUrl = Xedu.Config.getUrl(Xedu.Config.AUTH_USER_SERVICE);
+		console.log("about to check for session!!");
+   	 	Ext.Viewport.mask({msg:"Checking user session..."});
+   	 	Ext.Ajax.request({
+	    	 url:authUrl,
+	    	 method: 'GET',
+	         headers: { 'Content-Type': 'application/json' },				            
+	         success: function(resp, conn) 
+	         {	                                    	        	 
+	        	 Ext.Viewport.setMasked(false);
+	        	 var response = Ext.JSON.decode(resp.responseText);	        	                                 
+	             if (response.status == 'SUCCESS') 
+	             {                        	              	       
+	            	console.log("checking for existing user session info.....success "+response.userInfo.userId);
+	            	cntrller.setLoggedInUser(response.userInfo);	
+	            	if (response.sessionInfo && response.userInfo && response.userInfo.changePswd)
+	             	{
+	             		console.log("redirecting to change password...");
+	             		cntrller.redirectTo("update/password/"+response.sessionInfo.id);
+	             	}
+	             	else
+	             		cntrller.resumeSavedAction();	  
+	             } 
+	             else; 
+	         },
+	         failure: function() 
+	         {
+	        	 Ext.Viewport.setMasked(false);
+//            	Xedu.CommonUtils.checkServiceError(resp);
+	         }
+	         
+	    	 
+	   });
+		
+	},
+	
 	/*
 	 * login
 	 */ 	     
@@ -124,14 +169,14 @@ Ext.define('Xedu.view.Login',
     	 
     	 loginForm.submit({
 	    	 url:authUrl,
-	         success: function (form,response,data1,data2)
+	         success: function (form,response)
 	         {	                                    
 	        	 console.log("login successfull.....");
 	        	 Ext.Viewport.setMasked(false);
 	        	 var cntrller = Xedu.app.getController('Main');	                                    
 	             if (response.status == 'SUCCESS') 
 	             {                        	              	       
-	             	Xedu.app.setLoggedInUser(response.sessionid);
+	             	cntrller.setLoggedInUser(response.userInfo);
 	             	Ext.Viewport.setMasked(false);
 	             	/*
 	             	 * check if password needs to be updated
@@ -143,13 +188,7 @@ Ext.define('Xedu.view.Login',
 	             		cntrller.redirectTo("update/password/"+response.sessionInfo.id);
 	             	}
 	             	else
-	             	{
-		             	/*
-		             	 * Go to home page 
-		             	 */                        	                    			             	
-		             	cntrller.getMainViewNavigation().reset(); /* remove the current login screen from navigation */
-		             	cntrller.showHome();
-	             	}
+	             		cntrller.resumeSavedAction();	             	
 	             } 
 	             else 
 	             {	            	 
@@ -166,42 +205,9 @@ Ext.define('Xedu.view.Login',
 	    	 
 	     });
      },
-     /*
-      * logout
-      */
-     logout: function()
-     {
-    	Xedu.app.setLoggedInUser("");    	
-    	me.showMessage("","Successfully logged out");	
-//    	cntrller.getMainViewNavigation().reset();
-//    	
-//     	Ext.Viewport.setMasked({
-// 			xtype:'loadmask',
-// 			message:'Please wait while we log you out.....',
-// 			style:'color:white'
-// 				
-//     	});	                	
-     	
-     	/* ajax logout */
-//     	var authUrl = Xedu.Configuration.getUrl(Xedu.Configuration.AUTH_REST_SERVICE);
-//        Ext.Ajax.request(
-//        {
-//             url: authUrl,
-//             method: 'post',
-//             params: 
-//             {
-//                 action:'logout'
-//             },                       
-//             callback: function()
-//             {                        	
-//             	Xedu.app.getController('Main').getMainViewNavigation().reset();
-//             	Xedu.app.getController('Main').redirectTo('view/Login');
-//             	Ext.Viewport.setMasked(false);                        	
-//             }
-//         });
-    	 
      
-     },
+     
+     
      
      /*
       * change password

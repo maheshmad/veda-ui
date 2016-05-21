@@ -8,56 +8,78 @@ Ext.define('Xedu.controller.Main',
 	          'Xedu.view.users.UserMgmtMain',
 	          'Xedu.view.course.CourseMgmtMain',
 	          'Xedu.view.ChangePassword',
+	          'Xedu.view.Home',
 	          'Xedu.view.classroom.ClassroomsList',
 	          'Xedu.view.classroom.ClassroomMgmtMain',
+	          'Xedu.view.classroom.ClassroomInSession',
 	          'Xedu.view.chapter.ChaptersList'],	
 	config:
-	{					
-			before:
-			{	
-				showView:'authenticate'
-			},
-			refs:
-			{											
-				mainViewNavigation:'mainview',			
-				loginView: 'loginview',										
-			},
-			routes:
-			{
-				'view/:id':'showView',
-				'config':'showConfig',
-				'logoff':'logout',
-				'update/password/:token':'chgPassword',				
-				/*
-				 * classroom
-				 */
-				'view/classroom/list':'showClassrooms',
-				'view/classroom/:id/main':'showClassroomMgmt',
-				/*
-				 * users
-				 */
-				'view/manage/users':'showUserMgmt',
-				'view/user/:id':'showUserDetails',
-				/*
-				 * courses
-				 */
-				'view/course/list':'showCourses',
-				'view/course/:id/main':'showCourseMgmt',
-				'view/course/:id/chapters':'showChapters',
+	{								
+		 /**
+		 * @private
+		 * @cfg {Xedu.model.UserModel} loggedInUser
+		 * User information after he/she logins. Refer to the user model {@link Xedu.model.UserModel} 
+		 */
+	    loggedInUser: null,         
+	    /**
+		 * @private
+		 * @cfg {string} saveAction
+		 * this is used to save the action navigation action performed by the user. This will be used as a redirection 
+		 * after the login.
+		 * @param {String} view 
+		 * the view to which the redirection happen
+	     * @param {Array} p
+	     * the params that have to be passed to the view after redirection
+		 */
+	    saveAction:null,
+		
+		before:
+		{	
+			showView:'authenticate',				
+		},
+		refs:
+		{											
+			mainViewNavigation:'mainview',			
+			loginView: 'loginview',										
+		},
+		routes:
+		{
+			'home':'showHome',
+			'view/:id':'showView',
+			'config':'showConfig',
+			'logoff':'logout',
+			'update/password/:token':'chgPassword',				
+			/*
+			 * classroom
+			 */
+			'view/classroom/list':'showClassrooms',
+			'view/classroom/:id/main':'showClassroomMgmt',
+			'join/classroom/session/:classid':'showClassroomInSession',
+			/*
+			 * users
+			 */
+			'view/manage/users':'showUserMgmt',
+			'view/user/:id':'showUserDetails',
+			/*
+			 * courses
+			 */
+			'view/course/list':'showCourses',
+			'view/course/:id/main':'showCourseMgmt',
+			'view/course/:id/chapters':'showChapters',
 //				'view/course/:cid/chapter/:chpid/topics':'showTopics',
-				'view/chapter/:chpid/topics':'showTopics',
-				'view/topic/:topicid':'showSlides',
-				'view/course/:cid/chapter/:chpid/topic/:topicid/upload':'uploadSlides',
+			'view/chapter/:chpid/topics':'showTopics',
+			'view/topic/:topicid':'showSlides',
+			'view/course/:cid/chapter/:chpid/topic/:topicid/upload':'uploadSlides',
 //				'view/course/:cid/chapter/:chpid/topic/:topicid':'showSlidesMain',
-				'open/:applid':'openApplicationView',
-				'edit/:applid':'editApplicationInfo',
-				'search/name/:param':'showSearchResults',
-				/*
-				 * enrollment
-				 */	
-				'view/enrollment/user/:userrecordid/classroom/:classid':'showEnrollmentEditForm',
-				'edit/enrollment/:enrollmentid':'showEnrollmentEditForm',
-			}
+			'open/:applid':'openApplicationView',
+			'edit/:applid':'editApplicationInfo',
+			'search/name/:param':'showSearchResults',
+			/*
+			 * enrollment
+			 */	
+			'view/enrollment/user/:userrecordid/classroom/:classid':'showEnrollmentEditForm',
+			'edit/enrollment/:enrollmentid':'showEnrollmentEditForm',
+		}
 									
 	},
 	
@@ -74,19 +96,104 @@ Ext.define('Xedu.controller.Main',
          * resume
          */
 		console.log(" checking user info....");
-		if (Xedu.app.getLoggedInUser() != '')		        
+		if (this.getLoggedInUser())		        
         	action.resume();
         else
-        	this.showLogin(action);
+        	this.showLogin();
+    },
+    
+    /**
+     * 
+     */
+    verifyLoggedInUser: function(toview,params)
+    {
+    	console.log("about to verify user ...");
+    	if (this.getLoggedInUser() == null)
+		{			
+			this.setSaveAction({'view':toview,'p':params});
+			this.showLogin();
+			return false;
+		}
+		else
+		{
+			console.log(this.getLoggedInUser().id);
+			return true;
+		}
+    },
+    
+    /**
+     * 
+     */
+    resumeSavedAction: function()
+    {
+		console.log("inside resumeSavedAction...");
+    	this.getMainViewNavigation().reset();
+    	var savedAction = this.getSaveAction();
+    	if (savedAction)
+    		this.redirectToView(savedAction.view,savedAction.p);
+    	else
+    	{
+    		console.log("** No action found ...so redirecting to default view home");
+    		this.redirectTo('home');
+    	}
     },
     
     /*
+     * showing home
+     */
+    showHome: function()
+    {		    			    	            	
+    	this.redirectToView("Home");   	      		    	
+    },
+    
+    /*
+     * 
+     * show view
+     */
+	showView: function(toview,params)
+	{
+		if (!this.verifyLoggedInUser(toview,params))
+			return;
+		
+		console.log("inside showView about to render "+toview+" param = "+params+" user role = "+this.getLoggedInUser().userrole);
+		var viewClass = 'Xedu.view.'+toview;
+		var navtoview = Ext.ComponentQuery.query(viewClass);
+		if (navtoview != null && navtoview[0] != null)
+			navtoview[0].destroy();
+		if (params)
+			navtoview = Ext.create(viewClass,params);
+		else
+			navtoview = Ext.create(viewClass);
+		
+		this.getMainViewNavigation().push(navtoview); 
+	},
+    
+	/*
+	 * redirect is similar to showView except for the fact that
+	 * it will pop the existing view so that there is no back button
+	 * also, this will not hit the before filter . 
+	 */
+	redirectToView: function(toview,params)
+	{
+		this.getMainViewNavigation().pop();
+		this.showView(toview,params);
+		        		        			
+	},
+	
+    /*
      * show Login page
      */
-    showLogin: function()
+    showLogin: function(params)
     {
-    	console.log(" showing login screen....");
-    	this.showView('Login');
+    	console.log(" redirecting to login screen....");
+    	var navtoview = Ext.ComponentQuery.query('loginview');
+		if (navtoview != null && navtoview[0] != null)
+			navtoview[0].destroy();
+		
+		navtoview = Ext.create('Xedu.view.Login',params);
+		
+		this.getMainViewNavigation().push(navtoview); 
+		navtoview.show();
     },
     
     /*
@@ -94,9 +201,35 @@ Ext.define('Xedu.controller.Main',
      */
     logout: function()
     {
-    	this.getMainViewNavigation().reset();
-    	var params = {'initiateLogout':true};
-		this.showView('Login',params);
+    	console.log("logging out user");
+    	
+    	this.setLoggedInUser(null); 
+    	this.getMainViewNavigation().removeAll();
+    	var authUrl = Xedu.Config.getUrl(Xedu.Config.AUTH_USER_LOGOUT);
+   	 	Ext.Viewport.mask({msg:"Logging out..."});
+    	
+    	Ext.Ajax.request({
+	    	 url:authUrl,
+	    	 method: 'POST',
+	         headers: { 'Content-Type': 'application/json' },				            
+	         success: function(resp, conn) 
+	         {	                                    	        	 
+	        	 Ext.Viewport.setMasked(false);
+	        	 var response = Ext.JSON.decode(resp.responseText);
+	        	 var cntrller = Xedu.app.getController('Main');	                                    
+	             if (response.status == 'SUCCESS') 
+	             {                        	              	       
+	            	console.log("Logout.....success ");	            		  
+	             } 
+	             else; 
+	         },
+	         failure: function() 
+	         {
+	        	 Ext.Viewport.setMasked(false);
+	         }
+    	});
+    	
+    	this.showLogin();
     },
     
     /*
@@ -117,34 +250,7 @@ Ext.define('Xedu.controller.Main',
     	console.log(" showing config screen....");
     	this.showView('config.ConfigMain');
     },
-    
-    /*
-     * showing home
-     */
-    showHome: function()
-    {		    			    	            	
-    	console.log(" TO DO show home");    	      		    	
-    },
-    
-    /*
-     * 
-     * show view
-     */
-	showView: function(toview,params)
-	{
-		console.log("about to render "+toview+" param = "+params);
-		var viewClass = 'Xedu.view.'+toview;
-		var navtoview = Ext.ComponentQuery.query(toview);
-		if (navtoview != null && navtoview[0] != null)
-			navtoview[0].destroy();
-		if (params)
-			navtoview = Ext.create(viewClass,params);
-		else
-			navtoview = Ext.create(viewClass);
-		
-		this.getMainViewNavigation().push(navtoview); 
-	},
-	
+  
 	/*
 	 * show enrollment
 	 */
@@ -180,6 +286,15 @@ Ext.define('Xedu.controller.Main',
 	{
 		var params = {'classroomid':classroomId};
 		this.showView('classroom.ClassroomMgmtMain',params);
+	},
+	
+	/*
+	 * show classroom in session
+	 */
+	showClassroomInSession: function(classroomId)
+	{
+		var params = {'classroomid':classroomId,};
+		this.showView('classroom.ClassroomInSession',params);
 	},
 	
 	/*
@@ -235,22 +350,7 @@ Ext.define('Xedu.controller.Main',
 		this.showView('slides.ContentUpload',params);
 	},
 	
-	/*
-	 * redirect is similar to showView except for the fact that
-	 * it will pop the existing view so that there is no back button
-	 * also, this will not hit the before filter . 
-	 */
-	redirectToView: function(toview)
-	{
-		var viewClass = 'Xedu.view.'+toview;
-		console.log('redirecting to view '+viewClass);
-		var navtoview = Ext.get(viewClass);
-		if (navtoview == null)
-			navtoview = Ext.create(viewClass);
-		else;
-		this.getMainViewNavigation().pop();
-		this.getMainViewNavigation().push(navtoview);        		        			
-	},
+	
 	showGlobalMenu: function (button)
 	{            				            						
 		Ext.Viewport.toggleMenu('right');
