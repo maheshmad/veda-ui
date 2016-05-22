@@ -10,7 +10,7 @@ Ext.define('Xedu.view.classroom.EnrolledStudentsList',
 		    'Ext.dataview.List'],
     config: 
     {
-        layout:'fit',
+        layout:'vbox',
         classroomid:null,
     	items:[
         	   {
@@ -27,11 +27,7 @@ Ext.define('Xedu.view.classroom.EnrolledStudentsList',
 				    {
 				    	ui:'plain'
 				    },
-				    items:[							           
-								{
-									   xtype:'searchfield',
-									   name:'searchclassrooms'
-								},
+				    items:[							           								
 								{
 									xtype:'button',
 									iconCls:'add',
@@ -42,9 +38,23 @@ Ext.define('Xedu.view.classroom.EnrolledStudentsList',
 								}
 				           ]					    
                },
-               
+               {
+				   xtype:'searchfield',
+	               placeHolder: 'Search ...',
+	               align: 'center',
+	               ui:'dark',
+	               height:50,
+				   listeners:
+	               {
+	                	keyup:function(el, e, eOpts )
+	                	{		                			                		
+	                		Xedu.CommonUtils.filterStore(this.up('enrolled-students-list-panel').down('list'),el.getValue());
+	                	}
+	               }
+               },
                {
 			    	xtype:'list',
+			    	flex:1,
             	    itemId:'enrolled-students-list-panel-id', 
 			        title:'Enrolled Students',
 			        scrollable: true,

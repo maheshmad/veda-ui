@@ -10,8 +10,21 @@ Ext.define('Xedu.view.topic.TopicsList',
     config: 
     {
         title:"Topics",
-    	layout:'fit',
+    	layout:'vbox',
     	chapterid:null,
+    	/**
+    	 * @cfg callbackScope
+    	 */
+        callbackScope: null,
+        /**
+    	 * @cfg callbackOnSelect
+    	 */
+        callbackOnSelect: null,
+        /**
+    	 * @cfg closeOnSelect
+    	 * usually used to close the popup overlap window
+    	 */
+        closeOnSelect: false,
     	items:[
         	   {
 				    docked: 'top',
@@ -27,11 +40,7 @@ Ext.define('Xedu.view.topic.TopicsList',
 				    {
 				    	ui:'plain'
 				    },
-				    items:[							           
-								{
-									   xtype:'searchfield',
-									   name:'searchcourses'
-								},
+				    items:[							           								
 								{
 									xtype:'button',
 									iconCls:'add',
@@ -42,9 +51,23 @@ Ext.define('Xedu.view.topic.TopicsList',
 								}
 				           ]					    
                },
-               
+               {
+				   xtype:'searchfield',
+	               placeHolder: 'Search ...',
+	               align: 'center',
+	               ui:'dark',
+	               height:50,
+				   listeners:
+	               {
+	                	keyup:function(el, e, eOpts )
+	                	{		                			                		
+	                		Xedu.CommonUtils.filterStore(this.up('topics-list-panel').down('list'),el.getValue());
+	                	}
+	               }
+               },
                {
 			    	xtype:'list',
+			    	flex:1,
 			    	itemId:'topics-list-panel-id', 
 			        /*
 			         * panel custom config params
@@ -75,9 +98,9 @@ Ext.define('Xedu.view.topic.TopicsList',
 			        	},
 			        	itemsingletap: function(scope, index, target, record)
 						{        		
-							console.log("tapped");				
-			           	 	Xedu.app.getController('Main').redirectTo("view/topic/"+record.data.id);
-						}
+							console.log("tapped");
+							scope.up('topics-list-panel').topicSelected(record);
+						}			        	
 					}
                }],
        listeners:
@@ -89,7 +112,42 @@ Ext.define('Xedu.view.topic.TopicsList',
 		}
 		            
     },
-			
+	
+    /*
+     * when course selected
+     */    
+    topicSelected: function(record)
+    {
+    	if (this.getCallbackOnSelect())
+    	{
+			this.handleCallback(record.data.id);
+    	}
+    	else
+    	{
+    		Xedu.app.getController('Main').redirectTo("view/topic/"+record.data.id);
+    	}
+    },
+    
+    /*
+     * handle call back
+     */
+    handleCallback: function(param)
+    {
+    	console.log("handling callback for topic... ");
+    	var callbck = this.getCallbackOnSelect();
+    	var callScope = this.getCallbackScope();
+    	if (typeof callbck == "function")
+    	{
+    		if (!callScope)
+    			console.error("Missing scope inside callbackConfig ");
+    		else
+    			callbck.apply(callScope,[param]);
+    	}
+    	
+    	if (this.getCloseOnSelect())
+    		this.hide();
+    	    	
+    },
     /*
      * load topics
      */

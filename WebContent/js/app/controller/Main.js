@@ -54,7 +54,7 @@ Ext.define('Xedu.controller.Main',
 			 */
 			'view/classroom/list':'showClassrooms',
 			'view/classroom/:id/main':'showClassroomMgmt',
-			'join/classroom/session/:classid':'showClassroomInSession',
+			'join/classroom/session/:enrollmentid':'showClassroomInSession',
 			/*
 			 * users
 			 */
@@ -291,9 +291,9 @@ Ext.define('Xedu.controller.Main',
 	/*
 	 * show classroom in session
 	 */
-	showClassroomInSession: function(classroomId)
+	showClassroomInSession: function(enrollmentid)
 	{
-		var params = {'classroomid':classroomId,};
+		var params = {'enrollmentid':enrollmentid,};
 		this.showView('classroom.ClassroomInSession',params);
 	},
 	

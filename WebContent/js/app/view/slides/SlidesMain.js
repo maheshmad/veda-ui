@@ -12,10 +12,10 @@ Ext.define('Xedu.view.slides.SlidesMain',
     	fullscreen: false,
     	layout: 'hbox',
     	/**
-    	 * @cfg topicid
+    	 * @cfg courseid
     	 */
-    	topicid: null,	 
-    	
+    	courseid: null,
+    	    	
     	/**
     	 * @cfg classroomSessionMode
     	 * 
@@ -31,13 +31,14 @@ Ext.define('Xedu.view.slides.SlidesMain',
         },
         items: [           
             {
-            	xtype:'container',            	
-            	layout: 'fit',            	
+            	xtype:'container',
+            	itemId:'course-contents-selection-panel',
+            	layout: 'card',            	
             	items:[
 			            	{
 							    docked: 'top',
 							    xtype: 'titlebar',
-							    ui:'neutral',
+							    ui:'dark',
 							    title:'',
 							    layout:
 							    {
@@ -51,7 +52,33 @@ Ext.define('Xedu.view.slides.SlidesMain',
 							    [
 									{
 										xtype:'button',
+										ui:'back',
+										align:'left',
+										hidden:true,
+									    itemId: 'backButton',						            
+									    handler: function (but,action,eOpts) 
+									    {
+									    	/*
+									    	 * back button navigation
+									    	 */
+									    	var cc = but.up('#course-contents-selection-panel');
+									    	var activeItem = cc.getActiveItem();									    	
+									    	if (activeItem.xtype == 'topics-list-panel')
+									    	{
+									    		cc.setActiveItem(0);
+									    		but.hide();
+									    	}
+									    	else if (activeItem.xtype == 'slides-list-panel')
+									    	{
+									    		cc.setActiveItem(1);
+									    		but.setText("Chapters");
+									    	}
+									    }
+									},	
+									{
+										xtype:'button',
 										iconCls:'compose',
+										align:'right',
 									    itemId: 'newSlideButton',						            
 									    handler: function (but,action,eOpts) 
 									    {
@@ -69,6 +96,23 @@ Ext.define('Xedu.view.slides.SlidesMain',
 									}							        
 							        	
 							    ]
+							},
+							{
+								xtype:'chapters-list-panel',								
+								callbackScope:this,
+		    					callbackOnSelect: function(id)
+		    					{
+		    						Ext.ComponentQuery.query("slides-main-view")[0].switchCards({'chapterid':id});								    						
+		    					}
+		    				},
+							{
+								xtype:'topics-list-panel', 
+								callbackScope:this,
+		    					callbackOnSelect: function(id)
+		    					{
+		    						Ext.ComponentQuery.query("slides-main-view")[0].switchCards({'topicid':id});								    						
+		    					},
+				            	flex:1
 							},
 							{
 								xtype:'slides-list-panel', 
@@ -141,15 +185,50 @@ Ext.define('Xedu.view.slides.SlidesMain',
         {        
         	show:function(thisView,opts)
         	{        			
-        		if (thisView.getTopicid())
-        		{
-        			var slidesList = thisView.down('slides-list-panel');        			
-        			slidesList.setTopicid(thisView.getTopicid());
-        			slidesList.loadslideslist(thisView.getTopicid());
-        		}
+//        		thisView.loadCourseChaptersList();
         	}
 		}	
     },
+    
+    switchCards: function(opt)
+    {
+//    	console.log("switching card for chapter id = "+opt.chapterid);
+    	var courseContentsCards = this.down('#course-contents-selection-panel');
+    	var bckButton = courseContentsCards.down('#backButton');
+    	bckButton.setHidden(false);		
+    	if (opt.chapterid)
+    	{    		
+    		this.down('topics-list-panel').setChapterid(opt.chapterid);
+    		courseContentsCards.setActiveItem('topics-list-panel');
+    		bckButton.setText("Chapters");
+    	}
+    	else if (opt.topicid)
+    	{    		
+    		this.down('slides-list-panel').setTopicid(opt.topicid);
+    		courseContentsCards.setActiveItem('slides-list-panel');  
+    		bckButton.setText("Topics");
+    	}
+    		
+    },
+    
+    /*
+     * set the default course contents chapter list panel
+     */
+    loadCourseChaptersList: function()
+    {
+    	if (this.getCourseid() == null)
+		{
+    		console.error("Missing course id in SlidesMain , Please check your configuration");
+    		return;
+		}
+    		    		
+		var courseContentsPanel = this.down('#course-contents-selection-panel'); 
+		var chaptersListPanel = courseContentsPanel.down('chapters-list-panel');
+		chaptersListPanel.loadChapters(this.getCourseid());
+//		courseContentsPanel.setActiveItem(courseContentsPanel);
+		
+    },
+    
     /*
      * content upload
      */

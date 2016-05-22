@@ -36,7 +36,7 @@ Ext.define('Xedu.view.slides.SlidesList',
         {        
         	show:function(thisView,opts)
         	{
-        		if (scope.getTopicid() != '')
+        		if (thisView.getTopicid() != '')
         			thisView.loadslideslist();
         	},
         	itemsingletap: function(scope, index, target, record)

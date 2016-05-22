@@ -9,7 +9,7 @@ Ext.define('Xedu.view.classroom.ClassroomsList',
 		    'Ext.dataview.List'],
     config: 
     {
-        layout:'fit',
+        layout:'vbox',
     	items:[
         	   {
 				    docked: 'top',
@@ -25,11 +25,7 @@ Ext.define('Xedu.view.classroom.ClassroomsList',
 				    {
 				    	ui:'plain'
 				    },
-				    items:[							           
-								{
-									   xtype:'searchfield',
-									   name:'searchclassrooms'
-								},
+				    items:[							           								
 								{
 									xtype:'button',
 									iconCls:'add',
@@ -40,9 +36,24 @@ Ext.define('Xedu.view.classroom.ClassroomsList',
 								}
 				           ]					    
                },
-               
+               {
+				   xtype:'searchfield',
+				   name:'searchclasses',				 
+	               placeHolder: 'search classes..',
+	               align: 'center',
+	               ui:'dark',
+	               height:50,
+				   listeners:
+	               {
+	                	keyup:function(el, e, eOpts )
+	                	{		                			                		
+	                		Xedu.CommonUtils.filterStore(this.up('classrooms-list-panel').down('list'),el.getValue());
+	                	}
+	               }
+               },
                {
 			    	xtype:'list',
+			    	flex:1,
             	    itemId:'classrooms-list-panel-id', 
 			        title:'Classrooms',
 			        scrollable: true,

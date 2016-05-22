@@ -10,8 +10,28 @@ Ext.define('Xedu.view.chapter.ChaptersList',
     config: 
     {
         title:"Chapters",
-    	layout:'fit',
+    	layout:'vbox',
+    	/**
+    	 * @cfg courseid
+    	 */
     	courseid:null,
+    	/*
+         * callback options
+         */
+    	/**
+    	 * @cfg callbackScope
+    	 */
+        callbackScope: null,
+        /**
+    	 * @cfg callbackOnSelect
+    	 */
+        callbackOnSelect: null,
+        /**
+    	 * @cfg closeOnSelect
+    	 * usually used to close the popup overlap window
+    	 */
+        closeOnSelect: false,
+        
     	items:[
         	   {
 				    docked: 'top',
@@ -27,11 +47,7 @@ Ext.define('Xedu.view.chapter.ChaptersList',
 				    {
 				    	ui:'plain'
 				    },
-				    items:[							           
-								{
-									   xtype:'searchfield',
-									   name:'searchcourses'
-								},
+				    items:[							           								
 								{
 									xtype:'button',
 									iconCls:'add',
@@ -42,9 +58,24 @@ Ext.define('Xedu.view.chapter.ChaptersList',
 								}
 				           ]					    
                },
-               
+               {
+				   xtype:'searchfield',
+				   name:'searchchapters',				 
+	               placeHolder: 'search chapters..',
+	               align: 'center',
+	               ui:'dark',
+	               height:50,
+				   listeners:
+	               {
+	                	keyup:function(el, e, eOpts )
+	                	{		                			                		
+	                		Xedu.CommonUtils.filterStore(this.up('chapters-list-panel').down('list'),el.getValue());
+	                	}
+	               }
+               },
                {
 			    	xtype:'list',
+			    	flex:1,
 			    	itemId:'chapter-list-panel-id', 
 			        title:'Chapters',
 			        /*
@@ -70,15 +101,51 @@ Ext.define('Xedu.view.chapter.ChaptersList',
 			              ],        
 			        listeners:
 			        {
-						itemsingletap: function(scope, index, target, record)
+			        	itemsingletap: function(scope, index, target, record)
 						{        		
 							console.log("tapped");
-							var courseId = this.up("chapters-list-panel").getCourseid();
-			           	 	Xedu.app.getController('Main').redirectTo('view/chapter/'+record.data.id+"/topics");
+							scope.up('chapters-list-panel').chapterSelected(record);
 						}
+			        	
 					}
                }]
 		            
+    },
+    
+    /*
+     * when course selected
+     */    
+    chapterSelected: function(record)
+    {
+    	if (this.getCallbackOnSelect())
+    	{
+			this.handleCallback(record.data.id);
+    	}
+    	else
+    	{
+    		Xedu.app.getController('Main').redirectTo('view/chapter/'+record.data.id+"/topics");
+    	}
+    },
+    
+    /*
+     * handle call back
+     */
+    handleCallback: function(param)
+    {
+    	console.log("handling callback for chapters... ");
+    	var callbck = this.getCallbackOnSelect();
+    	var callScope = this.getCallbackScope();
+    	if (typeof callbck == "function")
+    	{
+    		if (!callScope)
+    			console.error("Missing scope inside callbackConfig ");
+    		else
+    			callbck.apply(callScope,[param]);
+    	}
+    	
+    	if (this.getCloseOnSelect())
+    		this.hide();
+    	    	
     },
     
     /*
