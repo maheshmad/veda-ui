@@ -15,6 +15,10 @@ Ext.define('Xedu.view.slides.SlidesMain',
     	 * @cfg courseid
     	 */
     	courseid: null,
+    	/**
+    	 * @cfg topicid
+    	 */
+    	topicid: null,
     	    	
     	/**
     	 * @cfg classroomSessionMode
@@ -37,9 +41,9 @@ Ext.define('Xedu.view.slides.SlidesMain',
             	items:[
 			            	{
 							    docked: 'top',
-							    xtype: 'titlebar',
+							    xtype: 'titlebar',							    
 							    ui:'dark',
-							    title:'',
+							    title:'Chapters',
 							    layout:
 							    {
 							    	pack:'right'
@@ -62,38 +66,23 @@ Ext.define('Xedu.view.slides.SlidesMain',
 									    	 * back button navigation
 									    	 */
 									    	var cc = but.up('#course-contents-selection-panel');
+									    	var titlebar = cc.down('titlebar');
 									    	var activeItem = cc.getActiveItem();									    	
 									    	if (activeItem.xtype == 'topics-list-panel')
 									    	{
 									    		cc.setActiveItem(0);
+									    		titlebar.setTitle('Chapters');
 									    		but.hide();
 									    	}
 									    	else if (activeItem.xtype == 'slides-list-panel')
 									    	{
 									    		cc.setActiveItem(1);
 									    		but.setText("Chapters");
+									    		titlebar.setTitle('Topics');
 									    	}
 									    }
-									},	
-									{
-										xtype:'button',
-										iconCls:'compose',
-										align:'right',
-									    itemId: 'newSlideButton',						            
-									    handler: function (but,action,eOpts) 
-									    {
-									    	this.up("slides-main-view").topicContentUpload();
-									    	
-//									    	var scope = Ext.ComponentQuery.query('slides-main-view')[0];
-//									    	var courseId = scope.getCourseid();
-//											var chapterid = scope.getChapterid();
-//											var topicid = scope.getTopicid();
-//									    	Xedu.app.getController('Main').redirectTo('view/course/'+courseId+'/chapter/'+chapterid+"/topic/"+topicid+"/upload");
-									    	
-									    	
-									    	
-									    }
-									}							        
+									}	
+														        
 							        	
 							    ]
 							},
@@ -185,7 +174,7 @@ Ext.define('Xedu.view.slides.SlidesMain',
         {        
         	show:function(thisView,opts)
         	{        			
-//        		thisView.loadCourseChaptersList();
+        		thisView.loadCourseChaptersList();
         	}
 		}	
     },
@@ -195,18 +184,22 @@ Ext.define('Xedu.view.slides.SlidesMain',
 //    	console.log("switching card for chapter id = "+opt.chapterid);
     	var courseContentsCards = this.down('#course-contents-selection-panel');
     	var bckButton = courseContentsCards.down('#backButton');
+    	var titleBar = courseContentsCards.down('titlebar');
+    	
     	bckButton.setHidden(false);		
     	if (opt.chapterid)
     	{    		
     		this.down('topics-list-panel').setChapterid(opt.chapterid);
     		courseContentsCards.setActiveItem('topics-list-panel');
     		bckButton.setText("Chapters");
+    		titleBar.setTitle("Topics");
     	}
     	else if (opt.topicid)
     	{    		
     		this.down('slides-list-panel').setTopicid(opt.topicid);
     		courseContentsCards.setActiveItem('slides-list-panel');  
     		bckButton.setText("Topics");
+    		titleBar.setTitle("Slides");
     	}
     		
     },
@@ -216,16 +209,24 @@ Ext.define('Xedu.view.slides.SlidesMain',
      */
     loadCourseChaptersList: function()
     {
-    	if (this.getCourseid() == null)
-		{
-    		console.error("Missing course id in SlidesMain , Please check your configuration");
+    	if (this.getCourseid() == null && this.getTopicid() == null)
+		{    		    		
     		return;
 		}
-    		    		
-		var courseContentsPanel = this.down('#course-contents-selection-panel'); 
-		var chaptersListPanel = courseContentsPanel.down('chapters-list-panel');
-		chaptersListPanel.loadChapters(this.getCourseid());
-//		courseContentsPanel.setActiveItem(courseContentsPanel);
+    	
+    	var courseContentsPanel = this.down('#course-contents-selection-panel'); 
+    	if (this.getCourseid() != null)
+    	{			
+			var chaptersListPanel = courseContentsPanel.down('chapters-list-panel');
+			chaptersListPanel.loadChapters(this.getCourseid());
+    	}
+    	else if (this.getTopicid() != null)
+    	{
+    		var slidesListPanel = courseContentsPanel.down('slides-list-panel');
+    		courseContentsPanel.down('titlebar').hide();
+    		slidesListPanel.setTopicid(this.getTopicid());    		
+    		courseContentsPanel.setActiveItem(slidesListPanel);
+    	}
 		
     },
     

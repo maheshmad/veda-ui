@@ -69,8 +69,7 @@ Ext.define('Xedu.view.classroom.ClassroomInSession',
         {        
         	show:function(thisView,opts)
         	{        			        	    			
-    			thisView.loadClassroomCourseContents();
-    			thisView.loadClassroomEnrolledStudents();
+    			thisView.loadClassroomCourseContents();    			
         	}
 		}	
     },
@@ -110,7 +109,7 @@ Ext.define('Xedu.view.classroom.ClassroomInSession',
 				        		/*
 				        		 * load enrolled students
 				        		 */
-				        		me.loadClassroomEnrolledStudents(enrollData.classroomId);
+				        		me.loadClassroomEnrolledStudents(enrollData.classroomid);
 						    	
 				            },
 				            failure: function(conn, response, options, eOpts) 

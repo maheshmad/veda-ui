@@ -11,7 +11,7 @@ Ext.define('Xedu.view.users.UserEnrolledClassesList',
     {
         layout:
         {
-        	type:'fit'        	
+        	type:'vbox'        	
         },
         /**
          * @cfg userid
@@ -42,14 +42,11 @@ Ext.define('Xedu.view.users.UserEnrolledClassesList',
 				    {
 				    	ui:'plain'
 				    },
-				    items:[							           
-								{
-									   xtype:'searchfield',
-									   name:'searchclassrooms'
-								},
+				    items:[							           								
 								{
 									xtype:'button',
 									iconCls:'add',
+									align:'right',
 								    handler: function (but,action,eOpts) 
 								    {
 								    	this.up("user-enrolled-classes-list").createNewClassroom();
@@ -57,9 +54,23 @@ Ext.define('Xedu.view.users.UserEnrolledClassesList',
 								}
 				           ]					    
                },
-               
+               {
+				   xtype:'searchfield',				   				 
+	               placeHolder: 'search classes..',
+	               align: 'center',
+	               ui:'neutral',
+	               height:50,
+				   listeners:
+	               {
+	                	keyup:function(el, e, eOpts )
+	                	{		                			                		
+	                		Xedu.CommonUtils.filterStore(this.up('user-enrolled-classes-list').down('list'),el.getValue());
+	                	}
+	               }
+               },
                {
 			    	xtype:'list',
+			    	flex:1,
             	    itemId:'user-enrolled-classes-list-id', 
 			        title:'Enrolled Students',
 			        scrollable: true,
