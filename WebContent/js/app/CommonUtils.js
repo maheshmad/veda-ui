@@ -253,6 +253,15 @@ Ext.define('Xedu.CommonUtils',
 			return null;
     },
     
+    getSessionInfo: function()
+    {
+    	var cntrller = Xedu.app.getController('Main');	   
+		if (cntrller.getSessionInfo())
+			return cntrller.getSessionInfo();
+		else
+			return null;
+    },
+    
     filterStore: function(searchOnlist,searchvalue)
     {
     	/*
@@ -277,6 +286,24 @@ Ext.define('Xedu.CommonUtils',
 				return false;
 			
 		});		
+    },
+    
+    /**
+     * util to send socket event messages
+     */
+    sendSocketEvent: function(event)
+    {
+    	var cntrller = Xedu.app.getController('Main');	   
+		if (cntrller.wsConn == null)
+		{
+			console.log("socket connection not available ! So reconnecting.....");
+			cntrller.establishSocketConnection();
+		}
+		else
+		{
+			console.log("sending event message...."+Ext.JSON.encode(event.getData()));
+			cntrller.wsConn.send(Ext.JSON.encode(event.getData()));
+		}
     }
     
     

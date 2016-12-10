@@ -31,6 +31,12 @@ Ext.define('Xedu.view.chapter.ChaptersList',
     	 * usually used to close the popup overlap window
     	 */
         closeOnSelect: false,
+        /**
+    	 * @cfg hideTitlebar
+    	 * hide the titlebar when not required
+    	 * Default: false
+    	 */
+        hideTitlebar: false,
         
     	items:[
         	   {
@@ -108,7 +114,14 @@ Ext.define('Xedu.view.chapter.ChaptersList',
 						}
 			        	
 					}
-               }]
+               }],
+        listeners:
+        {
+        	show: function(thisView, opts)
+			{        										
+				thisView.down('titlebar').setHidden(thisView.getHideTitlebar());
+			}        	
+		}
 		            
     },
     

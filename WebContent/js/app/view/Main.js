@@ -45,6 +45,18 @@ Ext.define('Xedu.view.Main',
 		            	iconCls: 'list',
 			            iconMask: true,
 			            align: 'right',
+			            itemId:'reconnectbutton',
+			            handler:function (button)
+			        	{            				            						
+			            	var cntrller = Xedu.app.getController('Main');
+			            	cntrller.establishSocketConnection();
+			        	}
+			        },
+		            {
+			            xtype:'button',
+		            	iconCls: 'list',
+			            iconMask: true,
+			            align: 'right',
 			            itemId:'mainmenubutton',
 			            handler:function (button)
 			        	{            				            						

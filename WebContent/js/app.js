@@ -63,6 +63,7 @@ Ext.application({
         'Xedu.Config',
         'Xedu.CommonUtils',
         'Xedu.view.Home',
+        'Ext.util.TaskManager',
         'Xedu.controller.Main',
         'Xedu.field.DateTextField',
         'Xedu.view.main.SideMenu',
@@ -122,22 +123,22 @@ Ext.application({
          */
         // Your Client ID can be retrieved from your project in the Google
         // Developer Console, https://console.developers.google.com
-        var CLIENT_ID = '';
-
-        var SCOPES = ["https://www.googleapis.com/auth/classroom.courses.readonly"];
-
-        /**
-         * Check if current user has authorized this application.
-         */
-        function checkAuth() 
-        {
-            gapi.auth.authorize(
-            {
-              'client_id': CLIENT_ID,
-              'scope': SCOPES.join(' '),
-              'immediate': true
-            }, handleAuthResult);
-        }
+//        var CLIENT_ID = '';
+//
+//        var SCOPES = ["https://www.googleapis.com/auth/classroom.courses.readonly"];
+//
+//        /**
+//         * Check if current user has authorized this application.
+//         */
+//        function checkAuth() 
+//        {
+//            gapi.auth.authorize(
+//            {
+//              'client_id': CLIENT_ID,
+//              'scope': SCOPES.join(' '),
+//              'immediate': true
+//            }, handleAuthResult);
+//        }
         
 //        this.getController('Main').redirectToView('home');
     },
@@ -155,4 +156,6 @@ Ext.application({
             }
         );
     }
+    
+        
 });

@@ -89,6 +89,7 @@ Ext.define('Xedu.view.slides.SlidesMain',
 							{
 								xtype:'chapters-list-panel',								
 								callbackScope:this,
+								hideTitlebar: true,
 		    					callbackOnSelect: function(id)
 		    					{
 		    						Ext.ComponentQuery.query("slides-main-view")[0].switchCards({'chapterid':id});								    						
@@ -97,6 +98,7 @@ Ext.define('Xedu.view.slides.SlidesMain',
 							{
 								xtype:'topics-list-panel', 
 								callbackScope:this,
+								hideTitlebar: true,
 		    					callbackOnSelect: function(id)
 		    					{
 		    						Ext.ComponentQuery.query("slides-main-view")[0].switchCards({'topicid':id});								    						
@@ -151,12 +153,12 @@ Ext.define('Xedu.view.slides.SlidesMain',
 						        	
 						    ]
 						},
-//						{
-//							xtype:'slides-fullview-list',
-//						},
 						{
-							xtype:'slides-fullview',
+							xtype:'slides-fullview-list',
 						},
+//						{
+//							xtype:'slides-fullview',
+//						},
 						{
 		                    xtype: 'slide-draw-component',		                                  
 		                    itemId: 'free-paint',

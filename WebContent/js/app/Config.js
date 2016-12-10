@@ -12,7 +12,9 @@ Ext.define('Xedu.Config',
 							
 		/*
 		 * services
+		 *  
 		 */
+		SOCKET_SERVICE:'/io/',
 		/* 
 		 * security 
 		 */

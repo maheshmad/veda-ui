@@ -25,6 +25,13 @@ Ext.define('Xedu.view.topic.TopicsList',
     	 * usually used to close the popup overlap window
     	 */
         closeOnSelect: false,
+        /**
+    	 * @cfg hideTitlebar
+    	 * hide the titlebar when not required
+    	 * Default: false
+    	 */
+        hideTitlebar: false,
+        
     	items:[
         	   {
 				    docked: 'top',
@@ -107,6 +114,7 @@ Ext.define('Xedu.view.topic.TopicsList',
         {
         	show:function(thisView,opts)
         	{        			        				    			    			
+				thisView.down('titlebar').setHidden(thisView.getHideTitlebar());
         		thisView.loadTopics(thisView.getChapterid());
         	}        	
 		}

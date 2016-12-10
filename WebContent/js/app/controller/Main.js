@@ -9,6 +9,7 @@ Ext.define('Xedu.controller.Main',
 	          'Xedu.view.course.CourseMgmtMain',
 	          'Xedu.view.ChangePassword',
 	          'Xedu.view.Home',
+	          'Xedu.model.EventModel',
 	          'Xedu.view.classroom.ClassroomsList',
 	          'Xedu.view.classroom.ClassroomMgmtMain',
 	          'Xedu.view.classroom.ClassroomInSession',
@@ -20,7 +21,18 @@ Ext.define('Xedu.controller.Main',
 		 * @cfg {Xedu.model.UserModel} loggedInUser
 		 * User information after he/she logins. Refer to the user model {@link Xedu.model.UserModel} 
 		 */
-	    loggedInUser: null,         
+	    loggedInUser: null,
+	    /**
+		 * @private
+		 * @cfg {Xedu.model.SessionInfoModel} sessionInfo
+		 * Logged in session information of the logged in user. Refer to the user model {@link Xedu.model.SessionModel} 
+		 */
+	    sessionInfo: null,
+	    /**
+		 * @private
+		 * Web socket connection , this is set when the page is loaded initially
+		 */
+	    wsConn: null,
 	    /**
 		 * @private
 		 * @cfg {string} saveAction
@@ -127,6 +139,8 @@ Ext.define('Xedu.controller.Main',
     resumeSavedAction: function()
     {
 		console.log("inside resumeSavedAction...");
+        this.establishSocketConnection();
+
     	this.getMainViewNavigation().reset();
     	var savedAction = this.getSaveAction();
     	if (savedAction)
@@ -137,6 +151,60 @@ Ext.define('Xedu.controller.Main',
     		this.redirectTo('home');
     	}
     },
+    
+    /*
+     * socket connection event
+     */
+    establishSocketConnection: function()
+    {
+    	var sessionInfo = Xedu.CommonUtils.getSessionInfo();
+    	console.log("#### establishing socket connection ##### "+sessionInfo.id); 
+    	try
+    	{
+	    	var me = this;
+    		this.wsConn = Ext.create ('Ext.ux.WebSocket', 
+	    	{
+	    	    url: Xedu.Config.getUrl(Xedu.Config.SOCKET_SERVICE+sessionInfo.id),
+	    	    autoReconnect: true ,
+//	    		autoReconnectInterval: 1000,
+	    	    listeners: 
+	    	    {
+	    	        open: function (ws) 
+	    	        {
+	    	            console.log ('The websocket is ready to use....sending hi message');
+	    	            var event = Ext.create('Xedu.model.EventModel',{});
+	    	            event.set("type","ACTION");
+	    	            event.set("msg","HI");
+//	    	            event.setMsg("HI");
+	    	            Xedu.CommonUtils.sendSocketEvent(event);
+	    	        },
+	    	        close: function (ws) 
+	    	        {
+	    	            console.log ('The websocket is closed!');
+	    	            me.wsConn = null;
+	    	        } ,
+	    	        message: function (ws, msg) 
+	    	        {       
+	    	    		console.log("recieved message = "+Ext.JSON.encode(msg));
+	    	    		//var notificationEvent = Ext.util.JSON.decode(e.data);    		
+//	    	    		mainview.getController().setNotificationsAlertsCount();
+	    	        },
+	    	        error: function()
+	    	        {
+	    	        	console.log("error occured  on web socket connection.... switching to ajax polling... ");
+	    	        	me.wsConn = null;
+	    	        }
+	    	    }
+	    	});
+    	}
+    	catch(e)
+    	{
+    		console.error(e);
+    	}
+    	
+    	
+    },
+
     
     /*
      * showing home

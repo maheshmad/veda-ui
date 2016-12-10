@@ -17,6 +17,26 @@ Ext.define('Xedu.view.slides.SlidesList',
         scrollable: true,
         autoDestroy:true,
         
+        /**
+    	 * @cfg callbackScope
+    	 */
+        callbackScope: null,
+        /**
+    	 * @cfg callbackOnSelect
+    	 */
+        callbackOnSelect: null,
+        /**
+    	 * @cfg closeOnSelect
+    	 * usually used to close the popup overlap window
+    	 */
+        closeOnSelect: false,
+        /**
+    	 * @cfg hideTitlebar
+    	 * hide the titlebar when not required
+    	 * Default: false
+    	 */
+        hideTitlebar: false,
+        
         items:[
         	   {
 				    docked: 'top',
@@ -93,6 +113,10 @@ Ext.define('Xedu.view.slides.SlidesList',
 			        	itemsingletap: function(scope, index, target, record)
 						{        					        		
 							scope.up('slides-list-panel').showSlideOnFullView(scope, index, target, record);
+							var event = Ext.create('Xedu.model.EventModel',{});
+			    	        event.set("type","ACTION");
+			    	        event.set("msg","{'topicid':'"+record.getData().recordId+"'}");
+							Xedu.CommonUtils.sendSocketEvent(event);
 						}
 					}
                }
@@ -101,6 +125,7 @@ Ext.define('Xedu.view.slides.SlidesList',
            {
 	           	show:function(thisView,opts)
 	           	{        			        				    			    			
+					thisView.down('titlebar').setHidden(thisView.getHideTitlebar());
 	           		thisView.loadslideslist(thisView.getTopicid());
 	           	}        	
 	   		}
@@ -131,7 +156,7 @@ Ext.define('Xedu.view.slides.SlidesList',
     showSlideOnFullView: function(scope, index, target, record)
     {
     	console.log("showing slide id = "+record.data.id);
-    	var fullView = this.up('slides-main-view').down('slides-fullview');
+    	var fullView = this.up('slides-main-view').down('slides-fullview-list');
     	fullView.addSlide(record);
     },
     

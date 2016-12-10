@@ -780,6 +780,8 @@ Ext.ClassManager.addNameAlternateMappings({
   "Xedu.store.SearchStore": [],
   "Xedu.store.SlidesListStore": [],
   "Xedu.store.TopicsStore": [],
+  "Xedu.ux.PinchZoomImage": [],
+  "Xedu.ux.Transform": [],
   "Xedu.view.ChangePassword": [],
   "Xedu.view.Home": [],
   "Xedu.view.Login": [],
@@ -787,6 +789,8 @@ Ext.ClassManager.addNameAlternateMappings({
   "Xedu.view.chapter.ChapterEditForm": [],
   "Xedu.view.chapter.ChaptersList": [],
   "Xedu.view.classroom.ClassroomEditForm": [],
+  "Xedu.view.classroom.ClassroomInSession": [],
+  "Xedu.view.classroom.ClassroomInSessionStudentsView": [],
   "Xedu.view.classroom.ClassroomMgmtMain": [],
   "Xedu.view.classroom.ClassroomsList": [],
   "Xedu.view.classroom.EnrolledStudentsList": [],
@@ -798,14 +802,17 @@ Ext.ClassManager.addNameAlternateMappings({
   "Xedu.view.course.CourseMgmtMain": [],
   "Xedu.view.course.CoursesList": [],
   "Xedu.view.main.SideMenu": [],
+  "Xedu.view.schedule.ClassScheduleList": [],
   "Xedu.view.slides.ContentUpload": [],
   "Xedu.view.slides.FreeDrawComponent": [],
   "Xedu.view.slides.SlideFreeDraw": [],
+  "Xedu.view.slides.SlidesFullView": [],
   "Xedu.view.slides.SlidesFullViewList": [],
   "Xedu.view.slides.SlidesList": [],
   "Xedu.view.slides.SlidesMain": [],
   "Xedu.view.topic.TopicEditForm": [],
   "Xedu.view.topic.TopicsList": [],
+  "Xedu.view.users.StudentDashBoard": [],
   "Xedu.view.users.UserDetailsHeader": [],
   "Xedu.view.users.UserDetailsPreview": [],
   "Xedu.view.users.UserDetailsView": [],
@@ -1795,6 +1802,10 @@ Ext.ClassManager.addNameAliasMappings({
   "Xedu.store.TopicsStore": [
     "store.topics-store"
   ],
+  "Xedu.ux.PinchZoomImage": [
+    "widget.pinchzoomimage"
+  ],
+  "Xedu.ux.Transform": [],
   "Xedu.view.ChangePassword": [
     "widget.change-pswd-view"
   ],
@@ -1815,6 +1826,12 @@ Ext.ClassManager.addNameAliasMappings({
   ],
   "Xedu.view.classroom.ClassroomEditForm": [
     "widget.classroom-edit-form"
+  ],
+  "Xedu.view.classroom.ClassroomInSession": [
+    "widget.classroom-in-session-view"
+  ],
+  "Xedu.view.classroom.ClassroomInSessionStudentsView": [
+    "widget.classroom-in-session-students-view"
   ],
   "Xedu.view.classroom.ClassroomMgmtMain": [
     "widget.classroom-mgmt-main-view"
@@ -1847,6 +1864,9 @@ Ext.ClassManager.addNameAliasMappings({
     "widget.courses-list-panel"
   ],
   "Xedu.view.main.SideMenu": [],
+  "Xedu.view.schedule.ClassScheduleList": [
+    "widget.classroom-schedule-list-panel"
+  ],
   "Xedu.view.slides.ContentUpload": [
     "widget.content-upload"
   ],
@@ -1855,6 +1875,9 @@ Ext.ClassManager.addNameAliasMappings({
   ],
   "Xedu.view.slides.SlideFreeDraw": [
     "widget.slides-free-draw"
+  ],
+  "Xedu.view.slides.SlidesFullView": [
+    "widget.slides-fullview"
   ],
   "Xedu.view.slides.SlidesFullViewList": [
     "widget.slides-fullview-list"
@@ -1870,6 +1893,9 @@ Ext.ClassManager.addNameAliasMappings({
   ],
   "Xedu.view.topic.TopicsList": [
     "widget.topics-list-panel"
+  ],
+  "Xedu.view.users.StudentDashBoard": [
+    "widget.student-dashboard-view"
   ],
   "Xedu.view.users.UserDetailsHeader": [
     "widget.user-details-header-view"
