@@ -158,7 +158,7 @@ Ext.define('Xedu.controller.Main',
     establishSocketConnection: function()
     {
     	var sessionInfo = Xedu.CommonUtils.getSessionInfo();
-    	console.log("#### establishing socket connection ##### "+sessionInfo.id); 
+    	Xedu.CommonUtils.showInDebugPanel("#### establishing socket connection ##### "+sessionInfo.id); 
     	try
     	{
 	    	var me = this;
@@ -171,7 +171,7 @@ Ext.define('Xedu.controller.Main',
 	    	    {
 	    	        open: function (ws) 
 	    	        {
-	    	            console.log ('The websocket is ready to use....sending hi message');
+	    	        	Xedu.CommonUtils.showInDebugPanel('The websocket is ready to use....sending hi message');
 	    	            var event = Ext.create('Xedu.model.EventModel',{});
 	    	            event.set("type","ACTION");
 	    	            event.set("msg","HI");
@@ -180,18 +180,18 @@ Ext.define('Xedu.controller.Main',
 	    	        },
 	    	        close: function (ws) 
 	    	        {
-	    	            console.log ('The websocket is closed!.... Auto reconnect = '+ws.autoReconnect);
+	    	        	Xedu.CommonUtils.showInDebugPanel('The websocket is closed!.... Auto reconnect = '+ws.autoReconnect);
 //	    	            me.wsConn = null;
 	    	        } ,
 	    	        message: function (ws, msg) 
-	    	        {       
-	    	    		console.log("recieved message = "+Ext.JSON.encode(msg));
+	    	        {       	    	    		
+	    	    		Xedu.CommonUtils.showInDebugPanel("recieved message = "+Ext.JSON.encode(msg));
 	    	    		//var notificationEvent = Ext.util.JSON.decode(e.data);    		
 //	    	    		mainview.getController().setNotificationsAlertsCount();
 	    	        },
 	    	        error: function()
 	    	        {
-	    	        	console.log("error occured  on web socket connection.... switching to ajax polling... ");
+	    	        	Xedu.CommonUtils.showInDebugPanel("error occured  on web socket connection.... switching to ajax polling... ");
 //	    	        	me.wsConn = null;
 	    	        }
 	    	    }

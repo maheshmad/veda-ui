@@ -93,6 +93,17 @@ Ext.define('Xedu.view.main.SideMenu',
             		 Ext.Viewport.hideMenu('right');
             		 Xedu.app.getController('Main').redirectTo('logoff');                	
                  }
+             },
+             {
+                 xtype: 'button',
+                 text: 'Show Debug',
+                 itemId: 'toggleDebugButton',
+                 align: 'right',
+            	 handler: function() 
+            	 {                     
+            		 var debugPanel = Ext.ComponentQuery.query("#debugpanelid")[0]; 
+            		 debugPanel.setHidden(!debugPanel.getHidden());             		 
+                 }
              }
              
              

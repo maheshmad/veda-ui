@@ -4,6 +4,7 @@ Ext.define('Xedu.view.Main',
     xtype: 'mainview',
     requires:['Xedu.view.Login',
               'Xedu.view.course.CoursesList',
+//              'Xedu.view.common.DebugPanel',
               'Xedu.view.topic.TopicsList',
               'Ext.field.Search'],
 	config:
@@ -39,19 +40,7 @@ Ext.define('Xedu.view.Main',
 		                		cntrller.redirectTo('open/'+e.getValue()); 
 		                	}
 		                }
-		            },
-		            {
-			            xtype:'button',
-		            	iconCls: 'list',
-			            iconMask: true,
-			            align: 'right',
-			            itemId:'reconnectbutton',
-			            handler:function (button)
-			        	{            				            						
-			            	var cntrller = Xedu.app.getController('Main');
-			            	cntrller.establishSocketConnection();
-			        	}
-			        },
+		            },		           
 		            {
 			            xtype:'button',
 		            	iconCls: 'list',
@@ -67,9 +56,18 @@ Ext.define('Xedu.view.Main',
 		        ]
 	    },	    
 		items: [
-//		        {
-//		            xtype:'loginview'
-//		        }
+		        {
+		            xtype:'list',
+		            itemId:'debugpanelid',
+		            docked:'bottom',
+		            height:100,
+		            emptyText: 'No Data Loaded',
+                    store: 
+                    {
+                        fields: ['dt','msg']                        
+                    },
+                    itemTpl: '<span>{dt}</span><span>{msg}</span>'
+		        }
 		    ]
 	    
 	}

@@ -306,9 +306,11 @@ Ext.define('Xedu.CommonUtils',
 		}
     },
     
-    debugLogs: function(msg)
+    showInDebugPanel: function(debugMsg)
     {
-    	
+    	var debugPanel = Ext.ComponentQuery.query("#debugpanelid");    	
+    	var store = debugPanel[0].getStore();
+    	store.insert(0,{dt: new Date(),msg:debugMsg });
     }
     
     
