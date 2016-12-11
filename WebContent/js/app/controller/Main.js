@@ -267,7 +267,7 @@ Ext.define('Xedu.controller.Main',
 		if (navtoview != null && navtoview[0] != null)
 			navtoview[0].destroy();
 		
-		navtoview = Ext.create('Xedu.view.Login',params);
+		navtoview = Ext.create('Xedu.view.Login');
 //		Ext.Viewport.removeAll(true,true);
 		Ext.Viewport.add(navtoview);
 //		this.getMainViewNavigation().push(navtoview); 
