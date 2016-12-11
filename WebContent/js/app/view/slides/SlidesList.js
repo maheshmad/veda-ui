@@ -114,7 +114,8 @@ Ext.define('Xedu.view.slides.SlidesList',
 						{        					        		
 							scope.up('slides-list-panel').showSlideOnFullView(scope, index, target, record);
 							var event = Ext.create('Xedu.model.EventModel',{});
-			    	        event.set("type","ACTION");
+			    	        event.set("type","ACTION");			    	        
+			    	        event.set("to",Ext.JSON.decode("['all']"));
 			    	        event.set("msg","{'topicid':'"+record.getData().recordId+"'}");
 							Xedu.CommonUtils.sendSocketEvent(event);
 						}

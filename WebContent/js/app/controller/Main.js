@@ -180,8 +180,8 @@ Ext.define('Xedu.controller.Main',
 	    	        },
 	    	        close: function (ws) 
 	    	        {
-	    	            console.log ('The websocket is closed!');
-	    	            me.wsConn = null;
+	    	            console.log ('The websocket is closed!.... Auto reconnect = '+ws.autoReconnect);
+//	    	            me.wsConn = null;
 	    	        } ,
 	    	        message: function (ws, msg) 
 	    	        {       
@@ -192,7 +192,7 @@ Ext.define('Xedu.controller.Main',
 	    	        error: function()
 	    	        {
 	    	        	console.log("error occured  on web socket connection.... switching to ajax polling... ");
-	    	        	me.wsConn = null;
+//	    	        	me.wsConn = null;
 	    	        }
 	    	    }
 	    	});

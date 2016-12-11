@@ -297,13 +297,18 @@ Ext.define('Xedu.CommonUtils',
 		if (cntrller.wsConn == null)
 		{
 			console.log("socket connection not available ! So reconnecting.....");
-			cntrller.establishSocketConnection();
+//			cntrller.establishSocketConnection();
 		}
 		else
 		{
 			console.log("sending event message...."+Ext.JSON.encode(event.getData()));
 			cntrller.wsConn.send(Ext.JSON.encode(event.getData()));
 		}
+    },
+    
+    debugLogs: function(msg)
+    {
+    	
     }
     
     
