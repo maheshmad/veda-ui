@@ -11,13 +11,15 @@ Ext.define('Xedu.view.Login',
     {
         title: 'Login',
         itemId:'loginformpanelid',
+        height:'100%',
+        width:'100%',
         initiateLogout:false,
         fullscreen:true,
         layout:
         {
         	type:'vbox',
-        	pack:'start',
-        	align:'stretch'
+        	pack:'center',
+        	align:'center'
         },
         items: [                   
 //                    {
@@ -25,75 +27,89 @@ Ext.define('Xedu.view.Login',
 //                        src: Ext.Viewport.getOrientation() == 'portrait' ? '../images/logo-polaris.jpg' : '../images/logo-polaris.jpg',
 //                        style: Ext.Viewport.getOrientation() == 'portrait' ? 'width:500px;height:150px' : 'width:500px;height:150px'
 //                    },
-                    {
-                        xtype: 'label',
-                        html: '',
-                        itemId: 'show-msg',
-                        hidden: true,
-                        hideAnimation: 'fadeOut',
-                        showAnimation: 'fadeIn',
-                        style: 'color:#990000;margin:5px 0px;'
-                    },
-                    {
-                        xtype: 'fieldset',
-                        title: 'Login',
-                        itemId:'login-fieldset',
-                        items: [
-                            {
-                                xtype: 'textfield',
-                                placeHolder: 'Username',
-                                label: 'User Name',
-                                itemId: 'userNameTextField',
-                                name: 'user',
-                                required: true                                
-                            },
-                            {
-                                xtype: 'passwordfield',
-                                placeHolder: 'Password',
-                                label: 'Password',
-                                itemId: 'passwordTextField',
-                                name: 'pwd',
-                                required: true
-                            }
-                        ]
-                    },                                        
-                    {                    	
-                    	xtype: 'container',                        
-                        layout: 
-                        {
-	                        pack: 'center',
-	                        type: 'vbox',
-	                        align:'center'	                        
-                        },
-                        items: [
-                         {	
-	                          xtype: 'button',
-	                          itemId: 'logInButton',
-	                          ui: 'confirm',
-	                          text: 'Login',
-	                          width: '20%',
-	                          action:'login',
-	                    	  handler: function(btn)
-		                      {	                    		 
-	                    		  this.up("loginview").login();		                             		                      
-		                      }/* handler */
-                        
-                         },
-                         {
-	                          xtype: 'button',
-	                          itemId: 'resetPswdButton',
-	                          hidden:false,
-	                          ui: 'confirm',
-	                          text: 'Reset Password',
-	                          width: '20%',
-	                    	  handler: function(btn)
-		                      {	                    		 
-	                    		  this.up("loginview").forgotPassword();		                             		                      
-		                      }/* handler */
-                       
-                         }	
-	                    ]
-	                }
+					{
+						xtype:'titlebar',
+						title:'Login',
+						docked:'top',
+						height:50						
+					},
+					{
+						xtype:'container',
+						width:'30%',
+						height:'100%',
+						flex:1,
+						items:[
+			                    {
+			                        xtype: 'label',
+			                        html: '',
+			                        itemId: 'show-msg',
+			                        hidden: true,
+			                        hideAnimation: 'fadeOut',
+			                        showAnimation: 'fadeIn',
+			                        style: 'color:#990000;margin:5px 0px;'
+			                    },
+			                    {
+			                        xtype: 'fieldset',
+			                        title: 'Login',
+			                        itemId:'login-fieldset',
+			                        items: [
+			                            {
+			                                xtype: 'textfield',
+			                                placeHolder: 'Username',
+			                                label: 'User Name',
+			                                itemId: 'userNameTextField',
+			                                name: 'user',
+			                                required: true                                
+			                            },
+			                            {
+			                                xtype: 'passwordfield',
+			                                placeHolder: 'Password',
+			                                label: 'Password',
+			                                itemId: 'passwordTextField',
+			                                name: 'pwd',
+			                                required: true
+			                            }
+			                        ]
+			                    },                                        
+			                    {                    	
+			                    	xtype: 'container',
+			                        layout: 
+			                        {
+				                        pack: 'center',
+				                        type: 'vbox',
+				                        align:'center'	                        
+			                        },
+			                        items: [
+					                         {	
+						                          xtype: 'button',
+						                          itemId: 'logInButton',
+						                          ui: 'confirm',
+						                          text: 'Login',
+						                          width: '75%',
+						                          action:'login',
+						                    	  handler: function(btn)
+							                      {	                    		 
+						                    		  this.up("loginview").login();		                             		                      
+							                      }/* handler */
+					                        
+					                         },
+					                         {
+						                          xtype: 'button',
+						                          itemId: 'resetPswdButton',
+						                          hidden:false,
+						                          ui: 'confirm',
+						                          text: 'Reset Password',
+						                          width: '75%',
+						                    	  handler: function(btn)
+							                      {	                    		 
+						                    		  this.up("loginview").forgotPassword();		                             		                      
+							                      }/* handler */
+					                       
+					                         }	
+						                    ]
+				                }
+			                    ]
+					}
          ],
          
          listeners:{
