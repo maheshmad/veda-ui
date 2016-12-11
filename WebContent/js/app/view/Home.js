@@ -36,5 +36,13 @@ Ext.define('Xedu.view.Home',
         	}
         }
             
+    },
+    /**
+     * 
+     */
+    reloadData: function()
+    {
+    	var studentData = this.down('student-dashboard-view');  
+    	studentData.reloadStudentDashBoard();
     }
 });

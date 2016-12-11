@@ -6,10 +6,12 @@ Ext.define('Xedu.view.Main',
               'Xedu.view.course.CoursesList',
 //              'Xedu.view.common.DebugPanel',
               'Xedu.view.topic.TopicsList',
+              'Xedu.view.Home',
               'Ext.field.Search'],
 	config:
 	{
 		itemId:'mainviewid',
+		fullscreen:true,
 		autoDestroy:true,		
 		listener:
 		{
@@ -23,6 +25,11 @@ Ext.define('Xedu.view.Main',
 				{
 			            cnt.remove(item, true);
 			        }, 100);
+			},
+			
+			show: function()
+			{
+				console.log("showing main navigation....check for login..");							
 			}
 		},
 		navigationBar: 
@@ -61,12 +68,17 @@ Ext.define('Xedu.view.Main',
 		            itemId:'debugpanelid',
 		            docked:'bottom',
 		            height:100,
+		            hidden:true,
 		            emptyText: 'No Data Loaded',
                     store: 
                     {
                         fields: ['dt','msg']                        
                     },
                     itemTpl: '<span>{dt}</span><span>{msg}</span>'
+		        },
+		        {
+		        	xtype:'home',
+		        	title:'Home'
 		        }
 		    ]
 	    

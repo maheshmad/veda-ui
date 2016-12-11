@@ -102,7 +102,11 @@ Ext.define('Xedu.view.main.SideMenu',
             	 handler: function() 
             	 {                     
             		 var debugPanel = Ext.ComponentQuery.query("#debugpanelid")[0]; 
-            		 debugPanel.setHidden(!debugPanel.getHidden());             		 
+            		 if (!debugPanel.isHidden())
+            			 debugPanel.getStore().removeAll();
+            		 debugPanel.setHidden(!debugPanel.isHidden());
+            		 
+            		 Ext.Viewport.hideMenu('right');
                  }
              }
              

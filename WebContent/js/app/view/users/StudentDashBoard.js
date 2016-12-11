@@ -22,19 +22,27 @@ Ext.define('Xedu.view.users.StudentDashBoard',
         },
         items: [           					
             {            	
-				xtype:"user-enrolled-classes-list",
-				
+				xtype:"user-enrolled-classes-list",				
             }            
         ],
         listeners:
         {        
         	show:function(thisView,opts)
-        	{        			        	
-    			var usersEnrolledClassesList = thisView.down('user-enrolled-classes-list');    			
-    			usersEnrolledClassesList.setUserid(Xedu.CommonUtils.getLoggedInUserId().id);
-    			usersEnrolledClassesList.loadEnrolledClasses();  
-//    			usersEnrolledClassesList.show();
+        	{        			        	    			
+    			console.log('showing student dashboard...');
+        		thisView.reloadStudentDashBoard();
         	}
 		}	
+    },
+    
+    reloadStudentDashBoard: function()
+    {
+    	/* show enrolled classes if the user is logged in */
+		if (Xedu.CommonUtils.getLoggedInUserId())
+		{	
+    		var usersEnrolledClassesList = this.down('user-enrolled-classes-list');    			
+			usersEnrolledClassesList.setUserid(Xedu.CommonUtils.getLoggedInUserId().id);
+			usersEnrolledClassesList.loadEnrolledClasses();
+		}
     }
 });

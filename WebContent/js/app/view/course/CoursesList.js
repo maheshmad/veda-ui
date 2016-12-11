@@ -9,7 +9,9 @@ Ext.define('Xedu.view.course.CoursesList',
 		    'Ext.dataview.List'],
     config: 
     {        
-        /*
+        fullscreen:true,
+        title:'Courses',
+    	/*
          * callback options
          */
         callbackScope: null,

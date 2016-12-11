@@ -47,7 +47,8 @@ Ext.define('Xedu.controller.Main',
 		
 		before:
 		{	
-			showView:'authenticate',				
+			showView:'authenticate',
+			showHome:'authenticate',
 		},
 		refs:
 		{											
@@ -139,11 +140,13 @@ Ext.define('Xedu.controller.Main',
     resumeSavedAction: function()
     {
 		console.log("inside resumeSavedAction...");
+//		this.getMainViewNavigation().removeAll();
+//		this.getMainViewNavigation().pop(this.getMainViewNavigation().getInnerItems().length);    	
+
         this.establishSocketConnection();
 
-    	this.getMainViewNavigation().reset();
     	var savedAction = this.getSaveAction();
-    	if (savedAction)
+    	if (savedAction && savedAction != '' && savedAction != null)
     		this.redirectToView(savedAction.view,savedAction.p);
     	else
     	{
@@ -210,8 +213,11 @@ Ext.define('Xedu.controller.Main',
      * showing home
      */
     showHome: function()
-    {		    			    	            	
-    	this.redirectToView("Home");   	      		    	
+    {		    			    	            	    	
+    	console.log("about to redirect to home");
+    	this.resetMainViewNavigation();
+    	this.getMainViewNavigation().setActiveItem('home');
+    	Ext.ComponentQuery.query('home')[0].reloadData(); /* activate to trigger reload */   	      		    	
     },
     
     /*
@@ -225,15 +231,18 @@ Ext.define('Xedu.controller.Main',
 		
 		console.log("inside showView about to render "+toview+" param = "+params+" user role = "+this.getLoggedInUser().userrole);
 		var viewClass = 'Xedu.view.'+toview;
-		var navtoview = Ext.ComponentQuery.query(viewClass);
-		if (navtoview != null && navtoview[0] != null)
-			navtoview[0].destroy();
+//		var navtoview = Ext.ComponentQuery.query(viewClass);
+//		if (navtoview != null && navtoview[0] != null)
+//			navtoview[0].destroy();
 		if (params)
 			navtoview = Ext.create(viewClass,params);
 		else
 			navtoview = Ext.create(viewClass);
 		
 		this.getMainViewNavigation().push(navtoview); 
+		this.getMainViewNavigation().setActiveItem(navtoview);
+		navtoview.show();
+
 	},
     
 	/*
@@ -253,14 +262,15 @@ Ext.define('Xedu.controller.Main',
      */
     showLogin: function(params)
     {
-    	console.log(" redirecting to login screen....");
+    	console.log(" redirecting to login screen....");    	
     	var navtoview = Ext.ComponentQuery.query('loginview');
 		if (navtoview != null && navtoview[0] != null)
 			navtoview[0].destroy();
 		
 		navtoview = Ext.create('Xedu.view.Login',params);
-		
-		this.getMainViewNavigation().push(navtoview); 
+//		Ext.Viewport.removeAll(true,true);
+		Ext.Viewport.add(navtoview);
+//		this.getMainViewNavigation().push(navtoview); 
 		navtoview.show();
     },
     
@@ -297,6 +307,7 @@ Ext.define('Xedu.controller.Main',
 	         }
     	});
     	
+    	this.resetMainViewNavigation();
     	this.showLogin();
     },
     
@@ -430,39 +441,30 @@ Ext.define('Xedu.controller.Main',
 		this.redirectTo(toUrl);        		
 		Ext.Viewport.toggleMenu('right');
 	},        	        	
-	/*
-	 * logging off
+	
+	
+	/**
+	 * this removes all the panels in the 
+	 * main navigation view 
+	 * 
 	 */
-	onSignOffCommand: function () 
-	{
-	        var me = this;
-	        var authUrl = Xedu.Config.getUrl(Xedu.Config.AUTH_REST_SERVICE);
-	        Ext.Ajax.request({
-	            url: authUrl,
-	            method: 'POST',
-	            params: 
-	            {
-	                sessionToken: me.sessionToken
-	            },
-	            success: function (response) 
-	            {        	            	
-	            	var navtoviews = Ext.ComponentQuery.query('homecard');		    	
-			    	if (navtoviews != null && navtoviews[0] != null)
-			    	{
-			    		console.log("removing home view from navigation");        			    		
-    			    	this.getMainViewNavigation().pop(navtoviews[0],true);
-    			    	this.getMainViewNavigation().reset();
-			    	}
-			    	else;        			    	
-			    	     
-	            },
-	            failure: function (response) {
-
-	                // TODO: You need to handle this condition.
-	            }
-	        });
-
-	        Ext.Viewport.animateActiveItem(this.getLoginView(), this.getSlideRightTransition());
+	resetMainViewNavigation: function()
+	{		
+		var items = this.getMainViewNavigation().getInnerItems();
+		this.getMainViewNavigation().getLayout().setAnimation(false);
+		console.log("about to reset items in navigation items ="+items.length);
+		//		this.getMainViewNavigation().pop(items.length - 2);
+		for (i=items.length -1 ;i>0;i--)
+		{			
+			if (items[i].xtype != 'home')  /* dont remove home*/
+			{
+				console.log("...............removing inner item ="+items[i].xtype);
+				this.getMainViewNavigation().removeInnerAt(i);
+			}
+			else
+				console.log("reached home...");
+		}		
+		this.getMainViewNavigation().getLayout().setAnimation(true);
 	}
 	
 });			

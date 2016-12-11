@@ -100,9 +100,9 @@ Ext.application({
         // Destroy the #appLoadingIndicator element
         Ext.fly('appLoadingIndicator').destroy();
 
-        // Initialize the main view
+       /*  Initialize the main view */
         Ext.Viewport.add(Ext.create('Xedu.view.Main'));
-        
+                
         /*
          * Initialize singleton config
          */
@@ -117,7 +117,17 @@ Ext.application({
             reveal: true
         });
         
+        /*
+         * redirect to the route after initial load
+         * this will automatically get routed to login
+         * if the user has not logged in.
+         */
+        var routeTo = window.location.hash.substr(1);
+    	if (routeTo == '')
+    		routeTo = "home";
         
+    	var cntrller = Xedu.app.getController('Main');
+    	cntrller.redirectTo(routeTo);
         /**
          * google classroom api
          */

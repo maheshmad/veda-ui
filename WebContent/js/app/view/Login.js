@@ -12,6 +12,7 @@ Ext.define('Xedu.view.Login',
         title: 'Login',
         itemId:'loginformpanelid',
         initiateLogout:false,
+        fullscreen:true,
         layout:
         {
         	type:'vbox',
@@ -177,8 +178,19 @@ Ext.define('Xedu.view.Login',
 	        	 var cntrller = Xedu.app.getController('Main');	                                    
 	             if (response.status == 'SUCCESS') 
 	             {                        	              	       
-	             	cntrller.setLoggedInUser(response.userInfo);
-	             	cntrller.setSessionInfo(response.sessionInfo)
+	            	
+	            	cntrller.setLoggedInUser(response.userInfo);
+	             	cntrller.setSessionInfo(response.sessionInfo);
+	             	/*
+	             	 * add the main viewport
+	             	 */	             		             		             	
+//	             	var mainnav = Ext.ComponentQuery.query('#mainviewid')[0];
+//	             	Ext.Viewport.add(mainnav);
+	             	Ext.Viewport.removeInnerAt(1);
+	             	Ext.Viewport.setActiveItem(0);
+	             	
+//	             	mainnav.show();
+//	             	cntrller.getMainViewNavigation().removeAll();
 	             	Ext.Viewport.setMasked(false);
 	             	/*
 	             	 * check if password needs to be updated
@@ -188,9 +200,12 @@ Ext.define('Xedu.view.Login',
 	             	{
 	             		console.log("redirecting to change password...");
 	             		cntrller.redirectTo("update/password/"+response.sessionInfo.id);
+	             		
 	             	}
 	             	else
-	             		cntrller.resumeSavedAction();	             	
+	             		cntrller.resumeSavedAction();
+	             	
+	             	
 	             } 
 	             else 
 	             {	            	 
