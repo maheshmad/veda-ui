@@ -13,6 +13,7 @@ Ext.define('Xedu.view.Login',
         itemId:'loginformpanelid',
         height:'100%',
         width:'100%',
+        scrollable: true,
         initiateLogout:false,
         fullscreen:true,
         layout:
@@ -141,10 +142,11 @@ Ext.define('Xedu.view.Login',
 			
 		var authUrl = Xedu.Config.getUrl(Xedu.Config.AUTH_USER_SERVICE);
 		console.log("about to check for session!!");
-   	 	Ext.Viewport.mask({msg:"Checking user session..."});
+		var progressIndicator = Ext.create("Ext.ProgressIndicator",{loadingText:'Checking user session...'});
    	 	Ext.Ajax.request({
 	    	 url:authUrl,
 	    	 method: 'GET',
+	    	 progress: progressIndicator,
 	         headers: { 'Content-Type': 'application/json' },				            
 	         success: function(resp, conn) 
 	         {	                                    	        	 
@@ -167,7 +169,6 @@ Ext.define('Xedu.view.Login',
 	         },
 	         failure: function() 
 	         {
-	        	 Ext.Viewport.setMasked(false);
 //            	Xedu.CommonUtils.checkServiceError(resp);
 	         }
 	         
@@ -184,10 +185,11 @@ Ext.define('Xedu.view.Login',
     	 var me = this;
     	 var loginForm = Ext.ComponentQuery.query('loginview')[0];	                             
          var authUrl = Xedu.Config.getUrl(Xedu.Config.AUTH_SERVICE);
-    	 
+ 		 var progressIndicator = Ext.create("Ext.ProgressIndicator",{loadingText:'Checking user session...'});
     	 loginForm.submit({
 	    	 url:authUrl,
-	         success: function (form,response)
+	    	 progress: progressIndicator,
+	    	 success: function (form,response)
 	         {	                                    
 	        	 console.log("login successfull.....");
 	        	 Ext.Viewport.setMasked(false);

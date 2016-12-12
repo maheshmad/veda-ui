@@ -99,25 +99,25 @@ Ext.define('Xedu.view.users.UserDetailsView',
 //		                   	pack:'center',
 //		                   	align:'center'
 	                },
-	                scrollable : 
-	                {
-	                    direction     : 'vertical',
-	                    directionLock : true
-	                },	                  
+	                scrollable : true,
+//	                {
+//	                    direction     : 'vertical',
+//	                    directionLock : true
+//	                },	                  
 					items:[{				
 				            	xtype:'formpanel',
 				            	title:'Personal Details',            	
 				            	itemId:'user-personal-info-details-form',
-				            	scrollable : 
-				                {
-				                    direction     : 'vertical',
-				                    directionLock : true
-				                },	
+				            	scrollable : true,
+//				                {
+//				                    direction     : 'vertical',
+//				                    directionLock : true
+//				                },	
 				            	layout: 
 				            	{
 				            		type:'vbox',
-				            		align:'stretch',
-				            		pack:'start'
+//				            		align:'stretch',
+//				            		pack:'start'
 				            	},            	
 				            	items:[
 										{

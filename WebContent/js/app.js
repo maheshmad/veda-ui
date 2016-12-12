@@ -118,6 +118,10 @@ Ext.application({
         });
         
         /*
+         * loading app configs
+         */
+        Xedu.Config.loadAppConfigs();
+        /*
          * redirect to the route after initial load
          * this will automatically get routed to login
          * if the user has not logged in.

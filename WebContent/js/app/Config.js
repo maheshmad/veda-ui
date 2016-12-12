@@ -2,6 +2,12 @@ Ext.define('Xedu.Config',
 {		
 	alias:'Config',	
 	singleton: true,
+	/**
+	 * @private
+	 * @cfg {Xedu.model.AppConfigs} flags
+	 * Loaded server config flags 
+	 */
+	AppConfigs:null,
 //	statics:
 //	{
 		ns:'Xedu', /* namespace used to create a new view
@@ -45,6 +51,7 @@ Ext.define('Xedu.Config',
 		 */
 		CONFIG_SECTIONS:'/api/config',
 		CONFIG_UPDATE_SERVICE:'/api/config',
+		CONFIG_SECTIONS_KEYVAL:'/api/config/keyval',
 		/*
 		 * users
 		 */
@@ -96,7 +103,74 @@ Ext.define('Xedu.Config',
 				return protocol+"://"+window.location.host+this.REST_SERVICES_APP_CONTEXT_ROOT+serv;
 
 			//return this.REST_SERVICES_APP_CONTEXT_PATH+serv; /* only to be used for UI local dev testing */
+		},
+		
+		/**
+		 * 
+		 */
+		getAppConfigs: function()
+	    {
+	    	return this.appConfigs;
+	    },
+	    
+	    /**
+	     * 
+	     */
+	    setAppConfigs: function(acfgs)
+	    {
+	    	this.appConfigs = acfgs;
+	    },
+	    
+	    /**
+	     * The server config is loaded using this 
+	     * function
+	     */
+	    loadAppConfigs: function()
+	    {
+	    	console.log("loading app configs"); 
+	    	var me = this;	
+	    	var authUrl = Xedu.Config.getUrl(Xedu.Config.CONFIG_SECTIONS_KEYVAL);       	
+	    	Ext.Ajax.request(
+		            {
+		                url:authUrl ,
+		                method: 'GET',	                
+		                scope:this,	               
+		                callback: function(response,success,operation)
+		                {	                		                	
+		                	var respObj = null;
+		                	if (operation.responseText && operation.responseText != "" && operation.responseText.indexOf("<html>") == -1)
+		                	{
+		                		try
+		                		{
+		                			respObj = Ext.JSON.decode(operation.responseText);
+//		                			console.log("config value = "+ respObj["GENERAL_DOMAIN_ROOT"]); /* this is to test */
+		                		}
+		                		catch(e)
+		                		{
+		                			/* ignore the error */
+		                			console.log(e);	                			
+		                		}
+		                	}
+		                	
+		                	if (respObj !=null)
+		                	{
+		                		me.setAppConfigs(respObj);
+		                	}
+		                	
+		                }
+		                
+		            });   
+	    },		
+		
+	    /**
+	     * get the config value 
+	     */
+		getConfigValue: function(cfgkey)
+		{
+			var configs = this.getAppConfigs();						
+			return configs[cfgkey];
 		}
+		
 				
 //	}	
 });

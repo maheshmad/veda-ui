@@ -2,8 +2,10 @@ Ext.define('Xedu.CommonUtils',
 {		
 	alias:'CommonUtils',	
 	singleton: true,
-	ns:'Xedu',
-	
+	ns:'Xedu',	
+	/**
+	 * 
+	 */
 	checkServiceError: function(response)
     {
     	if (response && response.errorInfo)
@@ -28,7 +30,7 @@ Ext.define('Xedu.CommonUtils',
     		this._checkHTTPOperation(response);
     },
 	
-    /*
+    /**
      * this is private method,
      * call checkServiceError to invoke this
      */
@@ -237,13 +239,18 @@ Ext.define('Xedu.CommonUtils',
     		this.overlay.show();
     },
     
-    
+    /**
+     * 
+     */
     closeOverlay: function(scope)
     {
     	if (scope.overlay) 
     		scope.overlay.hide();
     },
     
+    /**
+     * 
+     */
     getLoggedInUserId: function()
     {
     	var cntrller = Xedu.app.getController('Main');	   
@@ -253,6 +260,9 @@ Ext.define('Xedu.CommonUtils',
 			return null;
     },
     
+    /**
+     * 
+     */
     getSessionInfo: function()
     {
     	var cntrller = Xedu.app.getController('Main');	   
@@ -313,9 +323,7 @@ Ext.define('Xedu.CommonUtils',
     		return;
     	var store = debugPanel.getStore();
     	store.insert(0,{dt: new Date(),msg:debugMsg });
-    }
-    
-    
+    } 
     
 		
 });
