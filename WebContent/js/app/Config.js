@@ -70,7 +70,15 @@ Ext.define('Xedu.Config',
 		 */
 		ENROLLMENT_API:'/api/enrollment/',
 		CLASSROOM_ENROLLED_STUDENTS_SEARCH:'/api/enrollment/search',
-		STUDENT_ENROLLED_CLASSES_SEARCH:'/api/enrollment/search',		
+		STUDENT_ENROLLED_CLASSES_SEARCH:'/api/enrollment/search',
+		/*
+		 * event/class schedule
+		 */
+		EVENT_SCHEDULE_API:'/api/eventschedule',
+		CLASSROOM_SCHEDULE_SEARCH:'/api/eventschedule/search',
+		STUDENT_SCHEDULE_SEARCH:'/api/eventschedule/search',
+		
+		
         /*
 		 * set to true if the security needs to be switched off
 		 * you will not see the login screen. 

@@ -59,19 +59,9 @@ Ext.define('Xedu.view.course.CourseMgmtMain',
             	items:[							
 							{
 								xtype:"chapters-list-panel",
-								title:"Chapters"							},
-							{
-								xtype:"panel",
-								title:"Enrolled Students"
-							},
-							{
-								xtype:"panel",
-								title:"Schedule"
-							},
-							{
-								xtype:"panel",
-								title:"Course Progress"
-							}							
+								title:"Chapters"							
+							}
+														
             	       
             	       ]
             }

@@ -5,12 +5,16 @@ Ext.define('Xedu.view.schedule.ClassScheduleList',
 	requires: [		    		    		    
 		    'Xedu.store.SearchStore',
 		    'Ext.plugin.PullRefresh',
-		    'Xedu.view.users.UserSelection',
-		    'Xedu.view.users.UserDetailsPreview',
+		    'Xedu.view.schedule.ScheduleDetailsPreview',
 		    'Ext.dataview.List'],
     config: 
     {
         layout:'fit',
+        /**
+		 * @private
+		 * @cfg classroomid
+		 * classroomid is used to load the schedule of the classroom 
+		 */
         classroomid:null,
     	items:[
         	   {
@@ -33,12 +37,11 @@ Ext.define('Xedu.view.schedule.ClassScheduleList',
 									iconCls:'add',
 								    handler: function (but,action,eOpts) 
 								    {
-								    	this.up("classroom-schedule-list-panel").addNewUser();
+								    	this.up("classroom-schedule-list-panel").addNewSchedule();
 								    }
 								}
 				           ]					    
-               },
-               
+               },               
                {
 			    	xtype:'list',
             	    itemId:'classroom-schedule-list-panel-id', 
@@ -48,7 +51,7 @@ Ext.define('Xedu.view.schedule.ClassScheduleList',
 			        store: 
 			        {
 			        	type:'search-store',
-			        	autoLoad:false,
+			        	autoLoad:false
 			        },
 			        plugins: [
 			                  {
@@ -56,7 +59,7 @@ Ext.define('Xedu.view.schedule.ClassScheduleList',
 			                      pullText: 'Pull down to refresh the list!',
 			                      refreshFn:function()
 			                      {
-			                    	  scope.up('classroom-schedule-list-panel').loadEnrolledStudents();
+			                    	  scope.up('classroom-schedule-list-panel').loadSchedule();
 			                      }
 			                  }
 			              ],
@@ -72,7 +75,7 @@ Ext.define('Xedu.view.schedule.ClassScheduleList',
 			        {			        	
 			        	itemsingletap: function(scope, index, target, record)
 						{        		
-							console.log("tapped student");
+							console.log("tapped schedule");
 //			           	 	Xedu.app.getController('Main').redirectTo('view/user/'+record.data.recordId+"/main");
 							scope.up('classroom-schedule-list-panel').viewScheduleInfo(record, target);
 						}
@@ -82,7 +85,7 @@ Ext.define('Xedu.view.schedule.ClassScheduleList',
 		        {
 		        	show:function(thisView,opts)
 		        	{        		
-		        		thisView.loadEnrolledStudents();
+		        		thisView.loadSchedule();
 		        	}
 		        }
 		            
@@ -91,15 +94,15 @@ Ext.define('Xedu.view.schedule.ClassScheduleList',
     /*
      * load classroom
      */
-    loadEnrolledStudents: function()
+    loadSchedule: function()
     {    	
     	var thisView = this;
-    	console.log("Loading enrolled students...");
-    	thisView.setMasked({msg:"Loading classrooms..."});
-		var classroomListStore = thisView.down('list').getStore();				
-		classroomListStore.getProxy().setUrl(Xedu.Config.getUrl(Xedu.Config.CLASSROOM_ENROLLED_STUDENTS_SEARCH)+"?classroomid="+this.getClassroomid());		
+    	console.log("Loading schedule...");
+    	thisView.setMasked({msg:"Loading schedule..."});
+		var listStore = thisView.down('list').getStore();				
+		listStore.getProxy().setUrl(Xedu.Config.getUrl(Xedu.Config.CLASSROOM_SCHEDULE_SEARCH)+"?classroomid="+this.getClassroomid());
 //		classroomListStore.setParams({'classroomid':this.getClassroomid()});
-		classroomListStore.load({callback : function(records, operation, success) 
+		listStore.load({callback : function(records, operation, success) 
 			                    {				            	
 			                    	thisView.setMasked(false);			                    	
 			                    }});		
@@ -112,24 +115,37 @@ Ext.define('Xedu.view.schedule.ClassScheduleList',
     {    	    	    	
     	Xedu.CommonUtils.showOverlay2({
     									xtype: 'schedule-details-preview',
-    									scheduleid:record.data.id,
+    									eventScheduleId:record.data.id,
     									title:record.data.title,
 				    					modal:true,
 						                autoDestroy:true,
 						                hideOnMaskTap: true,
     									width:'50%',
     									height:'65%',
-    									title:"Schedule Info"
+    									title:"Schedule Preview"
     								},target);    	
     },
     
     /*
      * add a new user to classroom
      */
-    addNewUser: function()
+    addNewSchedule: function()
     {
 //    	Xedu.CommonUtils.showOverlay({xtype: 'Xedu.view.users.UserSelection'},{title:"Select student"});
+    	
     	Xedu.app.getController('Main').redirectTo('view/schedule/user/new/classroom/'+this.getClassroomid());
+    },
+    
+    refreshStore: function()
+    {
+    	var listStore = this.down('list').getStore();
+    	if (listStore)
+    	{	
+    		listStore.getProxy().setUrl(Xedu.Config.getUrl(Xedu.Config.CLASSROOM_SCHEDULE_SEARCH)+"?classroomid="+this.getClassroomid());
+    		listStore.load();	
+    	}
     }
+    
+   
     
 });

@@ -4,7 +4,8 @@ Ext.define('Xedu.view.classroom.ClassroomMgmtMain',
     xtype: 'classroom-mgmt-main-view',
     requires:[
               	'Xedu.view.classroom.ClassroomEditForm', 
-              	'Xedu.view.classroom.EnrolledStudentsList'
+              	'Xedu.view.classroom.EnrolledStudentsList',
+              	'Xedu.view.schedule.ScheduleDetailsPreview'
 //              	'Xedu.view.classroom.ClassroomsList'
               ],
     config: 
@@ -65,7 +66,7 @@ Ext.define('Xedu.view.classroom.ClassroomMgmtMain',
 								title:"Enrolled Students",								
 							},
 							{
-								xtype:"panel",
+								xtype:"classroom-schedule-list-panel",
 								title:"Schedule"
 							},
 							{
@@ -90,6 +91,13 @@ Ext.define('Xedu.view.classroom.ClassroomMgmtMain',
     			var enrolledStudentsList = thisView.down('enrolled-students-list-panel');
     			enrolledStudentsList.setClassroomid(thisView.getClassroomid());
     			enrolledStudentsList.loadEnrolledStudents();
+    			
+    			/*
+    			 * load enrolled students
+    			 */
+    			var scheduleList = thisView.down('classroom-schedule-list-panel');
+    			scheduleList.setClassroomid(thisView.getClassroomid());
+//    			scheduleList.loadEnrolledStudents();
     			
 //    			classroomsList.setClassroomid(thisView.getClassroomid())
     			classroomEditForm.loadClassroom(thisView.getClassroomid());

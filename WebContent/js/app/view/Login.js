@@ -157,6 +157,8 @@ Ext.define('Xedu.view.Login',
 	            	console.log("checking for existing user session info.....success "+response.userInfo.userId);
 	            	cntrller.setLoggedInUser(response.userInfo);	
 	            	cntrller.setSessionInfo(response.sessionInfo);
+	            	Ext.Viewport.removeInnerAt(1);
+	             	Ext.Viewport.setActiveItem(0);
 	            	if (response.sessionInfo && response.userInfo && response.userInfo.changePswd)
 	             	{
 	             		console.log("redirecting to change password...");

@@ -102,6 +102,9 @@ Ext.application({
 
        /*  Initialize the main view */
         Ext.Viewport.add(Ext.create('Xedu.view.Main'));
+        
+        /*disable animation on alerts */
+        Ext.Msg.defaultAllowedConfig.showAnimation = false;
                 
         /*
          * Initialize singleton config

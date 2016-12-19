@@ -61,6 +61,16 @@ Ext.define('Xedu.view.classroom.ClassroomInSession',
 									}	
 		            	       
 		            	       ]
+		            },
+		            {		            															
+						xtype:"slides-fullview",
+						title:"Classroom Progress",
+						/*
+						 * classroom full view is shown only in the case of 
+						 * students.
+						 */
+						hidden:true
+									
 		            }
             
             
@@ -68,8 +78,8 @@ Ext.define('Xedu.view.classroom.ClassroomInSession',
         listeners:
         {        
         	show:function(thisView,opts)
-        	{        			        	    			
-    			thisView.loadClassroomCourseContents();    			
+        	{        			        	    			    			
+        		thisView.loadClassroomCourseContents();    			
         	}
 		}	
     },
@@ -100,7 +110,15 @@ Ext.define('Xedu.view.classroom.ClassroomInSession',
 				                 */
 				                var enrollmentRecord = Ext.create('Xedu.model.EnrollmentModel', result.enrollment);
 				                var enrollData = enrollmentRecord.getData(true);
-				            	/*
+				                
+				                if (!enrollData)
+				                {
+				            		Ext.Msg.alert("Invalid Session","Please go back and choose a valid classroom session!", Ext.emptyFn);    		
+				            		return;
+				            	}
+				                	
+				            	
+				                /*
 				        		 * load course information
 				        		 */
 				        		var slidesMainView = me.down('slides-main-view');

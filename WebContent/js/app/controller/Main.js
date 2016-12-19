@@ -25,7 +25,7 @@ Ext.define('Xedu.controller.Main',
 	    /**
 		 * @private
 		 * @cfg {Xedu.model.SessionInfoModel} sessionInfo
-		 * Logged in session information of the logged in user. Refer to the user model {@link Xedu.model.SessionModel} 
+		 * Logged in session information of the logged in user. Refer to the user model {@link Xedu.model.SessionInfoModel} 
 		 */
 	    sessionInfo: null,
 	    /**
@@ -109,8 +109,18 @@ Ext.define('Xedu.controller.Main',
          * resume
          */
 		console.log(" checking user info....");
-		if (this.getLoggedInUser())		        
-        	action.resume();
+		if (this.getLoggedInUser())
+		{	
+			
+			var navtoview = Ext.Viewport.down('loginview');
+			if (navtoview != null)
+			{
+				console.log("about to destroy login view .....");
+				Ext.Viewport.remove(navtoview,true);
+				Ext.Viewport.setActiveItem(0);
+			}
+			action.resume();
+		}
         else
         	this.showLogin();
     },

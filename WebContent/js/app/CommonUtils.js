@@ -28,6 +28,8 @@ Ext.define('Xedu.CommonUtils',
     	}
     	else	
     		this._checkHTTPOperation(response);
+    	
+    	return true;
     },
 	
     /**
@@ -272,6 +274,28 @@ Ext.define('Xedu.CommonUtils',
 			return null;
     },
     
+    /**
+     * 
+     */
+    checkUserHasRole: function(role)
+    {
+    	var cntrller = Xedu.app.getController('Main');	   
+    	var sessionInfo = cntrller.getSessionInfo();
+    	
+    	if (!sessionInfo)
+    		return false;
+    	
+    	if (sessionInfo.userrole.indexOf(role) > 0)
+    		return true;
+    	else
+    		false;
+    	
+    	
+    },
+    
+    /**
+     * 
+     */
     filterStore: function(searchOnlist,searchvalue)
     {
     	/*
