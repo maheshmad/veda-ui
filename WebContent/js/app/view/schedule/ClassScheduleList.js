@@ -117,13 +117,24 @@ Ext.define('Xedu.view.schedule.ClassScheduleList',
     									xtype: 'schedule-details-preview',
     									eventScheduleId:record.data.id,
     									title:record.data.title,
+    									centered: true,
 				    					modal:true,
 						                autoDestroy:true,
 						                hideOnMaskTap: true,
     									width:'50%',
     									height:'85%',
     									title:"Event Details"
-    								},target);    	
+    								},null); 
+    	
+//    	Xedu.CommonUtils.showOverlay({xtype: 'Xedu.view.schedule.ScheduleDetailsPreview'},
+//    									{
+//    										title:"Edit Schedule",
+//    										eventScheduleId:record.data.id,
+//    										autoDestroy:true,
+//    										hideOnMaskTap: true
+//    									}); 
+    	
+    	
     },
     
     /*
@@ -132,8 +143,19 @@ Ext.define('Xedu.view.schedule.ClassScheduleList',
     addNewSchedule: function()
     {
 //    	Xedu.CommonUtils.showOverlay({xtype: 'Xedu.view.users.UserSelection'},{title:"Select student"});
+    	var clsid = this.getClassroomid();
+    	Xedu.CommonUtils.showOverlay2({
+								xtype: 'schedule-details-preview',
+								eventScheduleId:"",
+								classroomid:clsid,
+								centered: true,
+								modal:true,
+					            autoDestroy:true,
+					            hideOnMaskTap: true,
+								width:'50%',
+								height:'85%'
+							},null); 
     	
-    	Xedu.app.getController('Main').redirectTo('view/schedule/user/new/classroom/'+this.getClassroomid());
     },
     
     refreshStore: function()

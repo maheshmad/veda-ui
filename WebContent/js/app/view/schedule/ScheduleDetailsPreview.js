@@ -18,6 +18,7 @@ Ext.define('Xedu.view.schedule.ScheduleDetailsPreview',
 		 * previewOnly is used to load the schedule in a preview mode 
 		 */
 	   	previewOnly:true,
+	   	
     	scrollable:true,    	
     	/**
 		 * @cfg classroomid
@@ -46,6 +47,12 @@ Ext.define('Xedu.view.schedule.ScheduleDetailsPreview',
     		console.log("initialized");
         },
         items: [
+				{
+				    docked: 'top',
+				    xtype: 'toolbar',
+				    title: "Update Schedule",
+				    height: 50
+				},
 				{
 				    docked: 'bottom',
 				    xtype: 'toolbar',
@@ -156,6 +163,12 @@ Ext.define('Xedu.view.schedule.ScheduleDetailsPreview',
 							   	layout:'fit',
 							   	height:50,			                    	
 							   	items:[
+										{
+										    xtype: 'textfield',
+										    label: 'Event ID',
+										    labelAlign:'left',
+										    name : 'id'
+										},
 										{				                            													
 											xtype: 'selectfield',
 						                    label: 'Event Type',
@@ -174,14 +187,9 @@ Ext.define('Xedu.view.schedule.ScheduleDetailsPreview',
 				   			{
 				               	xtype:'fieldset',
 				               	layout:'vbox',
-				               	height:200,	                    	
+				               	height:150,	                    	
 				               	items:[
-											{
-											    xtype: 'textfield',
-											    label: 'Event ID',
-											    labelAlign:'left',
-											    name : 'id'
-											},
+											
 											{
 											    xtype: 'textfield',
 											    label: 'Title',
@@ -193,9 +201,7 @@ Ext.define('Xedu.view.schedule.ScheduleDetailsPreview',
 											    xtype: 'textfield',
 											    name : 'classroomid',
 											    itemId:'classroomid-field-id',
-											    label:"Classroom",
-											    placeHolder:'Please select classroom',
-											    
+											    label:"Classroom",											    
 				                            },
 				                            {				                            	
 				                            	xtype: 'selectfield',
@@ -222,7 +228,6 @@ Ext.define('Xedu.view.schedule.ScheduleDetailsPreview',
 				               	items:[
 											{
 											    xtype: 'textfield',
-											    label: 'Event ID',
 											    labelAlign:'left',
 											    hidden:true,
 											    itemId:'eventStartDateId',
@@ -230,7 +235,6 @@ Ext.define('Xedu.view.schedule.ScheduleDetailsPreview',
 											},
 											{
 											    xtype: 'textfield',
-											    label: 'Event ID',
 											    labelAlign:'left',
 											    hidden:true,
 											    itemId:'eventEndDateId',
@@ -242,14 +246,13 @@ Ext.define('Xedu.view.schedule.ScheduleDetailsPreview',
 							                    itemId:'eventStartDateUnFormattedId',
 							                    label: 'Start Date/Time',
 							                    dateTimeFormat : 'Y-m-d H:i',
-							                    submitValue : false,
 							                    height:50,
-							                    value: new Date(),
+//							                    value: new Date(),
 							                    picker: 
 							                    {
-							                        yearFrom: 2016,
+							                        yearFrom: 2010,
+							                        yearTo: new Date().getFullYear() + 2,
 							                        minuteInterval : 15,
-							                        value: new Date(),
 							                        ampm : true,
 							                        slotOrder: [ 'year','month', 'day','hour','minute','ampm']
 							                    },
@@ -267,14 +270,13 @@ Ext.define('Xedu.view.schedule.ScheduleDetailsPreview',
 							                    itemId:'eventEndDateUnFormattedId',
 							                    label: 'End Date/Time',
 							                    dateTimeFormat : 'Y-m-d H:i',
-							                    submitValue : false,
 							                    height:50,
-							                    value: new Date(),
+//							                    value: new Date(),
 							                    picker: 
 							                    {
-							                        yearFrom: 2016,
-							                        minuteInterval : 15,
-							                        value: new Date(),
+							                        yearFrom: 2010,
+							                        yearTo: new Date().getFullYear() + 2,
+							                        minuteInterval : 15,							                        
 							                        ampm : true,
 							                        slotOrder: [ 'year','month', 'day','hour','minute','ampm']
 							                    },
@@ -324,6 +326,15 @@ Ext.define('Xedu.view.schedule.ScheduleDetailsPreview',
     loadDetails: function()
     {
     	me = this;
+    	
+    	this.down("#classroomid-field-id").setValue(this.getClassroomid());
+    	
+    	if (this.getEventScheduleId() == "" || this.getEventScheduleId() == null)
+    	{
+    		this.toggleEditMode(true); /* show edit screen */
+    		return;
+    	}
+    	
     	console.log("about to load schedule id ="+this.getEventScheduleId());
     	var progressIndicator = Ext.create("Ext.ProgressIndicator",{loadingText:'Loading schedule details preview...'});
     	Ext.Ajax.request({
@@ -426,15 +437,29 @@ Ext.define('Xedu.view.schedule.ScheduleDetailsPreview',
 		}
 		else
 		{
-			/*
-			 * in preview mode
-			 */
-			this.down('#schedule-form-container-id').setHidden(true);
-			this.down('#preview-panel-id').setHidden(false);
-	    	this.down('#edit-schedule-button').setHidden(false);
-	    	this.down('#cancel-schedule-button').setHidden(true);
-	    	this.down('#save-schedule-button').setHidden(false);
+			if (this.scheduleRecord != null)
+			{
+				/*
+				 * in preview mode, show only when the record exits
+				 */
+				this.down('#schedule-form-container-id').setHidden(true);
+				this.down('#preview-panel-id').setHidden(false);
+		    	this.down('#edit-schedule-button').setHidden(false);
+		    	this.down('#cancel-schedule-button').setHidden(true);
+		    	this.down('#save-schedule-button').setHidden(false);
+			}
 		}
+		
+		/*
+		 * 
+		 */
+		if (this.scheduleRecord == null)
+		{
+			this.down('#cancel-schedule-button').setHidden(true);
+			this.down('#edit-schedule-button').setHidden(true);
+			this.down('#delete-schedule-button').setHidden(true);
+		}
+		
 		
 	},
 	
@@ -471,7 +496,7 @@ Ext.define('Xedu.view.schedule.ScheduleDetailsPreview',
                                      if (response.status == 'SUCCESS') 
                                      {                        	              	       
                                     	 Ext.Msg.alert('Success', response.msg, Ext.emptyFn);
-                                 		 me.toggleEditMode(true);
+                                 		 me.toggleEditMode(false);
                                     	 me.refreshAllEventLists();
                                      } 
                                      else;
@@ -479,6 +504,7 @@ Ext.define('Xedu.view.schedule.ScheduleDetailsPreview',
                                  failure: function (el,resp,p) 
                                  {			                                    
                                      Xedu.CommonUtils.checkServiceError(resp);
+                                     me.toggleEditMode(true);
                                  }
                                  
                             	 
@@ -492,6 +518,7 @@ Ext.define('Xedu.view.schedule.ScheduleDetailsPreview',
 	deleteSchedule: function()
 	{		
     	var id = this.getEventScheduleId();
+    	
 		if (id && id != '' )
     	{
     		Ext.Msg.alert("Not allowed","Operation not available!");
