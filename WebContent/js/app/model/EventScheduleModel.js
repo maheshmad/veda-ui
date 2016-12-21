@@ -7,12 +7,14 @@ Ext.define('Xedu.model.EventScheduleModel',
     	fields: [
 	 				{name:'id', type:'string'},
 	 				{name:'eventStartDate', type:'date'},
-	 				{name:'classroomId', type:'string'},
+	 				{name:'classroomid', type:'string'},
 	 				{name:'eventEndDate', type:'date'},
 	 				{name:'eventType', type:'string'},
 	 				{name:'eventStatus', type:'string'},
 	 				{name:'eventTitle', type:'string'},
-	 				{name:'eventDesc', type:'string'}
+	 				{name:'eventDescription', type:'string'},
+	 				{name:'lastUpdatedDateTime', type:'string'},
+	 				{name:'updatedBy', type:'string'}
  				],
 		proxy: 
 	    {

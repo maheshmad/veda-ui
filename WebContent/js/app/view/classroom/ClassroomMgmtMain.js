@@ -5,7 +5,8 @@ Ext.define('Xedu.view.classroom.ClassroomMgmtMain',
     requires:[
               	'Xedu.view.classroom.ClassroomEditForm', 
               	'Xedu.view.classroom.EnrolledStudentsList',
-              	'Xedu.view.schedule.ScheduleDetailsPreview'
+              	'Xedu.view.schedule.ScheduleDetailsPreview',
+              	'Xedu.view.schedule.ClassScheduleList'
 //              	'Xedu.view.classroom.ClassroomsList'
               ],
     config: 

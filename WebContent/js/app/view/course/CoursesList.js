@@ -150,7 +150,8 @@ Ext.define('Xedu.view.course.CoursesList',
     {
     	if (this.getCallbackOnSelect())
     	{
-			this.handleCallback(record.data.id);
+			console.log("about to handle call back");
+    		this.handleCallback(record.data.id);
     	}
     	else
     	{

@@ -121,8 +121,8 @@ Ext.define('Xedu.view.schedule.ClassScheduleList',
 						                autoDestroy:true,
 						                hideOnMaskTap: true,
     									width:'50%',
-    									height:'65%',
-    									title:"Schedule Preview"
+    									height:'85%',
+    									title:"Event Details"
     								},target);    	
     },
     

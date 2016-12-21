@@ -39,6 +39,9 @@ else {
     document.attachEvent('onmousewheel', mouseWheelHandler);
 }
 
+
+
+
 /*
     This file is generated and updated by Sencha Cmd. You can edit this file as
     needed for your application, but these edits will have to be merged by
@@ -67,6 +70,8 @@ Ext.application({
         'Xedu.controller.Main',
         'Xedu.field.DateTextField',
         'Xedu.view.main.SideMenu',
+        'Xedu.override.SizeMonitor',
+        'Xedu.override.PaintMonitor',
         'Ext.data.proxy.Rest' ],
     
     controllers: ['Main'],
