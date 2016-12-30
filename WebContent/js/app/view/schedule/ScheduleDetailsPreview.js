@@ -14,10 +14,11 @@ Ext.define('Xedu.view.schedule.ScheduleDetailsPreview',
     	fullscreen: false,
     	autoDestroy:true,
     	/**
-		 * @cfg previewOnly
-		 * previewOnly is used to load the schedule in a preview mode 
+		 * @cfg showEdit
+		 * showEdit is used to load the schedule in a preview mode or edit mode
+		 * default false
 		 */
-	   	previewOnly:true,
+	   	showEdit:false,
 	   	
     	scrollable:true,    	
     	/**
@@ -26,8 +27,8 @@ Ext.define('Xedu.view.schedule.ScheduleDetailsPreview',
 		 */
     	classroomid:null,
     	/**
-		 * @cfg classroomid
-		 * classroomid is used to load the schedule of the classroom 
+		 * @cfg scheduleRecord
+		 * scheduleRecord is used to store the loaded record 
 		 */
     	scheduleRecord:null,
     	/**
@@ -88,7 +89,7 @@ Ext.define('Xedu.view.schedule.ScheduleDetailsPreview',
 						},						
 						{
 							xtype:'button',
-							ui:'save',
+							ui:'confirm',
 							text:'Save',
 						    itemId: 'save-schedule-button',						            
 						    handler: function (but,action,eOpts) 
@@ -98,7 +99,7 @@ Ext.define('Xedu.view.schedule.ScheduleDetailsPreview',
 						},
 						{
 							xtype:'button',
-							ui:'save',
+							ui:'back',
 							text:'Cancel',
 						    itemId: 'cancel-schedule-button',						            
 						    handler: function (but,action,eOpts) 
@@ -108,8 +109,7 @@ Ext.define('Xedu.view.schedule.ScheduleDetailsPreview',
 						},
 						{
 							xtype:'button',
-							ui:'save',
-							text:'Close',
+							text:'Close',	
 						    itemId: 'close-schedule-button',						            
 						    handler: function (but,action,eOpts) 
 						    {
@@ -329,11 +329,13 @@ Ext.define('Xedu.view.schedule.ScheduleDetailsPreview',
     	
     	this.down("#classroomid-field-id").setValue(this.getClassroomid());
     	
-    	if (this.getEventScheduleId() == "" || this.getEventScheduleId() == null)
+    	if (this.getEventScheduleId() == "" || this.getEventScheduleId() == null || this.getShowEdit())
     	{
     		this.toggleEditMode(true); /* show edit screen */
     		return;
     	}
+    	else
+    		this.toggleEditMode(false); /* do not show edit screen */
     	
     	console.log("about to load schedule id ="+this.getEventScheduleId());
     	var progressIndicator = Ext.create("Ext.ProgressIndicator",{loadingText:'Loading schedule details preview...'});
@@ -390,8 +392,7 @@ Ext.define('Xedu.view.schedule.ScheduleDetailsPreview',
 	 */
 	editSchedule: function()
 	{		
-		this.toggleEditMode(true);
-    	    	
+		this.toggleEditMode(true);    	    	
 		var id = this.getEventScheduleId();
 //    	if (id && id != '' )
 //    	{	   	 	
@@ -436,29 +437,26 @@ Ext.define('Xedu.view.schedule.ScheduleDetailsPreview',
 	    	this.down('#save-schedule-button').setHidden(false);
 		}
 		else
-		{
-			if (this.scheduleRecord != null)
-			{
-				/*
-				 * in preview mode, show only when the record exits
-				 */
-				this.down('#schedule-form-container-id').setHidden(true);
-				this.down('#preview-panel-id').setHidden(false);
-		    	this.down('#edit-schedule-button').setHidden(false);
-		    	this.down('#cancel-schedule-button').setHidden(true);
-		    	this.down('#save-schedule-button').setHidden(false);
-			}
+		{			
+			/*
+			 * in preview mode, show only when the record exits
+			 */
+			this.down('#schedule-form-container-id').setHidden(true);
+			this.down('#preview-panel-id').setHidden(false);
+	    	this.down('#edit-schedule-button').setHidden(false);
+	    	this.down('#cancel-schedule-button').setHidden(true);
+	    	this.down('#save-schedule-button').setHidden(true);			
 		}
 		
 		/*
 		 * 
 		 */
-		if (this.scheduleRecord == null)
-		{
-			this.down('#cancel-schedule-button').setHidden(true);
-			this.down('#edit-schedule-button').setHidden(true);
-			this.down('#delete-schedule-button').setHidden(true);
-		}
+//		if (this.scheduleRecord == null)
+//		{
+//			this.down('#cancel-schedule-button').setHidden(true);
+//			this.down('#edit-schedule-button').setHidden(true);
+//			this.down('#delete-schedule-button').setHidden(true);
+//		}
 		
 		
 	},

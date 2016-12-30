@@ -2,7 +2,8 @@ Ext.define('Xedu.view.Home',
 {
     extend: 'Ext.Panel',
     xtype: 'home',
-    requires:['Xedu.view.users.StudentDashBoard'],
+    requires:['Xedu.view.users.StudentDashBoard',
+              'Xedu.view.users.UserDashBoard'],
     config: 
     {    	
     	title: 'Home',
@@ -17,22 +18,26 @@ Ext.define('Xedu.view.Home',
     	{
     		flex:1            
         },
-        items: [                                      		
-            		{
-            			xtype:'student-dashboard-view',
-            			bodyStyle:'background-color="yellow"'
-            		},
-            		{
-            			xtype:'panel',
-            			html:'something else cool',
-            			bodyStyle:'background-color="red"'
-            		}
+        items: [    
+					{
+						xtype:'user-dashboard-view'
+//						bodyStyle:'background-color="yellow"'
+					},
+//            		{
+//            			xtype:'student-dashboard-view',
+//            			bodyStyle:'background-color="yellow"'
+//            		},
+//            		{
+//            			xtype:'panel',
+//            			html:'something else cool',
+//            			bodyStyle:'background-color="red"'
+//            		}
             	],
         listeners:
         {
         	show:function()
         	{
-        		this.down('student-dashboard-view').show();
+        		this.down('user-dashboard-view').show();
         	}
         }
             
@@ -42,7 +47,7 @@ Ext.define('Xedu.view.Home',
      */
     reloadData: function()
     {
-    	var studentData = this.down('student-dashboard-view');  
-    	studentData.reloadStudentDashBoard();
+    	var dashboard = this.down('user-dashboard-view');  
+    	dashboard.reloadDashBoard();
     }
 });

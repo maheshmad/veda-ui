@@ -92,6 +92,10 @@ Ext.define('Xedu.controller.Main',
 			 */	
 			'view/enrollment/user/:userrecordid/classroom/:classid':'showEnrollmentEditForm',
 			'edit/enrollment/:enrollmentid':'showEnrollmentEditForm',
+			/*
+			 * schedule
+			 */	
+			'view/eventschedule/edit/:id':'showEventScheduleEditForm',			
 		}
 									
 	},
@@ -354,6 +358,14 @@ Ext.define('Xedu.controller.Main',
 		this.showView('classroom.EnrollmentEditForm',params);
 	},
 	/*
+	 * show event schedule
+	 */
+	showEventScheduleEditForm: function(id)
+	{					
+		var	params = {'eventScheduleId':id,'previewOnly':false};
+		this.showView('schedule.ScheduleDetailsPreview',params);
+	},
+	/*
 	 * show user management
 	 */
 	showUserMgmt: function(param)
@@ -380,9 +392,9 @@ Ext.define('Xedu.controller.Main',
 	/*
 	 * show classroom in session
 	 */
-	showClassroomInSession: function(enrollmentid)
+	showClassroomInSession: function(eventId)
 	{
-		var params = {'enrollmentid':enrollmentid,};
+		var params = {'eventId':eventId};
 		this.showView('classroom.ClassroomInSession',params);
 	},
 	

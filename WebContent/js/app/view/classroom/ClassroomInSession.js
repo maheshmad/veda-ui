@@ -16,6 +16,12 @@ Ext.define('Xedu.view.classroom.ClassroomInSession',
     	 */
     	enrollmentid:null,    	
     	
+    	/**
+    	 * @cfg eventId
+    	 */
+    	eventId:null, 
+    	
+    	
     	autoDestroy:true,
     	defaults:
     	{
@@ -89,13 +95,68 @@ Ext.define('Xedu.view.classroom.ClassroomInSession',
     */
     loadClassroomCourseContents: function()
     {
-    	if (this.getEnrollmentid() == null)
+    	if (this.getEventId() == null)
     	{
-    		Ext.Msg.alert("Invalid Operation!","No enrollment information found!", Ext.emptyFn);    		
+    		Ext.Msg.alert("Invalid Operation!","No eventId information found!", Ext.emptyFn);    		
     		return;
     	}
     	var me = this;
-//    	var progressIndicator = Ext.create("Ext.ProgressIndicator",{msg:'Loading enrollment information'});
+    	var progressIndicator = Ext.create("Ext.ProgressIndicator",{msg:'Loading event session information'});
+    	Ext.Ajax.request({
+							url:Xedu.Config.getUrl(Xedu.Config.ENROLLMENT_API)+this.getEnrollmentid(),
+				            method: 'GET',
+				            progress: progressIndicator,			
+				            headers: { 'Content-Type': 'application/json' },				            
+				            success: function(response, conn, options, eOpts) 
+				            {
+				                var result = Ext.JSON.decode(response.responseText);
+						    	
+				                /*
+				                 * use the json to create records.
+				                 */
+				                var eventRecord = Ext.create('Xedu.model.EventScheduleModel', result.eventSchedule);
+				                var eventRecordData = eventRecord.getData(true);
+				                
+				                if (!eventRecordData)
+				                {
+				            		Ext.Msg.alert("Invalid Session","Please go back and choose a valid session!", Ext.emptyFn);    		
+				            		return;
+				            	}
+				                				                
+				                /*
+				        		 * load course information
+				        		 */
+				        		var slidesMainView = me.down('slides-main-view');
+				        		slidesMainView.setCourseid(enrollData.classroom.courseRecordId);
+				        		slidesMainView.loadCourseChaptersList();
+				        		/*
+				        		 * load enrolled students
+				        		 */
+				        		me.loadClassroomEnrolledStudents(enrollData.classroomid);
+						    	
+				            },
+				            failure: function(conn, response, options, eOpts) 
+				            {
+				            	Xedu.CommonUtils.checkServiceError(resp);
+				            }
+        				});
+    	
+    	
+    },
+    
+    /*
+     * load event information for the session
+     */
+    loadEventInformation: function(eventData)
+    {
+    	
+    	if (this.getEventId() == null)
+    	{
+    		Ext.Msg.alert("Invalid Operation!","No eventId information found!", Ext.emptyFn);    		
+    		return;
+    	}
+    	var me = this;
+    	var progressIndicator = Ext.create("Ext.ProgressIndicator",{msg:'Loading event information'});
     	Ext.Ajax.request({
 							url:Xedu.Config.getUrl(Xedu.Config.ENROLLMENT_API)+this.getEnrollmentid(),
 				            method: 'GET',
@@ -108,15 +169,20 @@ Ext.define('Xedu.view.classroom.ClassroomInSession',
 				                /*
 				                 * use the json to create records.
 				                 */
-				                var enrollmentRecord = Ext.create('Xedu.model.EnrollmentModel', result.enrollment);
-				                var enrollData = enrollmentRecord.getData(true);
+				                var eventRecord = Ext.create('Xedu.model.EventScheduleModel', result.eventSchedule);
+				                var eventRecordData = eventRecord.getData(true);
 				                
-				                if (!enrollData)
+				                if (!eventRecordData)
 				                {
-				            		Ext.Msg.alert("Invalid Session","Please go back and choose a valid classroom session!", Ext.emptyFn);    		
+				            		Ext.Msg.alert("Invalid Session","Please go back and choose a valid session!", Ext.emptyFn);    		
 				            		return;
 				            	}
-				                	
+				                
+				                /*
+				                 * load event information
+				                 */
+				                me.loadEventInformation(eventRecordData);
+				                
 				            	
 				                /*
 				        		 * load course information
@@ -138,6 +204,7 @@ Ext.define('Xedu.view.classroom.ClassroomInSession',
     	
     	
     },
+    
     /**
      * load the enrolled students
      */

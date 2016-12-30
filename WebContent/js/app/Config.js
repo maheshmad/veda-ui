@@ -59,7 +59,8 @@ Ext.define('Xedu.Config',
 		USER_SERVICE:'/api/user',
 		CHG_PASSWORD_SERVICE:'/api/auth/updatepassword',
 		UPLOAD_PROFILE_IMAGE_SERVICE:'/upload_profile_image',
-		PROFILE_IMAGE_THUMB_SERVICE:'/api/user/image/large/',		
+		PROFILE_IMAGE_THUMB_SERVICE:'/api/user/image/large/',
+		ALLOWED_ACTIONS_API:'/api/user/allowedactions/{recordType}/{recordId}',
 		/*
 		 *classroom 
 		 */
@@ -77,7 +78,6 @@ Ext.define('Xedu.Config',
 		EVENT_SCHEDULE_API:'/api/eventschedule',
 		CLASSROOM_SCHEDULE_SEARCH:'/api/eventschedule/search',
 		STUDENT_SCHEDULE_SEARCH:'/api/eventschedule/search',
-		
 		
         /*
 		 * set to true if the security needs to be switched off

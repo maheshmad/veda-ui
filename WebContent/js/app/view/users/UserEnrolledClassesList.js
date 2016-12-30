@@ -99,10 +99,10 @@ Ext.define('Xedu.view.users.UserEnrolledClassesList',
 						{        		
 							console.log("tapped class");
 //			           	 	Xedu.app.getController('Main').redirectTo('view/user/'+record.data.recordId+"/main");
-							if (scope.up('user-enrolled-classes-list').getEditMode())
+//							if (scope.up('user-enrolled-classes-list').getEditMode())
 								scope.up('user-enrolled-classes-list').viewEnrollmentInfo(record,target);
-							else
-								scope.up('user-enrolled-classes-list').joinClassroomSession(record);
+//							else
+//								scope.up('user-enrolled-classes-list').joinClassroomSession(record);
 						}
 					}
                }]
