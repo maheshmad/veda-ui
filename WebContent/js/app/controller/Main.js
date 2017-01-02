@@ -208,7 +208,7 @@ Ext.define('Xedu.controller.Main',
 	    	        },
 	    	        error: function()
 	    	        {
-	    	        	Xedu.CommonUtils.showInDebugPanel("error occured  on web socket connection.... switching to ajax polling... ");
+	    	        	Xedu.CommonUtils.showInDebugPanel("error occured  on web socket connection.... auto reconnect = "+me.wsConn.autoReconnect);
 //	    	        	me.wsConn = null;
 	    	        }
 	    	    }

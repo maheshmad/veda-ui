@@ -115,6 +115,16 @@ Ext.define('Xedu.view.schedule.ScheduleDetailsPreview',
 						    {
 						    	this.up('schedule-details-preview').hide();	
 						    }
+						},
+						{
+							xtype:'button',
+							ui:'confirm',
+							text:'Join',	
+						    itemId: 'join-schedule-button',						            
+						    handler: function (but,action,eOpts) 
+						    {
+						    	this.up('schedule-details-preview').joinSession();	
+						    }
 						}
 						
 						
