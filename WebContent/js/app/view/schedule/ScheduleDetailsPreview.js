@@ -125,6 +125,16 @@ Ext.define('Xedu.view.schedule.ScheduleDetailsPreview',
 						    {
 						    	this.up('schedule-details-preview').joinSession();	
 						    }
+						},
+						{
+							xtype:'button',
+							ui:'confirm',
+							text:'Start',	
+						    itemId: 'start-schedule-button',						            
+						    handler: function (but,action,eOpts) 
+						    {
+						    	this.up('schedule-details-preview').startSession();	
+						    }
 						}
 						
 						
@@ -330,6 +340,43 @@ Ext.define('Xedu.view.schedule.ScheduleDetailsPreview',
     },
 
     /**
+     * join session
+     */
+    joinSession: function()
+    {
+    	var event = Ext.create('Xedu.model.EventModel',{});
+        event.set("type","ACTION_SESSION_JOIN");
+        event.set("id",this.getEventScheduleId());
+        event.set("msg","joinging session ===  "+this.getEventScheduleId()); 
+        
+    	Xedu.CommonUtils.sendStompSocketEvent("/veda/topic/sessionmessages/"+this.getEventScheduleId(), event);
+    },
+    
+    
+    /**
+     * start session
+     */
+    startSession: function()
+    {
+    	var event = Ext.create('Xedu.model.EventModel',{});
+        event.set("type","ACTION_SESSION_START");
+        event.set("msg","joinging session ===  "+this.getEventScheduleId()); 
+        event.set("id",this.getEventScheduleId());        
+        
+    	
+        Xedu.CommonUtils.subscribeToStompQueue('/topic/sessionmessages/'+this.getEventScheduleId(),function (msg) 
+    	{
+    	    console.log("+++++++++++++++ RECIEVED on ",msg);
+    	});
+        
+        Xedu.CommonUtils.sendStompSocketEvent("/topic/start/session/"+this.getEventScheduleId(), event);
+    	
+    	
+    	
+    },
+    
+    
+    /**
      * load schedule details preview 
      * 
      */
@@ -352,21 +399,27 @@ Ext.define('Xedu.view.schedule.ScheduleDetailsPreview',
     	Ext.Ajax.request({
     						url:Xedu.Config.getUrl(Xedu.Config.EVENT_SCHEDULE_API)+"/"+me.getEventScheduleId(),
 				            method: 'GET',
-				            progress:progressIndicator,
+//				            progress:progressIndicator,
 				            headers: { 'Content-Type': 'application/json' },				            
 				            success: function(response, conn, options, eOpts) 
 				            {
-				                var result = Ext.JSON.decode(response.responseText);
-			    		    	
-				                /*
-				                 * use the json to create records.
-				                 */
-				                var record = Ext.create('Xedu.model.EventScheduleModel', result.eventSchedule);
-				                /*
-				                 * set the data 
-				                 */
-				                me.setScheduleRecord(record); /* this record will be used during a delete or an edit operation */				                
-				                me.setDetails();
+				               try
+				               {
+				            	   var result = Ext.JSON.decode(response.responseText);			    		    	
+					               /*
+					                * use the json to create records.
+					                */
+					               var record = Ext.create('Xedu.model.EventScheduleModel', result.eventSchedule);
+					               /*
+					                 * set the data 
+					                 */
+					               me.setScheduleRecord(record); /* this record will be used during a delete or an edit operation */				                
+					               me.setDetails();
+				               }
+				               catch(e)
+				               {
+				            	   console.error(e);
+				               }
 				                
 				            },
 				            failure: function(conn, response, options, eOpts) 

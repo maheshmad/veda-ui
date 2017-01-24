@@ -197,10 +197,10 @@ Ext.define('Xedu.view.Login',
 	        	 Ext.Viewport.setMasked(false);
 	        	 var cntrller = Xedu.app.getController('Main');	                                    
 	             if (response.status == 'SUCCESS') 
-	             {                        	              	       
-	            	
+	             {                        	              	       	            	
 	            	cntrller.setLoggedInUser(response.userInfo);
 	             	cntrller.setSessionInfo(response.sessionInfo);
+	             	cntrller.setAuthorizationHeader(response.jwtToken);	             	
 	             	/*
 	             	 * add the main viewport
 	             	 */	             		             		             	

@@ -21,6 +21,7 @@ Ext.define('Xedu.Config',
 		 *  
 		 */
 		SOCKET_SERVICE:'/io/',
+		SPRING_SOCKET_SERVICE:'/hello/',
 		/* 
 		 * security 
 		 */

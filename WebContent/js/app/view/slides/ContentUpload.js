@@ -126,7 +126,7 @@ Ext.define('Xedu.view.slides.ContentUpload',
 						},
 						failure: function(form, response) 
 						{							                                    
-							Xedu.CommonUtils.checkServiceError(respObj);
+							Xedu.CommonUtils.checkServiceError(response);
 						}                 	 
         			});        
         

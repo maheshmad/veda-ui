@@ -340,6 +340,55 @@ Ext.define('Xedu.CommonUtils',
 		}
     },
     
+    /**
+     * util to send socket event messages
+     */
+    sendStompSocketEvent: function(queue,event)
+    {
+    	var cntrller = Xedu.app.getController('Main');	   
+		if (cntrller.stompClient == null)
+		{
+			console.error("stomp client connection not available ! So reconnecting.....");
+			Ext.Msg.alert("App upgraded","Application will now be reloaded to apply the latest fixes!", function()
+					{
+						window.location.reload();
+					});
+		}
+		else
+		{
+//			console.log("sending event message...."+Ext.JSON.encode(event.getData()));
+//			cntrller.stompClient.send(Ext.JSON.encode(event.getData()));
+			cntrller.stompClient.send("/veda"+queue, {}, Ext.JSON.encode(event.getData()));
+		}
+    },
+    
+
+    /**
+     * join session
+     */
+    subscribeToStompQueue: function(queue, callbackFn)
+    {
+    	var stompClient = Xedu.app.getController('Main').stompClient;	
+    	
+		if (stompClient == null)
+		{
+			console.error("stomp client connection not available ! So reconnecting.....");
+			Ext.Msg.alert("App upgraded","Application will now be reloaded to apply the latest fixes!", function()
+					{
+						window.location.reload();
+					});
+		}
+		else
+		{
+			console.log("subscribing to the queue ...."+queue);
+			stompClient.subscribe(queue, callbackFn);
+		}    	
+		
+    },
+    
+    /**
+     * 
+     */
     showInDebugPanel: function(debugMsg)
     {
     	var debugPanel = Ext.ComponentQuery.query("#debugpanelid")[0];   

@@ -35,6 +35,11 @@ Ext.define('Xedu.controller.Main',
 	    wsConn: null,
 	    /**
 		 * @private
+		 * Stomp socket connection , this is set when the page is loaded initially
+		 */
+	    stompClient: null,
+	    /**
+		 * @private
 		 * @cfg {string} saveAction
 		 * this is used to save the action navigation action performed by the user. This will be used as a redirection 
 		 * after the login.
@@ -175,53 +180,91 @@ Ext.define('Xedu.controller.Main',
     establishSocketConnection: function()
     {
     	var sessionInfo = Xedu.CommonUtils.getSessionInfo();
-    	Xedu.CommonUtils.showInDebugPanel("#### establishing socket connection ##### "+sessionInfo.id); 
-    	try
-    	{
-	    	var me = this;
-    		this.wsConn = Ext.create ('Ext.ux.WebSocket', 
-	    	{
-	    	    url: Xedu.Config.getUrl(Xedu.Config.SOCKET_SERVICE+sessionInfo.id),
-	    	    autoReconnect: true ,
+//    	Xedu.CommonUtils.showInDebugPanel("#### establishing socket connection ##### "+sessionInfo.id); 
+//    	try
+//    	{
+//	    	var me = this;
+//    		this.wsConn = Ext.create ('Ext.ux.WebSocket', 
+//	    	{
+//	    	    url: Xedu.Config.getUrl(Xedu.Config.SOCKET_SERVICE+sessionInfo.id),
+//	    	    autoReconnect: true ,
 //	    		autoReconnectInterval: 1000,
-	    	    listeners: 
-	    	    {
-	    	        open: function (ws) 
-	    	        {
-	    	        	Xedu.CommonUtils.showInDebugPanel('The websocket is ready to use....sending hi message');
-	    	            var event = Ext.create('Xedu.model.EventModel',{});
-	    	            event.set("type","ACTION");
-	    	            event.set("msg","HI");
-//	    	            event.setMsg("HI");
-	    	            Xedu.CommonUtils.sendSocketEvent(event);
-	    	        },
-	    	        close: function (ws) 
-	    	        {
-	    	        	Xedu.CommonUtils.showInDebugPanel('The websocket is closed!.... Auto reconnect = '+ws.autoReconnect);
-//	    	            me.wsConn = null;
-	    	        } ,
-	    	        message: function (ws, msg) 
-	    	        {       	    	    		
-	    	    		Xedu.CommonUtils.showInDebugPanel("recieved message = "+Ext.JSON.encode(msg));
-	    	    		//var notificationEvent = Ext.util.JSON.decode(e.data);    		
-//	    	    		mainview.getController().setNotificationsAlertsCount();
-	    	        },
-	    	        error: function()
-	    	        {
-	    	        	Xedu.CommonUtils.showInDebugPanel("error occured  on web socket connection.... auto reconnect = "+me.wsConn.autoReconnect);
-//	    	        	me.wsConn = null;
-	    	        }
-	    	    }
-	    	});
-    	}
-    	catch(e)
+//	    	    listeners: 
+//	    	    {
+//	    	        open: function (ws) 
+//	    	        {
+//	    	        	Xedu.CommonUtils.showInDebugPanel('The websocket is ready to use....sending hi message');
+//	    	            var event = Ext.create('Xedu.model.EventModel',{});
+//	    	            event.set("type","ACTION");
+//	    	            event.set("msg","HI");
+////	    	            event.setMsg("HI");
+////	    	            Xedu.CommonUtils.sendSocketEvent(event);
+//	    	        },
+//	    	        close: function (ws) 
+//	    	        {
+//	    	        	Xedu.CommonUtils.showInDebugPanel('The websocket is closed!.... Auto reconnect = '+ws.autoReconnect);
+////	    	            me.wsConn = null;
+//	    	        } ,
+//	    	        message: function (ws, msg) 
+//	    	        {       	    	    		
+//	    	    		Xedu.CommonUtils.showInDebugPanel("recieved message = "+Ext.JSON.encode(msg));
+//	    	    		//var notificationEvent = Ext.util.JSON.decode(e.data);    		
+////	    	    		mainview.getController().setNotificationsAlertsCount();
+//	    	        },
+//	    	        error: function()
+//	    	        {
+//	    	        	Xedu.CommonUtils.showInDebugPanel("error occured  on web socket connection.... auto reconnect = "+me.wsConn.autoReconnect);
+////	    	        	me.wsConn = null;
+//	    	        }
+//	    	    }
+//	    	});
+//    	}
+//    	catch(e)
+//    	{
+//    		console.error(e);
+//    	}
+    	
+    	var sock = new SockJS("http://localhost:8080/veda/veda-eventsession-wsocket");
+    	this.stompClient = Stomp.over(sock);
+    	
+    	var thisStompClient = this.stompClient;
+    	
+//    	this.stompClient.connect({"simpSessionId":sessionInfo.id}, function (frame) 
+    	this.stompClient.connect({"userSessionId":this.getSessionInfo().id}, function (frame) 
     	{
-    		console.error(e);
-    	}
+//            setConnected(true);
+            console.log('Connected: ' + frame);            
+            
+            Xedu.CommonUtils.subscribeToStompQueue('/topic/general_app_message_topic',function (msg) 
+	        {
+	            console.log("---------------- RECIEVED generic message",msg);
+	            var stompMsg = Ext.JSON.decode(msg.body);
+	            switch(stompMsg.type) 
+	    		{
+	    			case 'ACTION_FAILED':
+	    				Ext.Msg.alert("Error",stompMsg.msg, Ext.emptyFn);
+	    			default:
+	    				Ext.Msg.alert("Alert",stompMsg.msg, Ext.emptyFn);    		
+	    		}
+	            	
+	        }); 
+                                     
+            
+        });
+    	
+    	
+//    	 var event = Ext.create('Xedu.model.EventModel',{});
+//         event.set("type","ACTION");
+//         event.set("msg","HI"); 
+//         stompClient.send("/veda/process-event-session-msg", {}, Ext.JSON.encode(event.getData()));
+//         
+//    	sock.send(Ext.JSON.encode(event.getData()));
+//    	sock.close();
     	
     	
     },
 
+    
     
     /*
      * showing home
@@ -487,6 +530,17 @@ Ext.define('Xedu.controller.Main',
 				console.log("reached home...");
 		}		
 		this.getMainViewNavigation().getLayout().setAnimation(true);
+	},
+	
+	/*
+ 	 * set auth header for all requests going forward
+ 	 */
+	setAuthorizationHeader: function(token)
+	{		
+		Ext.Ajax._defaultHeaders = 
+		{	             	       
+				'X-Authorization':token
+		};
 	}
 	
 });			
