@@ -290,7 +290,7 @@ Ext.define('Xedu.view.classroom.ClassroomEditForm',
             },
             failure: function(conn, response, options, eOpts) 
             {
-            	Xedu.CommonUtils.checkServiceError(resp);
+            	Xedu.CommonUtils.checkServiceError(response);
             }
         });
     },
@@ -336,7 +336,7 @@ Ext.define('Xedu.view.classroom.ClassroomEditForm',
 				},
 				failure: function(form, response) 
 				{
-                    Xedu.CommonUtils.checkServiceError(resp);
+                    Xedu.CommonUtils.checkServiceError(response);
 				}
 		});
     	
