@@ -235,12 +235,15 @@ Ext.define('Xedu.controller.Main',
     	this.stompClient.connect(Ext.Ajax._defaultHeaders, function (frame) 
     	{
 //            setConnected(true);
-            console.log('Connected: ' + frame);            
+            console.log('Connected: ' + frame);
+            Xedu.CommonUtils.showInDebugPanel(frame);
             
             Xedu.CommonUtils.subscribeToStompQueue('/topic/general_app_message_topic',function (msg) 
 	        {
 	            console.log("---------------- RECIEVED generic message",msg);
 	            var stompMsg = Ext.JSON.decode(msg.body);
+	            Xedu.CommonUtils.showInDebugPanel(msg);
+	            
 	            switch(stompMsg.type) 
 	    		{
 	    			case 'ACTION_FAILED':
@@ -252,9 +255,10 @@ Ext.define('Xedu.controller.Main',
 	        }); 
                                      
             
-        },function(message) 
+        },function(message) 	
         {
 //        	console.error(message);
+        	Xedu.CommonUtils.showInDebugPanel(message);
         	if (message.indexOf("Lost connection") > -1)
         	{
 	        	if (autoReconnect)

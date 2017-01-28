@@ -64,19 +64,6 @@ Ext.define('Xedu.view.Main',
 	    },	    
 		items: [
 		        {
-		            xtype:'list',
-		            itemId:'debugpanelid',
-		            docked:'bottom',
-		            height:100,
-		            hidden:true,
-		            emptyText: 'No Data Loaded',
-                    store: 
-                    {
-                        fields: ['dt','msg']                        
-                    },
-                    itemTpl: '<span>{dt}</span><span>{msg}</span>'
-		        },
-		        {
 		        	xtype:'home',
 		        	title:'Home'
 		        }

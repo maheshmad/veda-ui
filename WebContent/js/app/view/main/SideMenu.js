@@ -100,8 +100,9 @@ Ext.define('Xedu.view.main.SideMenu',
                  itemId: 'toggleDebugButton',
                  align: 'right',
             	 handler: function() 
-            	 {                     
-            		 var debugPanel = Ext.ComponentQuery.query("#debugpanelid")[0]; 
+            	 {                                 		 
+            		 var debugPanel = Ext.ComponentQuery.query("#debugpanelid")[0];
+            		 console.log("showing debug panel = "+debugPanel.isHidden());
             		 if (!debugPanel.isHidden())
             			 debugPanel.getStore().removeAll();
             		 debugPanel.setHidden(!debugPanel.isHidden());

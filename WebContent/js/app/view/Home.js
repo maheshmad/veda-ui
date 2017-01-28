@@ -10,7 +10,7 @@ Ext.define('Xedu.view.Home',
     	fullscreen: false,
     	layout: 
     	{
-    		type:'hbox',
+    		type:'vbox',
     		pack:'center',
     		align:'stretch'
     	},
@@ -19,8 +19,22 @@ Ext.define('Xedu.view.Home',
     		flex:1            
         },
         items: [    
+	                {
+			            xtype:'list',
+			            itemId:'debugpanelid',
+			            docked:'bottom',
+			            height:100,
+			            hidden:false,
+			            emptyText: 'No Data Loaded',
+	                    store: 
+	                    {
+	                        fields: ['dt','msg']                        
+	                    },
+	                    itemTpl: '<span>{dt}</span><span>{msg}</span>'
+			        },
 					{
-						xtype:'user-dashboard-view'
+						xtype:'user-dashboard-view',
+						flex:1
 //						bodyStyle:'background-color="yellow"'
 					},
 //            		{

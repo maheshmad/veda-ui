@@ -9,7 +9,9 @@ Ext.define('Xedu.view.users.UserDetailsView',
 					'Ext.field.Select',
 					'Ext.field.DatePicker',
 					'Xedu.view.users.UserEnrolledClassesList',
-					'Xedu.model.UserModel',					
+					'Xedu.ux.field.MultiSelect',
+					'Xedu.model.UserModel',	
+					'Xedu.store.UserRolesStore',
 					'Xedu.model.UserImageInfoModel'
               ],
     config: 
@@ -142,17 +144,23 @@ Ext.define('Xedu.view.users.UserDetailsView',
 												            label: 'Email ID'
 												        },
 												        {
-										                    xtype: 'selectfield',
-										                    label: 'Role',
-										                    name:'userrole',
+										                    xtype: 'multiselectfield',
+										                    label: 'Roles',
+										                    name:'userRoles',
+										                    valueField:'text',
+										                    dataField:'value',
 										                    autoSelect:false,
-										                    options: [
-										                        {text: 'ADMIN',  value: 'ADMIN'},
-										                        {text: 'PARENT', value: 'PARENT'},
-										                        {text: 'STUDENT', value: 'STUDENT'},
-										                        {text: 'PRINCIPAL', value: 'PRINCIPAL'},
-										                        {text: 'TEACHER', value: 'TEACHER'}
-										                    ]
+										                    store: 
+													        {
+													        	type:'user-roles-store'
+													        }
+//										                    options: [
+//										                        {text: 'ADMIN',  value: 'ADMIN'},
+//										                        {text: 'PARENT', value: 'PARENT'},
+//										                        {text: 'STUDENT', value: 'STUDENT'},
+//										                        {text: 'PRINCIPAL', value: 'PRINCIPAL'},
+//										                        {text: 'TEACHER', value: 'TEACHER'}
+//										                    ]
 										                },
 										                {
 												            xtype: 'textfield',
@@ -290,20 +298,24 @@ Ext.define('Xedu.view.users.UserDetailsView',
     	var userDetailsFormPanel = this.down("formpanel");
     	var userDetailsHeaderFormPanel = Ext.ComponentQuery.query('user-details-header-view')[0];
     	var userEnrolledClassesPanel = this.down('user-enrolled-classes-list');
-    	    	
+    	userDetailsFormPanel.setMasked({msg:"Loading user details..."});	
     	Ext.Ajax.request({
     						url:Xedu.Config.getUrl(Xedu.Config.USER_SERVICE)+"/"+id,
 				            method: 'GET',
 				            headers: { 'Content-Type': 'application/json' },				            
 				            success: function(response, conn, options, eOpts) 
 				            {
-				                var result = Ext.JSON.decode(response.responseText);
+				            	userDetailsFormPanel.setMasked(false);
+				            	
+				            	var result = Ext.JSON.decode(response.responseText);
 			    		    	
 				                /*
 				                 * use the json to create records.
 				                 */
 				                var userRecord = Ext.create('Xedu.model.UserModel', result.user);
-				                var userImageInfoRecord = Ext.create('Xedu.model.UserImageInfoModel', result.profileImageInfo);				                
+				                var userImageInfoRecord = Ext.create('Xedu.model.UserImageInfoModel', result.profileImageInfo);		
+				                
+				                console.log(userRecord.getData().userroles);
 				                /*
 				                 * set the data 
 				                 */
@@ -317,9 +329,12 @@ Ext.define('Xedu.view.users.UserDetailsView',
 				                	userDetailsHeaderFormPanel.setUserImageInfoDetails(result.profileImageInfo);
 				                	userDetailsHeaderFormPanel.setUserDetails(userRecord);				                	
 				                }
+				                
+				                
 				            },
 				            failure: function(conn, response, options, eOpts) 
 				            {
+				            	userDetailsFormPanel.setMasked(false);
 				            	Xedu.CommonUtils.checkServiceError(resp);
 				            }
 				        });
@@ -358,21 +373,21 @@ Ext.define('Xedu.view.users.UserDetailsView',
     		restMethod = "PUT";
     		restUrl = restUrl + "/" +id;
     	}
-    	Ext.Viewport.mask({msg:"Updating user...Please wait!"});	
+    	userDetailsFrom.setMasked({msg:"Updating user...Please wait!"});	
     	userDetailsFrom.submit({
                             	 url:restUrl,
                             	 method:restMethod,
                                  success: function (form,response,data)
                                  {	                                    
                                      var maincntrller = Xedu.app.getController('Main');					                                    
-                                     Ext.Viewport.setMasked(false);
+                                     userDetailsFrom.setMasked(false);
                                      Xedu.CommonUtils.checkServiceError(response);					                                     
                                      if (response.status == 'SUCCESS') 
                                      {                        	              	       
                                     	 Ext.Msg.alert('Success', response.msg, Ext.emptyFn);
-                                    	 var configListPanel = Ext.ComponentQuery.query("users-list-panel");
-                                    	 if (configListPanel && configListPanel[0])
-                                    		 configListPanel[0].getStore().load();
+                                    	 var listPanel = Ext.ComponentQuery.query("users-list-panel");
+                                    	 if (listPanel)
+                                    		 listPanel.updateList();
                                     	 /*
                                     	  * load the created user
                                     	  */
@@ -418,9 +433,9 @@ Ext.define('Xedu.view.users.UserDetailsView',
 			    	                                     Xedu.CommonUtils.checkServiceError(response);					                                     
 			    	                                                          	              	       
 		    	                                    	 Ext.Msg.alert(response.status, response.msg, Ext.emptyFn);
-		    	                                    	 var configListPanel = Ext.ComponentQuery.query("users-list-panel");
-		    	                                    	 if (configListPanel && configListPanel[0])
-		    	                                    		 configListPanel[0].getStore().load();								                                    	 
+		    	                                    	 var listPanel = Ext.ComponentQuery.query("users-list-panel");
+		    	                                    	 if (listPanel)
+		    	                                    		 listPanel.updateList();								                                    	 
 			    	                                    
 			    	                                 },
 			    	                                 failure: function (el,resp,p) 

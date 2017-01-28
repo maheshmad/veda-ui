@@ -194,7 +194,15 @@ Ext.define('Xedu.view.users.UsersList',
 			                    			Ext.ComponentQuery.query('user-details-view')[0])
 			                    		userListPanel.select(0);
 			                    }});		
+    },
+    
+    updateList: function()
+    {
+    	var listPanel = this.down('list');
+    	listPanel.getStore().load();
     }
+    
+    
     
     
 });
