@@ -18,7 +18,7 @@ Ext.define('Xedu.controller.Main',
 	{								
 		 /**
 		 * @private
-		 * @cfg {Xedu.model.UserModel} loggedInUser
+		 * @cfg  loggedInUser
 		 * User information after he/she logins. Refer to the user model {@link Xedu.model.UserModel} 
 		 */
 	    loggedInUser: null,
@@ -27,7 +27,7 @@ Ext.define('Xedu.controller.Main',
 		 * @cfg {Xedu.model.SessionInfoModel} sessionInfo
 		 * Logged in session information of the logged in user. Refer to the user model {@link Xedu.model.SessionInfoModel} 
 		 */
-	    sessionInfo: null,
+	    sessionInfo: null,	 
 	    /**
 		 * @private
 		 * Web socket connection , this is set when the page is loaded initially
@@ -179,6 +179,7 @@ Ext.define('Xedu.controller.Main',
      */
     establishSocketConnection: function()
     {
+    	console.log("trying to establish stomp socket connection!!!!");
     	var sessionInfo = Xedu.CommonUtils.getSessionInfo();
 //    	Xedu.CommonUtils.showInDebugPanel("#### establishing socket connection ##### "+sessionInfo.id); 
 //    	try
@@ -224,13 +225,14 @@ Ext.define('Xedu.controller.Main',
 //    		console.error(e);
 //    	}
     	
-    	var sock = new SockJS("http://localhost:8080/veda/veda-eventsession-wsocket");
+    	var sock = new SockJS("http://demo.localhost/veda/veda-eventsession-wsocket");
     	this.stompClient = Stomp.over(sock);
-    	
+    	var autoReconnect = true;
+    	var mainCntrller = this;
     	var thisStompClient = this.stompClient;
     	
 //    	this.stompClient.connect({"simpSessionId":sessionInfo.id}, function (frame) 
-    	this.stompClient.connect({"userSessionId":this.getSessionInfo().id}, function (frame) 
+    	this.stompClient.connect(Ext.Ajax._defaultHeaders, function (frame) 
     	{
 //            setConnected(true);
             console.log('Connected: ' + frame);            
@@ -250,6 +252,24 @@ Ext.define('Xedu.controller.Main',
 	        }); 
                                      
             
+        },function(message) 
+        {
+//        	console.error(message);
+        	if (message.indexOf("Lost connection") > -1)
+        	{
+	        	if (autoReconnect)
+	        	{
+	        		var task = Ext.create('Ext.util.DelayedTask', function () 
+	        		     {
+	        		    	 var cntrller = Xedu.app.getController('Main');
+	        		    	 cntrller.establishSocketConnection();
+	        		     });
+	        		
+	        		console.log("will trying to auto reconnect in 3 secs.....");
+	        		task.delay(3000);
+	        		
+	        	}
+        	}
         });
     	
     	
@@ -537,6 +557,7 @@ Ext.define('Xedu.controller.Main',
  	 */
 	setAuthorizationHeader: function(token)
 	{		
+		this.xAuthToken = token;
 		Ext.Ajax._defaultHeaders = 
 		{	             	       
 				'X-Authorization':token
