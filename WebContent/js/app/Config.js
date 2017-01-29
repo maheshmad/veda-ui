@@ -22,6 +22,7 @@ Ext.define('Xedu.Config',
 		 */
 		SOCKET_SERVICE:'/io/',
 		SPRING_SOCKET_SERVICE:'/hello/',
+		EVENT_SESSION_SOCKET_SERVER:'/veda-eventsession-wsocket',
 		/* 
 		 * security 
 		 */
@@ -103,6 +104,11 @@ Ext.define('Xedu.Config',
 			if (serv.indexOf('/io') > -1)			
 				protocol = window.location.protocol.indexOf("https:")=== 0?"wss":"ws";
 			
+			if (serv.indexOf("ws:/") > -1)
+			{
+				protocol = window.location.protocol.indexOf("https:")=== 0?"wss":"ws";
+				serv = serv.replace("ws:/",'');
+			}
 			
 			if (serv.indexOf("https://") > -1 || serv.indexOf("http://") > -1 || serv.indexOf("ws://") > -1 || serv.indexOf("wss://") > -1)
 				return serv;

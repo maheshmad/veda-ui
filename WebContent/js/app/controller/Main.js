@@ -225,7 +225,8 @@ Ext.define('Xedu.controller.Main',
 //    		console.error(e);
 //    	}
     	
-    	var sock = new SockJS("http://demo.localhost/veda/veda-eventsession-wsocket");
+//    	var sock = new SockJS("http://demo.localhost/veda/veda-eventsession-wsocket");
+    	var sock = new SockJS(Xedu.Config.getUrl(Xedu.Config.EVENT_SESSION_SOCKET_SERVER));
     	this.stompClient = Stomp.over(sock);
     	var autoReconnect = true;
     	var mainCntrller = this;

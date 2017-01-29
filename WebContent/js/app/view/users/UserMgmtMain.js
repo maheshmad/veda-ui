@@ -48,7 +48,8 @@ Ext.define('Xedu.view.users.UserMgmtMain',
 					    
 					},
 					{
-						xtype:'users-list-panel', 
+						xtype:'users-list-panel',
+						autoSelect:true
 //		            	flex:1
 					}]
 			},			

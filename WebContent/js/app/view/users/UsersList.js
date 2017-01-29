@@ -14,6 +14,7 @@ Ext.define('Xedu.view.users.UsersList',
         title:'Users',
         scrollable: true,
         autoDestroy:true,
+        autoSelect:false,
         /*
          * callback options
          */
@@ -190,9 +191,11 @@ Ext.define('Xedu.view.users.UsersList',
 		usersListStore.load({callback : function(records, operation, success) 
 			                    {				            	
 			                    	thisView.setMasked(false);
-			                    	if (Ext.ComponentQuery.query('user-details-view') &&
-			                    			Ext.ComponentQuery.query('user-details-view')[0])
+		                    		console.log("auto record select = "+thisView.getAutoSelect());
+			                    	if (thisView.getAutoSelect())
+			                    	{
 			                    		userListPanel.select(0);
+			                    	}
 			                    }});		
     },
     

@@ -315,7 +315,7 @@ Ext.define('Xedu.view.users.UserDetailsView',
 				                var userRecord = Ext.create('Xedu.model.UserModel', result.user);
 				                var userImageInfoRecord = Ext.create('Xedu.model.UserImageInfoModel', result.profileImageInfo);		
 				                
-				                console.log(userRecord.getData().userroles);
+				                console.log(userRecord.getData().userRoles);
 				                /*
 				                 * set the data 
 				                 */

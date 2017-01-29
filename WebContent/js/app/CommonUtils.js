@@ -392,6 +392,8 @@ Ext.define('Xedu.CommonUtils',
     showInDebugPanel: function(debugMsg)
     {
     	var debugPanel = Ext.ComponentQuery.query("#debugpanelid")[0];   
+    	if (!debugPanel)
+    		return;
     	if (debugPanel.isHidden()) /* if its hidden do not log */
     		return;
     	var store = debugPanel.getStore();

@@ -280,15 +280,17 @@ Ext.define('Xedu.view.classroom.EnrollmentEditForm',
     		return;
     	
     	me = this;
-    	var progressIndicator = Ext.create("Ext.ProgressIndicator");
+//    	var progressIndicator = Ext.create("Ext.ProgressIndicator");
+    	this.setMasked({msg:"Loading enrollment details..."});
     	Ext.Ajax.request({
     						url:Xedu.Config.getUrl(Xedu.Config.ENROLLMENT_API)+me.getEnrollmentid(),
 				            method: 'GET',
 				            headers: { 'Content-Type': 'application/json' },	
-							progress: progressIndicator,				
+//							progress: progressIndicator,				
 				            success: function(response, conn, options, eOpts) 
 				            {
-				                var result = Ext.JSON.decode(response.responseText);			    		    	
+				            	me.setMasked(false);
+				            	var result = Ext.JSON.decode(response.responseText);			    		    	
 				                /*
 				                 * use the json to create records.
 				                 */
@@ -302,6 +304,7 @@ Ext.define('Xedu.view.classroom.EnrollmentEditForm',
 				            },
 				            failure: function(conn, response, options, eOpts) 
 				            {
+				            	this.setMasked(false);
 				            	Xedu.CommonUtils.checkServiceError(resp);
 				            }
 				        });
@@ -323,24 +326,36 @@ Ext.define('Xedu.view.classroom.EnrollmentEditForm',
     		restMethod = "PUT";
     		restUrl = restUrl +id;
     	}
-    	var progressIndicator = Ext.create("Ext.ProgressIndicator");
+    	this.setMasked({msg:"Updating enrollment details..."});
     	enrollmentForm.submit(
 		{
 				url:restUrl,
        	 		method:restMethod,		
-				progress: progressIndicator,				
+//				progress: progressIndicator,				
 				success: function(form, response) 
 				{
-					var maincntrller = Xedu.app.getController('Main');					                                    
-                    Ext.Viewport.setMasked(false);
+					this.setMasked(false);
+					var maincntrller = Xedu.app.getController('Main');					                                                        
                     Xedu.CommonUtils.checkServiceError(response);					                                     
                     if (response.status == 'SUCCESS') 
                     {                        	              	                                           	
-	                   	 /*
+		            	me.setMasked(false);
+                    	 /*
 	                   	  * load the created user
 	                   	  */
                     	Ext.Msg.alert("SUCCESS",response.msg);
                     	var enrollmentlistpanel = Ext.ComponentQuery.query("enrollments-list-panel list");
+                    	                    	    		    
+		                /*
+		                 * use the json to create records.
+		                 */
+		                var enrollmentRecord = Ext.create('Xedu.model.EnrollmentModel', response.enrollment);
+		                
+		                /*
+		                 * set the data 
+		                 */				                					                			    		    
+		                me.setRecord(enrollmentRecord);
+                    	
 //                    	enrollmentForm.reset();
                     	if (enrollmentlistpanel && enrollmentlistpanel[0])
                     		enrollmentlistpanel[0].getStore().load();

@@ -396,6 +396,7 @@ Ext.define('Xedu.view.schedule.ScheduleDetailsPreview',
     	
     	console.log("about to load schedule id ="+this.getEventScheduleId());
     	var progressIndicator = Ext.create("Ext.ProgressIndicator",{loadingText:'Loading schedule details preview...'});
+    	this.setMasked({msg:"Loading schedule..."});
     	Ext.Ajax.request({
     						url:Xedu.Config.getUrl(Xedu.Config.EVENT_SCHEDULE_API)+"/"+me.getEventScheduleId(),
 				            method: 'GET',
@@ -403,7 +404,8 @@ Ext.define('Xedu.view.schedule.ScheduleDetailsPreview',
 				            headers: { 'Content-Type': 'application/json' },				            
 				            success: function(response, conn, options, eOpts) 
 				            {
-				               try
+					           me.setMasked(false);
+					           try
 				               {
 				            	   var result = Ext.JSON.decode(response.responseText);			    		    	
 					               /*
@@ -424,6 +426,7 @@ Ext.define('Xedu.view.schedule.ScheduleDetailsPreview',
 				            },
 				            failure: function(conn, response, options, eOpts) 
 				            {
+					            me.setMasked(false),
 				            	Xedu.CommonUtils.checkServiceError(resp);
 				            }
 				        });
