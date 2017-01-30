@@ -12,6 +12,7 @@ Ext.define('Xedu.model.EventScheduleModel',
 	 				{name:'eventType', type:'string'},
 	 				{name:'eventStatus', type:'string'},
 	 				{name:'eventTitle', type:'string'},
+	 				{name:'eventSessionId', type:'string'},
 	 				{name:'eventDescription', type:'string'},
 	 				{name:'lastUpdatedDateTime', type:'string'},
 	 				{name:'updatedBy', type:'string'}

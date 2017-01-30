@@ -23,6 +23,8 @@ Ext.define('Xedu.Config',
 		SOCKET_SERVICE:'/io/',
 		SPRING_SOCKET_SERVICE:'/hello/',
 		EVENT_SESSION_SOCKET_SERVER:'/veda-eventsession-wsocket',
+		EVENT_SESSION_START_API:'/api/eventsessions/start',
+		EVENT_SESSION_JOIN_API:'/api/eventsessions/join',
 		/* 
 		 * security 
 		 */

@@ -36,6 +36,7 @@ Ext.define('Xedu.view.schedule.ScheduleDetailsPreview',
 		 * eventScheduleId is used to load the schedule 
 		 */
     	eventScheduleId: null,
+    	
     	layout:
     	{
     		type:'fit',
@@ -344,13 +345,65 @@ Ext.define('Xedu.view.schedule.ScheduleDetailsPreview',
      */
     joinSession: function()
     {
-    	var event = Ext.create('Xedu.model.EventModel',{});
-        event.set("type","ACTION_SESSION_JOIN");
-        event.set("id",this.getEventScheduleId());
-        event.set("msg","joinging session ===  "+this.getEventScheduleId()); 
-        
-    	Xedu.CommonUtils.sendStompSocketEvent("/veda/topic/sessionmessages/"+this.getEventScheduleId(), event);
+    	var me = this;
+    	var schRec = this.getScheduleRecord();
+    	
+    	if (!schRec || !schRec.data || schRec.data.eventSessionId == null)
+    	{
+    		Ext.Msg.alert('Invalid', "The session did not start yet!", Ext.emptyFn);
+    		return;
+    	}
+    	
+    	var progressIndicator = Ext.create("Ext.ProgressIndicator",{loadingText:'Loading session information...'});
+    	Ext.Ajax.request({
+					       	url:Xedu.Config.getUrl(Xedu.Config.EVENT_SESSION_JOIN_API)+"/"+schRec.data.eventSessionId,
+					       	method:'GET',
+					       	progress: progressIndicator,	
+				            success: function (resp)
+				            {	                                    			    	                                     
+				           	 	var response = Ext.JSON.decode(resp.responseText);
+				           	 	if (response.errorInfo && response.errorInfo.errors && response.errorInfo.errors.length > 0)
+				           	 	{	                                    
+					                Xedu.CommonUtils.checkServiceError(response);
+				           	 	}
+				           	 	else
+				           	 	{
+					           	 	var event = Ext.create('Xedu.model.EventModel',{});
+					           	 	event.set("type","ACTION_SESSION_JOIN");
+					           	 	event.set("msg","successfully joined session = "+response.eventSession.eventSessionId); 
+					           	 	event.set("id",response.eventSession.eventSessionId);					           	 	
+					           	 	me.subscribeToSessionEvents(response.eventSession.eventSessionId,event);
+				           	 	}
+				            },
+				            failure: function (el,resp,p) 
+				            {			                                    			    	                                   	                                    
+				                Xedu.CommonUtils.checkServiceError(resp);
+				            }            
+					});    	
+    	    	
     },
+    
+    
+    subscribeToSessionEvents: function(id,event)
+    {
+    	Xedu.CommonUtils.subscribeToStompQueue('/topic/sessionmessages/'+id,function (msg) 
+    	{
+    	    console.log("+++++++++++++++ RECIEVED on ",msg);
+    	    var stompMsg = Ext.JSON.decode(msg.body);
+            Xedu.CommonUtils.showInDebugPanel(msg);
+            
+            switch(stompMsg.type) 
+    		{
+    			case 'ACTION_FAILED':
+    				Ext.Msg.alert("Error",stompMsg.msg, Ext.emptyFn);
+    			default:
+    				Ext.Msg.alert("Alert",stompMsg.msg, Ext.emptyFn);    		
+    		}
+    	});
+    		        
+    	Xedu.CommonUtils.sendStompSocketEvent("/topic/sessionmessages/"+id, event);
+    },
+    
     
     
     /**
@@ -358,19 +411,38 @@ Ext.define('Xedu.view.schedule.ScheduleDetailsPreview',
      */
     startSession: function()
     {
-    	var event = Ext.create('Xedu.model.EventModel',{});
-        event.set("type","ACTION_SESSION_START");
-        event.set("msg","joinging session ===  "+this.getEventScheduleId()); 
-        event.set("id",this.getEventScheduleId());        
-        
-    	
-        Xedu.CommonUtils.subscribeToStompQueue('/topic/sessionmessages/'+this.getEventScheduleId(),function (msg) 
-    	{
-    	    console.log("+++++++++++++++ RECIEVED on ",msg);
-    	});
-        
-        Xedu.CommonUtils.sendStompSocketEvent("/topic/start/session/"+this.getEventScheduleId(), event);
-    	
+//    	var event = Ext.create('Xedu.model.EventModel',{});
+//        event.set("type","ACTION_SESSION_START");
+//        event.set("msg","joinging session ===  "+this.getEventScheduleId()); 
+//        event.set("id",this.getEventScheduleId());        
+//        this.subscribeToSessionEvents(this.getEventScheduleId(),event);   
+    	var me = this;
+    	var progressIndicator = Ext.create("Ext.ProgressIndicator",{loadingText:'Checking user session...'});
+    	Ext.Ajax.request({
+					       	url:Xedu.Config.getUrl(Xedu.Config.EVENT_SESSION_START_API)+"/"+this.getEventScheduleId(),
+					       	method:'GET',
+					       	progress: progressIndicator,	
+				            success: function (resp)
+				            {	                                    			    	                                     
+				           	 	var response = Ext.JSON.decode(resp.responseText);
+				           	 	if (response.errorInfo && response.errorInfo.errors && response.errorInfo.errors.length > 0)
+				           	 	{	                                    
+					                Xedu.CommonUtils.checkServiceError(response);
+				           	 	}
+				           	 	else
+				           	 	{
+					           	 	var event = Ext.create('Xedu.model.EventModel',{});
+					           	 	event.set("type","ACTION_SESSION_START");
+					           	 	event.set("msg","joinging session ===  "+me.getEventScheduleId()); 
+					           	 	event.set("id",me.getEventScheduleId());					           	 	
+					           	 	me.subscribeToSessionEvents(response.eventSession.eventSessionId,event);
+				           	 	}
+				            },
+				            failure: function (el,resp,p) 
+				            {			                                    			    	                                   	                                    
+				                Xedu.CommonUtils.checkServiceError(resp);
+				            }            
+					});
     	
     	
     },
