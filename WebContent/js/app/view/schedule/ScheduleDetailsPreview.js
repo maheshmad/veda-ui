@@ -412,7 +412,7 @@ Ext.define('Xedu.view.schedule.ScheduleDetailsPreview',
 						    			default:
 						    			{
 								            var actionMsg = Ext.JSON.decode(stompMsg.msg);
-						    				Xedu.app.getController('Main').redirectTo('view/topic/'+actionMsg.topicid);
+						    				Xedu.app.getController('Main').redirectTo('view/'+actionMsg.route);
 //						    				Ext.Msg.alert("Alert",stompMsg.msg, Ext.emptyFn);
 						    			}
 						    		}

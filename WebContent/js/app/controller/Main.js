@@ -107,6 +107,7 @@ Ext.define('Xedu.controller.Main',
 //				'view/course/:cid/chapter/:chpid/topics':'showTopics',
 			'view/chapter/:chpid/topics':'showTopics',
 			'view/topic/:topicid':'showSlides',
+			'view/topic/:topicid/slide/:slideid':'showSlides',
 			'view/course/:cid/chapter/:chpid/topic/:topicid/upload':'uploadSlides',
 //				'view/course/:cid/chapter/:chpid/topic/:topicid':'showSlidesMain',
 			'open/:applid':'openApplicationView',
@@ -522,9 +523,12 @@ Ext.define('Xedu.controller.Main',
 		this.showView('topic.TopicsList',params);
 	},
 	
-	showSlides: function(topicId)
-	{
-		var params = {'topicid':topicId};
+	/**
+	 * show slides
+	 */
+	showSlides: function(topicId,slideId)
+	{		
+		var params = {'topicid':topicId,"slideid":slideId};
 		this.showView('slides.SlidesMain',params);
 	},
 	

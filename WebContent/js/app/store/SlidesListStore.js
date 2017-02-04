@@ -22,7 +22,8 @@ Ext.define('Xedu.store.SlidesListStore',
 	        {
 	            type: 'json',
 	            rootProperty: 'hits',
-	            totalProperty: 'totalHits'
+	            totalProperty: 'totalHits',
+	            idProperty:'recordId'
 	        },
 	        filterParam: 'name'       
 	    }

@@ -19,6 +19,11 @@ Ext.define('Xedu.view.slides.SlidesMain',
     	 * @cfg topicid
     	 */
     	topicid: null,
+    	
+    	/**
+    	 * @cfg slideid
+    	 */
+    	slideid: null,
     	    	
     	/**
     	 * @cfg classroomSessionMode
@@ -226,8 +231,15 @@ Ext.define('Xedu.view.slides.SlidesMain',
     	{
     		var slidesListPanel = courseContentsPanel.down('slides-list-panel');
     		courseContentsPanel.down('titlebar').hide();
-    		slidesListPanel.setTopicid(this.getTopicid());    		
+    		slidesListPanel.setTopicid(this.getTopicid());    		    		
     		courseContentsPanel.setActiveItem(slidesListPanel);
+    		
+    		if (this.getSlideid() && this.getSlideid() != "")
+    		{
+    			console.log("setting the slide id = "+this.getSlideid()); 
+    			
+    		}
+    		
     	}
 		
     },
@@ -247,6 +259,9 @@ Ext.define('Xedu.view.slides.SlidesMain',
     	Xedu.CommonUtils.showOverlay(newContentUploadFormPanel,{title:"Upload Topic Slides", width:500, height:400,callme: me.reloadSlidesList,callmeScope:me});
     },
     
+    /**
+     * 
+     */
     reloadSlidesList: function(scope)
     {    	
     	if (scope && scope.down("slides-list-panel"))

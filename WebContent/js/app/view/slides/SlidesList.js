@@ -109,17 +109,21 @@ Ext.define('Xedu.view.slides.SlidesList',
 			        	{
 			        		if (thisView.getTopicid() != '')
 			        			thisView.up('slides-list-panel').loadslideslist(thisView.getTopicid());
+			        		
+			        		
 			        	},
 			        	itemsingletap: function(scope, index, target, record)
 						{        					        		
-							scope.up('slides-list-panel').showSlideOnFullView(scope, index, target, record);
+			        		var slidesListPanel = scope.up('slides-list-panel');
+			        		slidesListPanel.showSlideOnFullView(scope, index, target, record);
 							var event = Ext.create('Xedu.model.EventModel',{});
 			    	        event.set("type","ACTION");			    	        
 			    	        event.set("to",Ext.JSON.decode("['all']"));
-			    	        event.set("msg","{'topicid':'"+record.getData().recordId+"'}");
+			    	        event.set("msg","{'route':'"+"topic/"+slidesListPanel.getTopicid()+"/slide/"+record.getData().recordId+"'}");
 //							Xedu.CommonUtils.sendSocketEvent(event);
 			    	        Xedu.CommonUtils.broadCastEventIfPresenter(event);
 						}
+						
 					}
                }
            ],
@@ -151,8 +155,10 @@ Ext.define('Xedu.view.slides.SlidesList',
 		slideListStore.getProxy().setUrl(Xedu.Config.getUrl(Xedu.Config.SLIDES_LIST_SEARCH_BY_TOPIC)+topicid);
 		slideListStore.load({callback : function(records, operation, success) 
 			                    {				            	
-			                    	thisView.setMasked(false);		    		                        	                       	                	    			            					            			                        
+			                    	thisView.setMasked(false);
+			                    	thisView.showSlideById();
 			                    }});
+		
     },
     
     showSlideOnFullView: function(scope, index, target, record)
@@ -161,6 +167,24 @@ Ext.define('Xedu.view.slides.SlidesList',
     	var fullView = this.up('slides-main-view').down('slides-fullview-list');
     	fullView.addSlide(record);
     },
+    
+    /*
+     * if the slideid is set, focus on that slide.
+     */
+    showSlideById: function(slideid)
+    {
+    	var fullView = this.up('slides-main-view');
+    	if (fullView.getSlideid() && fullView.getSlideid() != "")
+    	{
+    		var slideList = this.down('list');
+    		var slideStore = slideList.getStore();
+    		console.log("setting active slide item = "+fullView.getSlideid());
+    		var record = slideStore.getById(fullView.getSlideid());
+    		this.showSlideOnFullView(this,null,null,record);
+    	}
+    	
+    },
+    
     
     reload: function()
     {
