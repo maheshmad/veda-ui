@@ -159,7 +159,8 @@ Ext.define('Xedu.view.course.CourseEditForm',
                  * set the data 
                  */
                 courseDetailsForm.setRecord(courseRecord);
-                courseDetailsForm.down("#deleteChangesButton").setHidden(false);
+                if (courseDetailsForm.down("#deleteChangesButton"))
+                	courseDetailsForm.down("#deleteChangesButton").setHidden(false);
 
 		    	
             },

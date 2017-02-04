@@ -536,7 +536,7 @@ Ext.define('Xedu.controller.Main',
 	showSlideFullView: function(topicId,slideId)
 	{		
 		var params = {'topicid':topicId,"slideid":slideId,"classroomSessionMode":true};
-		this.showView('slides.SlidesMain',params);
+		this.redirectToView('slides.SlidesMain',params);
 	},
 	
 	/**

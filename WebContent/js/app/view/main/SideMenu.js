@@ -109,6 +109,16 @@ Ext.define('Xedu.view.main.SideMenu',
             		 
             		 Ext.Viewport.hideMenu('right');
                  }
+             },
+             {
+                 xtype: 'button',
+                 text: 'Reload App',
+                 itemId: 'reloadAppButton',
+                 align: 'right',
+            	 handler: function() 
+            	 {                                 		 
+            		location.reload();
+                 }
              }
              
              
