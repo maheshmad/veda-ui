@@ -362,11 +362,64 @@ Ext.define('Xedu.CommonUtils',
 		}
     },
     
-
+    
+    /**
+     * This will be used to broadcast all session related events
+     * if the person is a presenter. 
+     */
+    broadCastEventIfPresenter: function(event)
+    {
+    	var cntrller = Xedu.app.getController('Main');
+    	var queue = cntrller.getPresenterTopicEndpoint(); 
+    	if (queue != null && queue != '')
+    	{
+			if (cntrller.stompClient == null)
+			{
+				console.error("stomp client connection not available ! So reconnecting.....");
+				Ext.Msg.alert("App upgraded","Application will now be reloaded to apply the latest fixes!", function()
+						{
+							window.location.reload();
+						});
+			}
+			else
+			{
+	//			console.log("sending event message...."+Ext.JSON.encode(event.getData()));
+	//			cntrller.stompClient.send(Ext.JSON.encode(event.getData()));
+				cntrller.stompClient.send("/veda"+queue, {}, Ext.JSON.encode(event.getData()));
+			}
+    	}
+    },
+    
+    
     /**
      * join session
      */
     subscribeToStompQueue: function(queue, callbackFn)
+    {
+    	var cntrller = Xedu.app.getController('Main');
+    	var stompClient = cntrller.stompClient;	
+    	    	
+		if (stompClient == null)
+		{
+			console.error("stomp client connection not available ! So reconnecting.....");
+			Ext.Msg.alert("App upgraded","Application will now be reloaded to apply the latest fixes!", function()
+					{
+						window.location.reload();
+					});
+		}
+		else
+		{
+			console.log("subscribing to the queue ...."+queue);
+			return stompClient.subscribe(queue, callbackFn);			
+		}    	
+		
+    },
+    
+    
+    /**
+     * join session
+     */
+    unsubscribeToStompQueue: function(id, callbackFn)
     {
     	var stompClient = Xedu.app.getController('Main').stompClient;	
     	

@@ -49,6 +49,26 @@ Ext.define('Xedu.controller.Main',
 	     * the params that have to be passed to the view after redirection
 		 */
 	    saveAction:null,
+	    
+	    /**
+		 * @private
+		 * @cfg {string} activeSessionSubscription
+		 * Users have an option to join a session, and when they do , a session id is
+		 * required for broadcasting their actions. Only one session can be started at any given point of time.  
+		 * 
+		 * 
+		 */
+	    activeSessionSubscription:null,
+	    
+	    /**
+		 * @private
+		 * @cfg {string} presenterTopicEndpoint
+		 * Users have an option to start their own session, and when they do , this presenterTopicEndpoint will hold the topic endpoint and 
+		 * all the events are broadcasted to this topic
+		 * 		  
+		 */
+	    presenterTopicEndpoint:false,
+	    
 		
 		before:
 		{	
@@ -288,8 +308,6 @@ Ext.define('Xedu.controller.Main',
     	
     	
     },
-
-    
     
     /*
      * showing home

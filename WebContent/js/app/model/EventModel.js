@@ -4,6 +4,7 @@ Ext.define('Xedu.model.EventModel',
     config: 
     {	    
     	fields: [				
+    	         	{name:'id', type:'string'},
 					{name:'type', type:'string'},
 					{name:'msg', type:'string'},
 					{name:'from', type:'string'},

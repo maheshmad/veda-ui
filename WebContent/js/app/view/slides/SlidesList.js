@@ -117,7 +117,8 @@ Ext.define('Xedu.view.slides.SlidesList',
 			    	        event.set("type","ACTION");			    	        
 			    	        event.set("to",Ext.JSON.decode("['all']"));
 			    	        event.set("msg","{'topicid':'"+record.getData().recordId+"'}");
-							Xedu.CommonUtils.sendSocketEvent(event);
+//							Xedu.CommonUtils.sendSocketEvent(event);
+			    	        Xedu.CommonUtils.broadCastEventIfPresenter(event);
 						}
 					}
                }

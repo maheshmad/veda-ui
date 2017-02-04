@@ -353,7 +353,7 @@ Ext.define('Xedu.view.schedule.ScheduleDetailsPreview',
     		Ext.Msg.alert('Invalid', "The session did not start yet!", Ext.emptyFn);
     		return;
     	}
-    	
+    	    	    	
     	var progressIndicator = Ext.create("Ext.ProgressIndicator",{loadingText:'Loading session information...'});
     	Ext.Ajax.request({
 					       	url:Xedu.Config.getUrl(Xedu.Config.EVENT_SESSION_JOIN_API)+"/"+schRec.data.eventSessionId,
@@ -372,7 +372,7 @@ Ext.define('Xedu.view.schedule.ScheduleDetailsPreview',
 					           	 	event.set("type","ACTION_SESSION_JOIN");
 					           	 	event.set("msg","successfully joined session = "+response.eventSession.eventSessionId); 
 					           	 	event.set("id",response.eventSession.eventSessionId);					           	 	
-					           	 	me.subscribeToSessionEvents(response.eventSession.eventSessionId,event);
+					           	 	me.subscribeToSessionEvents(response.eventSession,event);					           	 	
 				           	 	}
 				            },
 				            failure: function (el,resp,p) 
@@ -384,24 +384,55 @@ Ext.define('Xedu.view.schedule.ScheduleDetailsPreview',
     },
     
     
-    subscribeToSessionEvents: function(id,event)
+    /**
+     * 
+     */
+    subscribeToSessionEvents: function(eventSession,event)
     {
-    	Xedu.CommonUtils.subscribeToStompQueue('/topic/sessionmessages/'+id,function (msg) 
-    	{
-    	    console.log("+++++++++++++++ RECIEVED on ",msg);
-    	    var stompMsg = Ext.JSON.decode(msg.body);
-            Xedu.CommonUtils.showInDebugPanel(msg);
-            
-            switch(stompMsg.type) 
-    		{
-    			case 'ACTION_FAILED':
-    				Ext.Msg.alert("Error",stompMsg.msg, Ext.emptyFn);
-    			default:
-    				Ext.Msg.alert("Alert",stompMsg.msg, Ext.emptyFn);    		
-    		}
-    	});
-    		        
-    	Xedu.CommonUtils.sendStompSocketEvent("/topic/sessionmessages/"+id, event);
+    	var cntrller = Xedu.app.getController('Main');    	
+    	var id = eventSession.eventSessionId;
+    	var sessionEndpoint = '/topic/sessionmessages/'+id;
+    	
+    	if (cntrller.getActiveSessionSubscription())
+    		cntrller.getActiveSessionSubscription().unsubscribe();
+    	    	
+    	var subscription = Xedu.CommonUtils.subscribeToStompQueue(sessionEndpoint,function (msg) 
+						    	{
+						    	    console.log("+++++++++++++++ RECIEVED on ",msg);
+						    	    var stompMsg = Ext.JSON.decode(msg.body);
+						            Xedu.CommonUtils.showInDebugPanel(msg);
+						            switch(stompMsg.type) 
+						    		{
+						    			case 'ACTION_FAILED':
+						    				Ext.Msg.alert("Error",stompMsg.msg, Ext.emptyFn);
+						    				break;
+						    			case 'ACTION_SESSION_JOIN':
+						    				Ext.Msg.alert("Joined",stompMsg.msg, Ext.emptyFn);
+						    				break;
+						    			default:
+						    			{
+								            var actionMsg = Ext.JSON.decode(stompMsg.msg);
+						    				Xedu.app.getController('Main').redirectTo('view/topic/'+actionMsg.topicid);
+//						    				Ext.Msg.alert("Alert",stompMsg.msg, Ext.emptyFn);
+						    			}
+						    		}
+						    	});
+    	
+    	/*
+    	 * save the subscription in session
+    	 */
+    	cntrller.setActiveSessionSubscription(subscription);    	
+    	/*
+    	 * set the active presenter session endpoint so that the 
+    	 * events can be broadcasted. 
+    	 */
+    	if (eventSession.presenter)
+    		cntrller.setPresenterTopicEndpoint(sessionEndpoint); 
+    	else
+    		cntrller.setPresenterTopicEndpoint(null);
+    	
+    	if (event != null)
+    		Xedu.CommonUtils.sendStompSocketEvent("/topic/sessionmessages/"+id, event);
     },
     
     
@@ -435,7 +466,8 @@ Ext.define('Xedu.view.schedule.ScheduleDetailsPreview',
 					           	 	event.set("type","ACTION_SESSION_START");
 					           	 	event.set("msg","joinging session ===  "+me.getEventScheduleId()); 
 					           	 	event.set("id",me.getEventScheduleId());					           	 	
-					           	 	me.subscribeToSessionEvents(response.eventSession.eventSessionId,event);
+					           	 	me.subscribeToSessionEvents(response.eventSession,event);
+					           	 	
 				           	 	}
 				            },
 				            failure: function (el,resp,p) 
