@@ -411,9 +411,14 @@ Ext.define('Xedu.view.schedule.ScheduleDetailsPreview',
 						    				break;
 						    			default:
 						    			{
-								            var actionMsg = Ext.JSON.decode(stompMsg.msg);
-						    				Xedu.app.getController('Main').redirectTo('view/'+actionMsg.route);
-//						    				Ext.Msg.alert("Alert",stompMsg.msg, Ext.emptyFn);
+								            if (stompMsg.from != cntrller.getLoggedInUser().userId)
+								            {
+								            	var actionMsg = Ext.JSON.decode(stompMsg.msg);								            
+								            	Xedu.app.getController('Main').redirectTo('view/'+actionMsg.route);
+//						    					Ext.Msg.alert("Alert",stompMsg.msg, Ext.emptyFn);
+								            }
+								            else
+								            	console.log("message from "+stompMsg.from);
 						    			}
 						    		}
 						    	});

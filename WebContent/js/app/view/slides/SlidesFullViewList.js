@@ -1,5 +1,6 @@
 Ext.define('Xedu.view.slides.SlidesFullViewList', 
 {
+	requires:['Xedu.model.SearchHitModel'],
 	extend:'Ext.dataview.List',
 	xtype:'slides-fullview-list',	
 	requires: [		    		    		    
@@ -48,6 +49,13 @@ Ext.define('Xedu.view.slides.SlidesFullViewList',
     		titlebar.setTitle(slideRecord.data.recordTitle);
     	this.getStore().removeAll();
     	this.getStore().add(slideRecord);
+    },
+    
+    showSlideById: function(slideid)
+    {
+    	console.log("showing slide "+slideid);
+    	var record = Ext.create('Xedu.model.SearchHitModel',{'recordId':slideid,'recordTitle':'','recordSubtitle':''});
+    	this.addSlide(record);    	
     }
     
     

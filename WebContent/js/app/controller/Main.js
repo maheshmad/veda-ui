@@ -10,6 +10,7 @@ Ext.define('Xedu.controller.Main',
 	          'Xedu.view.ChangePassword',
 	          'Xedu.view.Home',
 	          'Xedu.model.EventModel',
+	          'Xedu.view.slides.SlidesFullViewList',
 	          'Xedu.view.classroom.ClassroomsList',
 	          'Xedu.view.classroom.ClassroomMgmtMain',
 	          'Xedu.view.classroom.ClassroomInSession',
@@ -107,7 +108,7 @@ Ext.define('Xedu.controller.Main',
 //				'view/course/:cid/chapter/:chpid/topics':'showTopics',
 			'view/chapter/:chpid/topics':'showTopics',
 			'view/topic/:topicid':'showSlides',
-			'view/topic/:topicid/slide/:slideid':'showSlides',
+			'view/topic/:topicid/slide/:slideid':'showSlideFullView',
 			'view/course/:cid/chapter/:chpid/topic/:topicid/upload':'uploadSlides',
 //				'view/course/:cid/chapter/:chpid/topic/:topicid':'showSlidesMain',
 			'open/:applid':'openApplicationView',
@@ -529,6 +530,12 @@ Ext.define('Xedu.controller.Main',
 	showSlides: function(topicId,slideId)
 	{		
 		var params = {'topicid':topicId,"slideid":slideId};
+		this.showView('slides.SlidesMain',params);
+	},
+	
+	showSlideFullView: function(topicId,slideId)
+	{		
+		var params = {'topicid':topicId,"slideid":slideId,"classroomSessionMode":true};
 		this.showView('slides.SlidesMain',params);
 	},
 	

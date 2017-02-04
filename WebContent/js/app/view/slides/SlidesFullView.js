@@ -1,5 +1,6 @@
 Ext.define('Xedu.view.slides.SlidesFullView', 
 {
+	requires:['Xedu.model.SearchHitModel'],
 	extend:'Xedu.ux.PinchZoomImage',
 	xtype:'slides-fullview',	
 	requires: [	
@@ -29,6 +30,12 @@ Ext.define('Xedu.view.slides.SlidesFullView',
     	
     	this.setSrc(Xedu.Config.getUrl(Xedu.Config.SLIDE_IMAGE_LARGE)+slideRecord.data.recordId);
     	
+    },
+    
+    showSlideById: function(slideid)
+    {
+    	var record = Ext.create('SearchHitModel',{'recordId':slideid,'recordTitle':'','recordSubtitle':''});
+    	this.addSlide(record);    	
     }
     
     

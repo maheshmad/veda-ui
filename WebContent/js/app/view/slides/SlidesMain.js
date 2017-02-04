@@ -28,10 +28,10 @@ Ext.define('Xedu.view.slides.SlidesMain',
     	/**
     	 * @cfg classroomSessionMode
     	 * 
-    	 * Default is true
+    	 * Default is false
     	 * this indicator will be used to show slides in a session mode, when the teacher is giving a lecture.
     	 */
-    	classroomSessionMode:true,
+    	classroomSessionMode:false,
     	
     	autoDestroy:true,
     	defaults:
@@ -181,7 +181,13 @@ Ext.define('Xedu.view.slides.SlidesMain',
         {        
         	show:function(thisView,opts)
         	{        			
-        		thisView.loadCourseChaptersList();
+        		if (!this.getClassroomSessionMode())
+        			thisView.loadCourseChaptersList();
+        		else
+        			thisView.down("#course-contents-selection-panel").hide();
+        			
+        		thisView.loadSlide();
+        		
         	}
 		}	
     },
@@ -270,8 +276,14 @@ Ext.define('Xedu.view.slides.SlidesMain',
     		scope.down("slides-list-panel").reload();
     	}
     		
-    }
+    },
     
+    
+    loadSlide: function()
+    {
+    	console.log("showing slide id = "+this.getSlideid());
+    	this.down("slides-fullview-list").showSlideById(this.getSlideid());
+    }
     
     
 });
