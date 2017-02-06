@@ -401,6 +401,7 @@ Ext.define('Xedu.view.schedule.ScheduleDetailsPreview',
 						    	    console.log("+++++++++++++++ RECIEVED on ",msg);
 						    	    var stompMsg = Ext.JSON.decode(msg.body);
 						            Xedu.CommonUtils.showInDebugPanel(msg);
+						            
 						            switch(stompMsg.type) 
 						    		{
 						    			case 'ACTION_FAILED':
@@ -410,17 +411,49 @@ Ext.define('Xedu.view.schedule.ScheduleDetailsPreview',
 						    				Ext.Msg.alert("Joined",stompMsg.msg, Ext.emptyFn);
 						    				break;
 						    			default:
-						    			{
-								            if (stompMsg.from != cntrller.getLoggedInUser().userId)
-								            {
+						    				break;
+						    		}
+						            
+						            
+						            if (stompMsg.from != cntrller.getLoggedInUser().userId)
+						            {
+							            switch(stompMsg.type) 
+							    		{							    			
+							    			case 'ACTION_DRAW':
+							    				var canvas = Ext.ComponentQuery.query('slide-draw-component');
+							    				if (canvas && canvas[0])
+							    				{
+	//						    					var spriteconfig = Ext.JSON.decode(stompMsg.msg);
+							    					var e = Ext.JSON.decode(stompMsg.msg);
+							    					canvas[0].drawDrag(e,true);
+							    				}
+							    				break;
+							    			case 'ACTION_DRAW_START':
+							    				var canvas = Ext.ComponentQuery.query('slide-draw-component');
+							    				if (canvas && canvas[0])
+							    				{
+							    					var e = Ext.JSON.decode(stompMsg.msg);						    					
+							    					canvas[0].drawStart(e,true);
+							    				}
+							    				break;
+							    			case 'ACTION_DRAW_END':
+							    				var canvas = Ext.ComponentQuery.query('slide-draw-component');
+							    				if (canvas && canvas[0])
+							    				{
+	//						    					var e = Ext.JSON.decode(stompMsg.msg);						    					
+							    					canvas[0].drawEnd(e,true);
+							    				}
+							    				break;
+							    			case 'ACTION':
+							    			{									           
 								            	var actionMsg = Ext.JSON.decode(stompMsg.msg);								            
 								            	Xedu.app.getController('Main').redirectTo('view/'+actionMsg.route);
-//						    					Ext.Msg.alert("Alert",stompMsg.msg, Ext.emptyFn);
-								            }
-								            else
-								            	console.log("message from "+stompMsg.from);
-						    			}
-						    		}
+	//						    					Ext.Msg.alert("Alert",stompMsg.msg, Ext.emptyFn);									            
+							    			}
+							    		}
+						            }
+						            else
+						            	console.log("message from "+stompMsg.from);
 						    	});
     	
     	/*
