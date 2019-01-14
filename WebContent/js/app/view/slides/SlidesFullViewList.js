@@ -16,7 +16,7 @@ Ext.define('Xedu.view.slides.SlidesFullViewList',
          */
         courseid:null,
         topicid: null,	   
-        scrollable: true,
+        scrollable: true,	
         autoScroll:true,
         autoDestroy:true,
         store: 

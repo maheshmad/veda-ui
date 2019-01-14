@@ -25,6 +25,7 @@ Ext.define('Xedu.Config',
 		EVENT_SESSION_SOCKET_SERVER:'/veda-eventsession-wsocket',
 		EVENT_SESSION_START_API:'/api/eventsessions/start',
 		EVENT_SESSION_JOIN_API:'/api/eventsessions/join',
+		EVENT_SESSION_FULL_DETAILS:'/api/eventsessions/details/',
 		/* 
 		 * security 
 		 */
@@ -82,7 +83,8 @@ Ext.define('Xedu.Config',
 		EVENT_SCHEDULE_API:'/api/eventschedule',
 		CLASSROOM_SCHEDULE_SEARCH:'/api/eventschedule/search',
 		STUDENT_SCHEDULE_SEARCH:'/api/eventschedule/search',
-		
+		EVENT_SESSION_SCHEDULE_DETAILS:'/api/eventschedule/session/',
+
         /*
 		 * set to true if the security needs to be switched off
 		 * you will not see the login screen. 

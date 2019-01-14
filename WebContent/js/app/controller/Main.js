@@ -93,7 +93,7 @@ Ext.define('Xedu.controller.Main',
 			 */
 			'view/classroom/list':'showClassrooms',
 			'view/classroom/:id/main':'showClassroomMgmt',
-			'join/classroom/session/:enrollmentid':'showClassroomInSession',
+			'view/join/classroom/session/:eventsessionid':'showClassroomInSession',
 			/*
 			 * users
 			 */
@@ -346,7 +346,20 @@ Ext.define('Xedu.controller.Main',
 		navtoview.show();
 
 	},
-    
+	
+	/*
+	 * show view by section
+	 */
+	showSectionView: function(toViewWithParams, params)
+	{
+		console.log("about to process routing for view = "+toViewWithParams+", params="+params);
+		var paramdelimiter = toViewWithParams.indexOf(";");
+		var viewid = paramdelimiter > -1 ? toViewWithParams.substr(0,paramdelimiter):  toViewWithParams;
+		var params = {};
+		this.showView(viewid,params);
+		
+	},
+	
 	/*
 	 * redirect is similar to showView except for the fact that
 	 * it will pop the existing view so that there is no back button
@@ -448,10 +461,11 @@ Ext.define('Xedu.controller.Main',
 	/*
 	 * show event schedule
 	 */
-	showEventScheduleEditForm: function(id)
+	showEventScheduleEditForm: function(id, p)
 	{					
+		console.log(p);
 		var	params = {'eventScheduleId':id,'previewOnly':false};
-		this.showView('schedule.ScheduleDetailsPreview',params);
+		this.showView('schedule.ScheduleDetailsPreview',params);	
 	},
 	/*
 	 * show user management
@@ -480,9 +494,9 @@ Ext.define('Xedu.controller.Main',
 	/*
 	 * show classroom in session
 	 */
-	showClassroomInSession: function(eventId)
+	showClassroomInSession: function(eventSessionId)
 	{
-		var params = {'eventId':eventId};
+		var params = {'eventSessionId':eventSessionId};
 		this.showView('classroom.ClassroomInSession',params);
 	},
 	

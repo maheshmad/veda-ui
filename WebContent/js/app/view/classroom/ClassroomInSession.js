@@ -12,15 +12,9 @@ Ext.define('Xedu.view.classroom.ClassroomInSession',
     	fullscreen: false,
     	layout: 'fit',    		  
     	/**
-    	 * @cfg enrollmentid
+    	 * @cfg eventSessionId
     	 */
-    	enrollmentid:null,    	
-    	
-    	/**
-    	 * @cfg eventId
-    	 */
-    	eventId:null, 
-    	
+    	eventSessionId:null,    	
     	
     	autoDestroy:true,
     	defaults:
@@ -58,7 +52,7 @@ Ext.define('Xedu.view.classroom.ClassroomInSession',
 															
 									{
 										xtype:"slides-main-view",
-										classroomSessionMode: true,
+										classroomSessionMode: true,										
 										title:"Classroom Progress"
 									},
 									{
@@ -95,15 +89,16 @@ Ext.define('Xedu.view.classroom.ClassroomInSession',
     */
     loadClassroomCourseContents: function()
     {
-    	if (this.getEventId() == null)
+    	if (this.getEventSessionId() == null)
     	{
-    		Ext.Msg.alert("Invalid Operation!","No eventId information found!", Ext.emptyFn);    		
+    		Ext.Msg.alert("Invalid Session!","No event session id information found!", Ext.emptyFn);    		
     		return;
     	}
+    	
     	var me = this;
     	var progressIndicator = Ext.create("Ext.ProgressIndicator",{msg:'Loading event session information'});
     	Ext.Ajax.request({
-							url:Xedu.Config.getUrl(Xedu.Config.ENROLLMENT_API)+this.getEnrollmentid(),
+							url:Xedu.Config.getUrl(Xedu.Config.EVENT_SESSION_FULL_DETAILS)+this.getEventSessionId(),
 				            method: 'GET',
 				            progress: progressIndicator,			
 				            headers: { 'Content-Type': 'application/json' },				            
@@ -115,24 +110,27 @@ Ext.define('Xedu.view.classroom.ClassroomInSession',
 				                 * use the json to create records.
 				                 */
 				                var eventRecord = Ext.create('Xedu.model.EventScheduleModel', result.eventSchedule);
-				                var eventRecordData = eventRecord.getData(true);
-				                
-				                if (!eventRecordData)
-				                {
-				            		Ext.Msg.alert("Invalid Session","Please go back and choose a valid session!", Ext.emptyFn);    		
-				            		return;
-				            	}
+//				                var eventRecordData = eventRecord.getData(true);
+//				                
+//				                if (!eventRecordData)
+//				                {
+//				            		Ext.Msg.alert("Invalid Session","Please go back and choose a valid session!", Ext.emptyFn);    		
+//				            		return;
+//				            	}
 				                				                
 				                /*
 				        		 * load course information
 				        		 */
 				        		var slidesMainView = me.down('slides-main-view');
-				        		slidesMainView.setCourseid(enrollData.classroom.courseRecordId);
+				        		slidesMainView.setCourseid(result.classroom.courseRecordId);
+				        		slidesMainView.setPresenterMode(result.eventSession.presenter);
 				        		slidesMainView.loadCourseChaptersList();
+				        		
+
 				        		/*
 				        		 * load enrolled students
 				        		 */
-				        		me.loadClassroomEnrolledStudents(enrollData.classroomid);
+				        		me.loadClassroomEnrolledStudents(result.classroom.id);
 						    	
 				            },
 				            failure: function(conn, response, options, eOpts) 
@@ -144,67 +142,7 @@ Ext.define('Xedu.view.classroom.ClassroomInSession',
     	
     },
     
-    /*
-     * load event information for the session
-     */
-    loadEventInformation: function(eventData)
-    {
-    	
-    	if (this.getEventId() == null)
-    	{
-    		Ext.Msg.alert("Invalid Operation!","No eventId information found!", Ext.emptyFn);    		
-    		return;
-    	}
-    	var me = this;
-    	var progressIndicator = Ext.create("Ext.ProgressIndicator",{msg:'Loading event information'});
-    	Ext.Ajax.request({
-							url:Xedu.Config.getUrl(Xedu.Config.ENROLLMENT_API)+this.getEnrollmentid(),
-				            method: 'GET',
-//				            progress: progressIndicator,			
-				            headers: { 'Content-Type': 'application/json' },				            
-				            success: function(response, conn, options, eOpts) 
-				            {
-				                var result = Ext.JSON.decode(response.responseText);
-						    	
-				                /*
-				                 * use the json to create records.
-				                 */
-				                var eventRecord = Ext.create('Xedu.model.EventScheduleModel', result.eventSchedule);
-				                var eventRecordData = eventRecord.getData(true);
-				                
-				                if (!eventRecordData)
-				                {
-				            		Ext.Msg.alert("Invalid Session","Please go back and choose a valid session!", Ext.emptyFn);    		
-				            		return;
-				            	}
-				                
-				                /*
-				                 * load event information
-				                 */
-				                me.loadEventInformation(eventRecordData);
-				                
-				            	
-				                /*
-				        		 * load course information
-				        		 */
-				        		var slidesMainView = me.down('slides-main-view');
-				        		slidesMainView.setCourseid(enrollData.classroom.courseRecordId);
-				        		slidesMainView.loadCourseChaptersList();
-				        		/*
-				        		 * load enrolled students
-				        		 */
-				        		me.loadClassroomEnrolledStudents(enrollData.classroomid);
-						    	
-				            },
-				            failure: function(conn, response, options, eOpts) 
-				            {
-				            	Xedu.CommonUtils.checkServiceError(resp);
-				            }
-        				});
-    	
-    	
-    },
-    
+   
     /**
      * load the enrolled students
      */

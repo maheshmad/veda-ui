@@ -33,6 +33,24 @@ Ext.define('Xedu.view.slides.SlidesMain',
     	 */
     	classroomSessionMode:false,
     	
+    	
+    	/**
+    	 * @cfg editMode
+    	 * 
+    	 * Default is false
+    	 * this indicator will be used to  show the chapter and course selection, user will be given ability to make updates to the 
+    	 * course structure
+    	 */
+    	editMode:false,
+    	
+    	/**
+    	 * @cfg presenterMode
+    	 * 
+    	 * Default is false
+    	 * this indicator will be used to show the chapter and course selection
+    	 */
+    	presenterMode:false,
+    	
     	autoDestroy:true,
     	defaults:
     	{
@@ -42,6 +60,7 @@ Ext.define('Xedu.view.slides.SlidesMain',
             {
             	xtype:'container',
             	itemId:'course-contents-selection-panel',
+            	hidden:true,
             	layout: 'card',            	
             	items:[
 			            	{
@@ -179,19 +198,25 @@ Ext.define('Xedu.view.slides.SlidesMain',
         ],
         listeners:
         {        
-        	show:function(thisView,opts)
-        	{        			
-        		if (!this.getClassroomSessionMode())
-        			thisView.loadCourseChaptersList();
-        		else
-        			thisView.down("#course-contents-selection-panel").hide();
-        			
-        		thisView.loadSlide();
-        		
-        	}
+        	show:'updatePanelView'
 		}	
     },
     
+    
+    updatePanelView: function(thisView,opts)
+	{        			
+		console.log("on show function!!!!")
+    	thisView.loadCourseChaptersList();
+		thisView.loadSlide();
+
+		if (!this.getPresenterMode() || !this.classroomSessionMode) 
+		{
+			thisView.down("#course-contents-selection-panel").show();
+		}
+	},
+    /**
+     * 
+     */
     switchCards: function(opt)
     {
 //    	console.log("switching card for chapter id = "+opt.chapterid);
@@ -228,6 +253,7 @@ Ext.define('Xedu.view.slides.SlidesMain',
 		}
     	
     	var courseContentsPanel = this.down('#course-contents-selection-panel'); 
+    	courseContentsPanel.show();
     	if (this.getCourseid() != null)
     	{			
 			var chaptersListPanel = courseContentsPanel.down('chapters-list-panel');
@@ -278,7 +304,9 @@ Ext.define('Xedu.view.slides.SlidesMain',
     		
     },
     
-    
+    /**
+     * 
+     */
     loadSlide: function()
     {
     	console.log("showing slide id = "+this.getSlideid());

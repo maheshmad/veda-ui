@@ -358,6 +358,7 @@ Ext.define('Xedu.view.schedule.ScheduleDetailsPreview',
     	Ext.Ajax.request({
 					       	url:Xedu.Config.getUrl(Xedu.Config.EVENT_SESSION_JOIN_API)+"/"+schRec.data.eventSessionId,
 					       	method:'GET',
+					       	scope: this,
 					       	progress: progressIndicator,	
 				            success: function (resp)
 				            {	                                    			    	                                     
@@ -372,7 +373,8 @@ Ext.define('Xedu.view.schedule.ScheduleDetailsPreview',
 					           	 	event.set("type","ACTION_SESSION_JOIN");
 					           	 	event.set("msg","successfully joined session = "+response.eventSession.eventSessionId); 
 					           	 	event.set("id",response.eventSession.eventSessionId);					           	 	
-					           	 	me.subscribeToSessionEvents(response.eventSession,event);					           	 	
+					           	 	me.subscribeToSessionEvents(response.eventSession,event);	
+					           	 						           	 	
 				           	 	}
 				            },
 				            failure: function (el,resp,p) 
@@ -471,6 +473,13 @@ Ext.define('Xedu.view.schedule.ScheduleDetailsPreview',
     	
     	if (event != null)
     		Xedu.CommonUtils.sendStompSocketEvent("/topic/sessionmessages/"+id, event);
+    	
+    	/*
+    	 * route to the session 
+    	 * 
+    	 */
+    	console.log("about to route to an active classroom session view...");
+    	cntrller.redirectTo("view/join/classroom/session/"+id);
     },
     
     

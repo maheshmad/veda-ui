@@ -83,8 +83,8 @@ Ext.define('Xedu.view.schedule.UserScheduleList',
 			        	itemsingletap: function(scope, index, target, record)
 						{        		
 							console.log("tapped schedule");
-//			           	 	Xedu.app.getController('Main').redirectTo('view/user/'+record.data.recordId+"/main");
-							scope.up('user-schedule-list-panel').viewScheduleInfo(record, target);
+							Xedu.app.getController('Main').redirectTo('view/eventschedule/edit/'+record.data.recordId);
+//							scope.up('user-schedule-list-panel').viewScheduleInfo(record, target);
 							
 //							Xedu.CommonUtils.showOverlay2(
 //				    				{	xtype: 'allowed-actions-menu',										    				
