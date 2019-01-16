@@ -137,7 +137,8 @@ Ext.define('Xedu.view.slides.SlidesMain',
             },
             {
             	xtype:'container',            	
-            	layout: 'fit',            	
+            	layout: 'fit', 
+            	flex:4,
             	items:[
 						{
 						    docked: 'top',
@@ -192,7 +193,6 @@ Ext.define('Xedu.view.slides.SlidesMain',
 	        	            height:Ext.Viewport.getWindowHeight()
 		                }
             	],
-            	flex:4
             }
             
         ],

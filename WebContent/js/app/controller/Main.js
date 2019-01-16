@@ -10,6 +10,7 @@ Ext.define('Xedu.controller.Main',
 	          'Xedu.view.ChangePassword',
 	          'Xedu.view.Home',
 	          'Xedu.model.EventModel',
+	          'Xedu.view.session.SessionParticipantsView',
 	          'Xedu.view.slides.SlidesFullViewList',
 	          'Xedu.view.classroom.ClassroomsList',
 	          'Xedu.view.classroom.ClassroomMgmtMain',
@@ -94,6 +95,7 @@ Ext.define('Xedu.controller.Main',
 			'view/classroom/list':'showClassrooms',
 			'view/classroom/:id/main':'showClassroomMgmt',
 			'view/join/classroom/session/:eventsessionid':'showClassroomInSession',
+			'view/join/participants/session/:eventsessionid':'showSessionForParticipants',
 			/*
 			 * users
 			 */
@@ -184,7 +186,7 @@ Ext.define('Xedu.controller.Main',
 //		this.getMainViewNavigation().removeAll();
 //		this.getMainViewNavigation().pop(this.getMainViewNavigation().getInnerItems().length);    	
 
-        this.establishSocketConnection();
+        var result = this.establishSocketConnection();
 
     	var savedAction = this.getSaveAction();
     	if (savedAction && savedAction != '' && savedAction != null)
@@ -202,65 +204,18 @@ Ext.define('Xedu.controller.Main',
     establishSocketConnection: function()
     {
     	console.log("trying to establish stomp socket connection!!!!");
-    	var sessionInfo = Xedu.CommonUtils.getSessionInfo();
-//    	Xedu.CommonUtils.showInDebugPanel("#### establishing socket connection ##### "+sessionInfo.id); 
-//    	try
-//    	{
-//	    	var me = this;
-//    		this.wsConn = Ext.create ('Ext.ux.WebSocket', 
-//	    	{
-//	    	    url: Xedu.Config.getUrl(Xedu.Config.SOCKET_SERVICE+sessionInfo.id),
-//	    	    autoReconnect: true ,
-//	    		autoReconnectInterval: 1000,
-//	    	    listeners: 
-//	    	    {
-//	    	        open: function (ws) 
-//	    	        {
-//	    	        	Xedu.CommonUtils.showInDebugPanel('The websocket is ready to use....sending hi message');
-//	    	            var event = Ext.create('Xedu.model.EventModel',{});
-//	    	            event.set("type","ACTION");
-//	    	            event.set("msg","HI");
-////	    	            event.setMsg("HI");
-////	    	            Xedu.CommonUtils.sendSocketEvent(event);
-//	    	        },
-//	    	        close: function (ws) 
-//	    	        {
-//	    	        	Xedu.CommonUtils.showInDebugPanel('The websocket is closed!.... Auto reconnect = '+ws.autoReconnect);
-////	    	            me.wsConn = null;
-//	    	        } ,
-//	    	        message: function (ws, msg) 
-//	    	        {       	    	    		
-//	    	    		Xedu.CommonUtils.showInDebugPanel("recieved message = "+Ext.JSON.encode(msg));
-//	    	    		//var notificationEvent = Ext.util.JSON.decode(e.data);    		
-////	    	    		mainview.getController().setNotificationsAlertsCount();
-//	    	        },
-//	    	        error: function()
-//	    	        {
-//	    	        	Xedu.CommonUtils.showInDebugPanel("error occured  on web socket connection.... auto reconnect = "+me.wsConn.autoReconnect);
-////	    	        	me.wsConn = null;
-//	    	        }
-//	    	    }
-//	    	});
-//    	}
-//    	catch(e)
-//    	{
-//    		console.error(e);
-//    	}
-    	
-//    	var sock = new SockJS("http://demo.localhost/veda/veda-eventsession-wsocket");
+    	var sessionInfo = Xedu.CommonUtils.getSessionInfo();    	
     	var sock = new SockJS(Xedu.Config.getUrl(Xedu.Config.EVENT_SESSION_SOCKET_SERVER));
     	this.stompClient = Stomp.over(sock);
     	var autoReconnect = true;
     	var mainCntrller = this;
     	var thisStompClient = this.stompClient;
-    	
-//    	this.stompClient.connect({"simpSessionId":sessionInfo.id}, function (frame) 
+
     	this.stompClient.connect(Ext.Ajax._defaultHeaders, function (frame) 
     	{
-//            setConnected(true);
             console.log('Connected: ' + frame);
             Xedu.CommonUtils.showInDebugPanel(frame);
-            
+
             Xedu.CommonUtils.subscribeToStompQueue('/topic/general_app_message_topic',function (msg) 
 	        {
 	            console.log("---------------- RECIEVED generic message",msg);
@@ -270,9 +225,9 @@ Ext.define('Xedu.controller.Main',
 	            switch(stompMsg.type) 
 	    		{
 	    			case 'ACTION_FAILED':
-	    				Ext.Msg.alert("Error",stompMsg.msg, Ext.emptyFn);
+	    				Ext.Msg.alert("Error#MC-ESC-1000",stompMsg.msg, Ext.emptyFn);
 	    			default:
-	    				Ext.Msg.alert("Alert",stompMsg.msg, Ext.emptyFn);    		
+	    				Ext.Msg.alert("Error#MC-ESC-1001",stompMsg.msg, Ext.emptyFn);    		
 	    		}
 	            	
 	        }); 
@@ -281,6 +236,7 @@ Ext.define('Xedu.controller.Main',
         },function(message) 	
         {
 //        	console.error(message);
+
         	Xedu.CommonUtils.showInDebugPanel(message);
         	if (message.indexOf("Lost connection") > -1)
         	{
@@ -307,7 +263,7 @@ Ext.define('Xedu.controller.Main',
 //         
 //    	sock.send(Ext.JSON.encode(event.getData()));
 //    	sock.close();
-    	
+    	return true;
     	
     },
     
@@ -498,6 +454,13 @@ Ext.define('Xedu.controller.Main',
 	{
 		var params = {'eventSessionId':eventSessionId};
 		this.showView('classroom.ClassroomInSession',params);
+	},
+	
+	
+	showSessionForParticipants: function(eventSessionId)
+	{
+		var params = {'eventSessionId':eventSessionId};
+		this.showView('session.SessionParticipantsView',params);
 	},
 	
 	/*

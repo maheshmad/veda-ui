@@ -478,8 +478,17 @@ Ext.define('Xedu.view.schedule.ScheduleDetailsPreview',
     	 * route to the session 
     	 * 
     	 */
-    	console.log("about to route to an active classroom session view...");
-    	cntrller.redirectTo("view/join/classroom/session/"+id);
+    	if (eventSession.presenter)
+    	{
+    		console.log("joining as a presenter...");
+    		cntrller.redirectTo("view/join/classroom/session/"+id);
+    	}
+    	else
+    	{
+    		console.log("joining as a presenter...");
+    		cntrller.redirectTo("view/join/participants/session/"+id);
+    	}
+
     },
     
     

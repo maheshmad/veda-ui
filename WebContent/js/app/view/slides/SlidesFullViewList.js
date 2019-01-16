@@ -5,8 +5,9 @@ Ext.define('Xedu.view.slides.SlidesFullViewList',
 	xtype:'slides-fullview-list',	
 	requires: [		    		    		    
 	           'Xedu.store.SlidesListStore',
+	           'Xedu.model.SearchHitModel'
 		    ],
-    config: 
+    config:
     {
         itemId:'slides-fullview-list-id', 
         background:'black',

@@ -409,7 +409,8 @@ Ext.define('Xedu.CommonUtils',
 		}
 		else
 		{
-			console.log("subscribing to the queue ...."+queue);
+			console.log("subscribing to the queue ...."+queue);		
+			
 			return stompClient.subscribe(queue, callbackFn);			
 		}    	
 		
@@ -434,7 +435,7 @@ Ext.define('Xedu.CommonUtils',
 		else
 		{
 			console.log("subscribing to the queue ...."+queue);
-			stompClient.subscribe(queue, callbackFn);
+			stompClient.unsubscribe(queue, callbackFn);
 		}    	
 		
     },
