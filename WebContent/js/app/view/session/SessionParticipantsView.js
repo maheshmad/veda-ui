@@ -10,6 +10,7 @@ Ext.define('Xedu.view.session.SessionParticipantsView',
     {    	
     	title: 'Meeting Session',
     	fullscreen: false,
+    	height:"100%",
     	layout: 'fit',    		  
     	/**
     	 * @cfg eventSessionId

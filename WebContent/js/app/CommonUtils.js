@@ -370,10 +370,45 @@ Ext.define('Xedu.CommonUtils',
     broadCastEventIfPresenter: function(event)
     {
     	var cntrller = Xedu.app.getController('Main');
-    	var queue = cntrller.getPresenterTopicEndpoint(); 
-    	if (queue != null && queue != '')
+    	try
     	{
-			if (cntrller.stompClient == null)
+	    	var queue = cntrller.getPresenterTopicEndpoint(); 
+	    	if (queue != null && queue != '')
+	    	{
+				if (cntrller.stompClient == null)
+				{
+					console.error("stomp client connection not available ! So reconnecting.....");
+					Ext.Msg.alert("App upgraded","Application will now be reloaded to apply the latest fixes!", function()
+							{
+								window.location.reload();
+							});
+				}
+				else
+				{
+		//			console.log("sending event message...."+Ext.JSON.encode(event.getData()));
+		//			cntrller.stompClient.send(Ext.JSON.encode(event.getData()));
+					cntrller.stompClient.send("/veda"+queue, {}, Ext.JSON.encode(event.getData()));
+				}
+	    	}
+    	}
+    	catch(e)
+    	{
+    		Ext.Msg.alert("Exception code#CU-BCEP-1999","Reason = "+e);
+    	}	
+    },
+    
+    
+    /**
+     * join session
+     */
+    subscribeToStompQueue: function(queue, callbackFn)
+    {
+    	try
+    	{
+	    	var cntrller = Xedu.app.getController('Main');
+	    	var stompClient = cntrller.stompClient;	
+	    	    	
+			if (stompClient == null)
 			{
 				console.error("stomp client connection not available ! So reconnecting.....");
 				Ext.Msg.alert("App upgraded","Application will now be reloaded to apply the latest fixes!", function()
@@ -383,36 +418,15 @@ Ext.define('Xedu.CommonUtils',
 			}
 			else
 			{
-	//			console.log("sending event message...."+Ext.JSON.encode(event.getData()));
-	//			cntrller.stompClient.send(Ext.JSON.encode(event.getData()));
-				cntrller.stompClient.send("/veda"+queue, {}, Ext.JSON.encode(event.getData()));
+				console.log("subscribing to the queue ...."+queue);		
+				
+				return stompClient.subscribe(queue, callbackFn);			
 			}
     	}
-    },
-    
-    
-    /**
-     * join session
-     */
-    subscribeToStompQueue: function(queue, callbackFn)
-    {
-    	var cntrller = Xedu.app.getController('Main');
-    	var stompClient = cntrller.stompClient;	
-    	    	
-		if (stompClient == null)
-		{
-			console.error("stomp client connection not available ! So reconnecting.....");
-			Ext.Msg.alert("App upgraded","Application will now be reloaded to apply the latest fixes!", function()
-					{
-						window.location.reload();
-					});
-		}
-		else
-		{
-			console.log("subscribing to the queue ...."+queue);		
-			
-			return stompClient.subscribe(queue, callbackFn);			
-		}    	
+    	catch(e)
+    	{
+    		Ext.Msg.alert("Exception code#CU-STSQ-1999","Reason = "+e);
+    	}
 		
     },
     
@@ -424,19 +438,26 @@ Ext.define('Xedu.CommonUtils',
     {
     	var stompClient = Xedu.app.getController('Main').stompClient;	
     	
-		if (stompClient == null)
-		{
-			console.error("stomp client connection not available ! So reconnecting.....");
-			Ext.Msg.alert("App upgraded","Application will now be reloaded to apply the latest fixes!", function()
-					{
-						window.location.reload();
-					});
-		}
-		else
-		{
-			console.log("subscribing to the queue ...."+queue);
-			stompClient.unsubscribe(queue, callbackFn);
-		}    	
+    	try
+    	{
+			if (stompClient == null)
+			{
+				console.error("stomp client connection not available ! So reconnecting.....");
+				Ext.Msg.alert("App upgraded","Application will now be reloaded to apply the latest fixes!", function()
+						{
+							window.location.reload();
+						});
+			}
+			else
+			{
+				console.log("subscribing to the queue ...."+queue);
+				stompClient.unsubscribe(queue, callbackFn);
+			}
+    	}
+    	catch(e)
+    	{
+    		Ext.Msg.alert("Exception code#CU-USTSQ-1999","Reason = "+e);
+    	}	
 		
     },
     
