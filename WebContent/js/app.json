@@ -10,6 +10,16 @@
     "indexHtmlPath": "index.html",
 
     /**
+     * The Sencha Framework for this application: "ext" or "touch".
+     */
+    "framework": "touch",
+
+    "classpath": [
+        "app",
+        "app.js"
+    ],
+
+    /**
      * The absolute URL to this application in development environment, i.e: the URL to run this application
      * on your web browser during development, e.g: "http://localhost/myapp/index.html".
      *
@@ -51,17 +61,7 @@
             "path": "app.js",
             "bundle": true,  /* Indicates that all class dependencies are concatenated into this file when build */
             "update": "delta"
-        },
-        {
-    		"path": "../js2/Ext/ux/WebSocket.js",
-    		"remote":true,
-    		"update": "delta"
-    	},
-    	{
-    		"path": "../js2/Ext/util/Memento.js",
-    		"remote":true,
-    		"update": "delta"
-    	}
+        }
     ],
 
     /**
@@ -122,7 +122,7 @@
      * File / directory name matchers to ignore when copying to the builds, must be valid regular expressions
      */
     "ignore": [
-        "\.svn$"
+        "\\.svn$"
     ],
 
     /**
@@ -138,8 +138,28 @@
     ],
 
     /**
+     * Controls for localStorage caching
+     *   "cache": {
+     *       // This property controls whether localStorage caching of this manifest file is on or off.
+     *       // if disabled no deltas will be generated during a build and full updates will be disabled
+     *       "enable": false,
+     *
+     *       // This property allows for global toggle of deltas.
+     *       // If set to a string the value will be used as the path to where deltas will be generated relative to you build.
+     *       // If set to a Truthy Value the default path ok "deltas" will be used
+     *       // If set to a Falsey value or if this property is not present deltas will be disabled and not generated.
+     *       //
+     *       "deltas": "deltas"
+     *   }
+     */
+    "cache": {
+        "enable": true,
+        "deltas": "deltas"
+    },
+
+    /**
      * Uniquely generated id for this application, used as prefix for localStorage keys.
      * Normally you should never change this value.
      */
-    "id": "125a2661-2393-463f-8f54-292f1852932d"
+    "id": "8ff8f559-8680-4bdb-ad94-73aaa3489734"
 }

@@ -66,7 +66,7 @@ Ext.application({
         'Xedu.Config',
         'Xedu.CommonUtils',
         'Xedu.view.Home',
-        'Ext.util.TaskManager',
+        // 'Ext.util.TaskManager',
         'Xedu.controller.Main',
         'Xedu.field.DateTextField',
         'Xedu.view.main.SideMenu',

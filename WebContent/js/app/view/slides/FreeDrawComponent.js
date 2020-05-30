@@ -1,5 +1,5 @@
 Ext.define('Xedu.view.slides.FreeDrawComponent', 
-{
+{		
 		extend: 'Ext.draw.Component',
 		xtype:'slide-draw-component',
 		config: 

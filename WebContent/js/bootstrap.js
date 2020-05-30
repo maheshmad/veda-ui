@@ -21,7 +21,6 @@ Ext.Loader.addClassPathMappings({
   "Ext.Element-static": "touch/src/dom/Element.static.js",
   "Ext.Element-style": "touch/src/dom/Element.style.js",
   "Ext.Element-traversal": "touch/src/dom/Element.traversal.js",
-  "Ext.cmd": "../../../../Sencha/SenchaCmd6/plugins/src",
   "Ext.core.DomQuery": "touch/src/dom/Query.js",
   "Ext.device.Purchases.Product": "touch/src/device/purchases/Sencha.js",
   "Ext.device.filesystem.DirectoryEntry": "touch/src/device/filesystem/Sencha.js",
@@ -109,68 +108,6 @@ Ext.ClassManager.addNameAlternateMappings({
   ],
   "Ext.carousel.Infinite": [],
   "Ext.carousel.Item": [],
-  "Ext.chart.AbstractChart": [],
-  "Ext.chart.CartesianChart": [
-    "Ext.chart.Chart"
-  ],
-  "Ext.chart.Legend": [],
-  "Ext.chart.MarkerHolder": [],
-  "Ext.chart.Markers": [],
-  "Ext.chart.PolarChart": [],
-  "Ext.chart.SpaceFillingChart": [],
-  "Ext.chart.axis.Axis": [],
-  "Ext.chart.axis.Category": [],
-  "Ext.chart.axis.Numeric": [],
-  "Ext.chart.axis.Time": [],
-  "Ext.chart.axis.layout.CombineDuplicate": [],
-  "Ext.chart.axis.layout.Continuous": [],
-  "Ext.chart.axis.layout.Discrete": [],
-  "Ext.chart.axis.layout.Layout": [],
-  "Ext.chart.axis.segmenter.Names": [],
-  "Ext.chart.axis.segmenter.Numeric": [],
-  "Ext.chart.axis.segmenter.Segmenter": [],
-  "Ext.chart.axis.segmenter.Time": [],
-  "Ext.chart.axis.sprite.Axis": [],
-  "Ext.chart.grid.CircularGrid": [],
-  "Ext.chart.grid.HorizontalGrid": [],
-  "Ext.chart.grid.RadialGrid": [],
-  "Ext.chart.grid.VerticalGrid": [],
-  "Ext.chart.interactions.Abstract": [],
-  "Ext.chart.interactions.CrossZoom": [],
-  "Ext.chart.interactions.Crosshair": [],
-  "Ext.chart.interactions.ItemHighlight": [],
-  "Ext.chart.interactions.ItemInfo": [],
-  "Ext.chart.interactions.PanZoom": [],
-  "Ext.chart.interactions.Rotate": [],
-  "Ext.chart.interactions.RotatePie3D": [],
-  "Ext.chart.label.Callout": [],
-  "Ext.chart.label.Label": [],
-  "Ext.chart.series.Area": [],
-  "Ext.chart.series.Bar": [],
-  "Ext.chart.series.CandleStick": [],
-  "Ext.chart.series.Cartesian": [],
-  "Ext.chart.series.Gauge": [],
-  "Ext.chart.series.ItemPublisher": [],
-  "Ext.chart.series.Line": [],
-  "Ext.chart.series.Pie": [],
-  "Ext.chart.series.Pie3D": [],
-  "Ext.chart.series.Polar": [],
-  "Ext.chart.series.Radar": [],
-  "Ext.chart.series.Scatter": [],
-  "Ext.chart.series.Series": [],
-  "Ext.chart.series.StackedCartesian": [],
-  "Ext.chart.series.sprite.Aggregative": [],
-  "Ext.chart.series.sprite.Area": [],
-  "Ext.chart.series.sprite.Bar": [],
-  "Ext.chart.series.sprite.CandleStick": [],
-  "Ext.chart.series.sprite.Cartesian": [],
-  "Ext.chart.series.sprite.Line": [],
-  "Ext.chart.series.sprite.Pie3DPart": [],
-  "Ext.chart.series.sprite.PieSlice": [],
-  "Ext.chart.series.sprite.Polar": [],
-  "Ext.chart.series.sprite.Radar": [],
-  "Ext.chart.series.sprite.Scatter": [],
-  "Ext.chart.series.sprite.StackedCartesian": [],
   "Ext.data.ArrayStore": [],
   "Ext.data.Batch": [],
   "Ext.data.Connection": [],
@@ -637,6 +574,17 @@ Ext.ClassManager.addNameAlternateMappings({
   "Ext.layout.wrapper.BoxDock": [],
   "Ext.layout.wrapper.Dock": [],
   "Ext.layout.wrapper.Inner": [],
+  "Ext.log.Base": [],
+  "Ext.log.Logger": [],
+  "Ext.log.filter.Filter": [],
+  "Ext.log.filter.Priority": [],
+  "Ext.log.formatter.Default": [],
+  "Ext.log.formatter.Formatter": [],
+  "Ext.log.formatter.Identity": [],
+  "Ext.log.writer.Console": [],
+  "Ext.log.writer.DocumentTitle": [],
+  "Ext.log.writer.Remote": [],
+  "Ext.log.writer.Writer": [],
   "Ext.mixin.Bindable": [],
   "Ext.mixin.Filterable": [],
   "Ext.mixin.Mixin": [],
@@ -661,7 +609,6 @@ Ext.ClassManager.addNameAlternateMappings({
   "Ext.picker.Slot": [
     "Ext.Picker.Slot"
   ],
-  "Ext.plugin.BufferedList": [],
   "Ext.plugin.ListPaging": [],
   "Ext.plugin.PullRefresh": [],
   "Ext.plugin.SortableList": [],
@@ -754,7 +701,9 @@ Ext.ClassManager.addNameAlternateMappings({
   "Ext.ux.parse.Store": [],
   "Ext.ux.parse.association.Pointer": [],
   "Ext.ux.parse.association.Relation": [],
-  "Ext.viewport.Android": [],
+  "Ext.viewport.AndroidStock": [
+    "Ext.viewport.Android"
+  ],
   "Ext.viewport.Default": [],
   "Ext.viewport.Ios": [],
   "Ext.viewport.Viewport": [],
@@ -766,22 +715,37 @@ Ext.ClassManager.addNameAlternateMappings({
   "Xedu.controller.Main": [],
   "Xedu.field.DateTextField": [],
   "Xedu.model.AddressModel": [],
+  "Xedu.model.AllowedActionsModel": [],
   "Xedu.model.ChapterModel": [],
   "Xedu.model.ClassroomModel": [],
   "Xedu.model.CourseModel": [],
   "Xedu.model.EnrollmentModel": [],
+  "Xedu.model.EventModel": [],
+  "Xedu.model.EventScheduleModel": [],
+  "Xedu.model.SearchHitModel": [],
   "Xedu.model.SlideModel": [],
   "Xedu.model.TopicModel": [],
   "Xedu.model.UserImageInfoModel": [],
   "Xedu.model.UserModel": [],
+  "Xedu.override.PaintMonitor": [],
+  "Xedu.override.SizeMonitor": [],
+  "Xedu.store.AllowedActionsStore": [],
   "Xedu.store.ChaptersStore": [],
   "Xedu.store.ConfigSectionsStore": [],
   "Xedu.store.CoursesStore": [],
   "Xedu.store.SearchStore": [],
   "Xedu.store.SlidesListStore": [],
   "Xedu.store.TopicsStore": [],
+  "Xedu.store.UserRolesStore": [],
   "Xedu.ux.PinchZoomImage": [],
   "Xedu.ux.Transform": [],
+  "Xedu.ux.field.DateTimePicker": [
+    "Ext.form.DateTimePicker"
+  ],
+  "Xedu.ux.field.MultiSelect": [],
+  "Xedu.ux.picker.DateTime": [
+    "Xedu.ux.DateTimePicker"
+  ],
   "Xedu.view.ChangePassword": [],
   "Xedu.view.Home": [],
   "Xedu.view.Login": [],
@@ -796,6 +760,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "Xedu.view.classroom.EnrolledStudentsList": [],
   "Xedu.view.classroom.EnrollmentDetailsPreview": [],
   "Xedu.view.classroom.EnrollmentEditForm": [],
+  "Xedu.view.common.DebugPanel": [],
   "Xedu.view.config.ConfigMain": [],
   "Xedu.view.config.ConfigSectionsList": [],
   "Xedu.view.course.CourseEditForm": [],
@@ -803,6 +768,9 @@ Ext.ClassManager.addNameAlternateMappings({
   "Xedu.view.course.CoursesList": [],
   "Xedu.view.main.SideMenu": [],
   "Xedu.view.schedule.ClassScheduleList": [],
+  "Xedu.view.schedule.ScheduleDetailsPreview": [],
+  "Xedu.view.schedule.UserScheduleList": [],
+  "Xedu.view.session.SessionParticipantsView": [],
   "Xedu.view.slides.ContentUpload": [],
   "Xedu.view.slides.FreeDrawComponent": [],
   "Xedu.view.slides.SlideFreeDraw": [],
@@ -812,7 +780,9 @@ Ext.ClassManager.addNameAlternateMappings({
   "Xedu.view.slides.SlidesMain": [],
   "Xedu.view.topic.TopicEditForm": [],
   "Xedu.view.topic.TopicsList": [],
+  "Xedu.view.users.AllowedActionsMenu": [],
   "Xedu.view.users.StudentDashBoard": [],
+  "Xedu.view.users.UserDashBoard": [],
   "Xedu.view.users.UserDetailsHeader": [],
   "Xedu.view.users.UserDetailsPreview": [],
   "Xedu.view.users.UserDetailsView": [],
@@ -930,153 +900,6 @@ Ext.ClassManager.addNameAliasMappings({
   ],
   "Ext.carousel.Infinite": [],
   "Ext.carousel.Item": [],
-  "Ext.chart.AbstractChart": [],
-  "Ext.chart.CartesianChart": [
-    "Ext.chart.Chart",
-    "widget.chart"
-  ],
-  "Ext.chart.Legend": [
-    "widget.legend"
-  ],
-  "Ext.chart.MarkerHolder": [],
-  "Ext.chart.Markers": [],
-  "Ext.chart.PolarChart": [
-    "widget.polar"
-  ],
-  "Ext.chart.SpaceFillingChart": [
-    "widget.spacefilling"
-  ],
-  "Ext.chart.axis.Axis": [
-    "widget.axis"
-  ],
-  "Ext.chart.axis.Category": [
-    "axis.category"
-  ],
-  "Ext.chart.axis.Numeric": [
-    "axis.numeric"
-  ],
-  "Ext.chart.axis.Time": [
-    "axis.time"
-  ],
-  "Ext.chart.axis.layout.CombineDuplicate": [
-    "axisLayout.combineDuplicate"
-  ],
-  "Ext.chart.axis.layout.Continuous": [
-    "axisLayout.continuous"
-  ],
-  "Ext.chart.axis.layout.Discrete": [
-    "axisLayout.discrete"
-  ],
-  "Ext.chart.axis.layout.Layout": [],
-  "Ext.chart.axis.segmenter.Names": [
-    "segmenter.names"
-  ],
-  "Ext.chart.axis.segmenter.Numeric": [
-    "segmenter.numeric"
-  ],
-  "Ext.chart.axis.segmenter.Segmenter": [],
-  "Ext.chart.axis.segmenter.Time": [
-    "segmenter.time"
-  ],
-  "Ext.chart.axis.sprite.Axis": [],
-  "Ext.chart.grid.CircularGrid": [
-    "grid.circular"
-  ],
-  "Ext.chart.grid.HorizontalGrid": [
-    "grid.horizontal"
-  ],
-  "Ext.chart.grid.RadialGrid": [
-    "grid.radial"
-  ],
-  "Ext.chart.grid.VerticalGrid": [
-    "grid.vertical"
-  ],
-  "Ext.chart.interactions.Abstract": [
-    "widget.interaction"
-  ],
-  "Ext.chart.interactions.CrossZoom": [
-    "interaction.crosszoom"
-  ],
-  "Ext.chart.interactions.Crosshair": [
-    "interaction.crosshair"
-  ],
-  "Ext.chart.interactions.ItemHighlight": [
-    "interaction.itemhighlight"
-  ],
-  "Ext.chart.interactions.ItemInfo": [
-    "interaction.iteminfo"
-  ],
-  "Ext.chart.interactions.PanZoom": [
-    "interaction.panzoom"
-  ],
-  "Ext.chart.interactions.Rotate": [
-    "interaction.rotate"
-  ],
-  "Ext.chart.interactions.RotatePie3D": [
-    "interaction.rotatePie3d"
-  ],
-  "Ext.chart.label.Callout": [],
-  "Ext.chart.label.Label": [],
-  "Ext.chart.series.Area": [
-    "series.area"
-  ],
-  "Ext.chart.series.Bar": [
-    "series.bar"
-  ],
-  "Ext.chart.series.CandleStick": [
-    "series.candlestick"
-  ],
-  "Ext.chart.series.Cartesian": [],
-  "Ext.chart.series.Gauge": [
-    "series.gauge"
-  ],
-  "Ext.chart.series.ItemPublisher": [],
-  "Ext.chart.series.Line": [
-    "series.line"
-  ],
-  "Ext.chart.series.Pie": [
-    "series.pie"
-  ],
-  "Ext.chart.series.Pie3D": [
-    "series.pie3d"
-  ],
-  "Ext.chart.series.Polar": [],
-  "Ext.chart.series.Radar": [
-    "series.radar"
-  ],
-  "Ext.chart.series.Scatter": [
-    "series.scatter"
-  ],
-  "Ext.chart.series.Series": [],
-  "Ext.chart.series.StackedCartesian": [],
-  "Ext.chart.series.sprite.Aggregative": [],
-  "Ext.chart.series.sprite.Area": [
-    "sprite.areaSeries"
-  ],
-  "Ext.chart.series.sprite.Bar": [
-    "sprite.barSeries"
-  ],
-  "Ext.chart.series.sprite.CandleStick": [
-    "sprite.candlestickSeries"
-  ],
-  "Ext.chart.series.sprite.Cartesian": [],
-  "Ext.chart.series.sprite.Line": [
-    "sprite.lineSeries"
-  ],
-  "Ext.chart.series.sprite.Pie3DPart": [
-    "sprite.pie3dPart"
-  ],
-  "Ext.chart.series.sprite.PieSlice": [
-    "sprite.pieslice"
-  ],
-  "Ext.chart.series.sprite.Polar": [],
-  "Ext.chart.series.sprite.Radar": [
-    "sprite.radar"
-  ],
-  "Ext.chart.series.sprite.Scatter": [
-    "sprite.scatterSeries"
-  ],
-  "Ext.chart.series.sprite.StackedCartesian": [],
   "Ext.data.ArrayStore": [
     "store.array"
   ],
@@ -1625,6 +1448,17 @@ Ext.ClassManager.addNameAliasMappings({
   "Ext.layout.wrapper.BoxDock": [],
   "Ext.layout.wrapper.Dock": [],
   "Ext.layout.wrapper.Inner": [],
+  "Ext.log.Base": [],
+  "Ext.log.Logger": [],
+  "Ext.log.filter.Filter": [],
+  "Ext.log.filter.Priority": [],
+  "Ext.log.formatter.Default": [],
+  "Ext.log.formatter.Formatter": [],
+  "Ext.log.formatter.Identity": [],
+  "Ext.log.writer.Console": [],
+  "Ext.log.writer.DocumentTitle": [],
+  "Ext.log.writer.Remote": [],
+  "Ext.log.writer.Writer": [],
   "Ext.mixin.Bindable": [],
   "Ext.mixin.Filterable": [],
   "Ext.mixin.Mixin": [],
@@ -1646,9 +1480,6 @@ Ext.ClassManager.addNameAliasMappings({
   ],
   "Ext.picker.Slot": [
     "widget.pickerslot"
-  ],
-  "Ext.plugin.BufferedList": [
-    "plugin.bufferedlist"
   ],
   "Ext.plugin.ListPaging": [
     "plugin.listpaging"
@@ -1758,7 +1589,7 @@ Ext.ClassManager.addNameAliasMappings({
   "Ext.ux.parse.association.Relation": [
     "association.relation"
   ],
-  "Ext.viewport.Android": [],
+  "Ext.viewport.AndroidStock": [],
   "Ext.viewport.Default": [
     "widget.viewport"
   ],
@@ -1776,14 +1607,23 @@ Ext.ClassManager.addNameAliasMappings({
     "widget.datetextfield"
   ],
   "Xedu.model.AddressModel": [],
+  "Xedu.model.AllowedActionsModel": [],
   "Xedu.model.ChapterModel": [],
   "Xedu.model.ClassroomModel": [],
   "Xedu.model.CourseModel": [],
   "Xedu.model.EnrollmentModel": [],
+  "Xedu.model.EventModel": [],
+  "Xedu.model.EventScheduleModel": [],
+  "Xedu.model.SearchHitModel": [],
   "Xedu.model.SlideModel": [],
   "Xedu.model.TopicModel": [],
   "Xedu.model.UserImageInfoModel": [],
   "Xedu.model.UserModel": [],
+  "Xedu.override.PaintMonitor": [],
+  "Xedu.override.SizeMonitor": [],
+  "Xedu.store.AllowedActionsStore": [
+    "store.allowed-actions-store"
+  ],
   "Xedu.store.ChaptersStore": [
     "store.chapters-store"
   ],
@@ -1802,10 +1642,22 @@ Ext.ClassManager.addNameAliasMappings({
   "Xedu.store.TopicsStore": [
     "store.topics-store"
   ],
+  "Xedu.store.UserRolesStore": [
+    "store.user-roles-store"
+  ],
   "Xedu.ux.PinchZoomImage": [
     "widget.pinchzoomimage"
   ],
   "Xedu.ux.Transform": [],
+  "Xedu.ux.field.DateTimePicker": [
+    "widget.datetimepickerfield"
+  ],
+  "Xedu.ux.field.MultiSelect": [
+    "widget.multiselectfield"
+  ],
+  "Xedu.ux.picker.DateTime": [
+    "widget.datetimepicker"
+  ],
   "Xedu.view.ChangePassword": [
     "widget.change-pswd-view"
   ],
@@ -1848,6 +1700,9 @@ Ext.ClassManager.addNameAliasMappings({
   "Xedu.view.classroom.EnrollmentEditForm": [
     "widget.enrollment-edit-form"
   ],
+  "Xedu.view.common.DebugPanel": [
+    "widget.debug-panel"
+  ],
   "Xedu.view.config.ConfigMain": [
     "widget.config-main-view"
   ],
@@ -1866,6 +1721,15 @@ Ext.ClassManager.addNameAliasMappings({
   "Xedu.view.main.SideMenu": [],
   "Xedu.view.schedule.ClassScheduleList": [
     "widget.classroom-schedule-list-panel"
+  ],
+  "Xedu.view.schedule.ScheduleDetailsPreview": [
+    "widget.schedule-details-preview"
+  ],
+  "Xedu.view.schedule.UserScheduleList": [
+    "widget.user-schedule-list-panel"
+  ],
+  "Xedu.view.session.SessionParticipantsView": [
+    "widget.session-participants-view"
   ],
   "Xedu.view.slides.ContentUpload": [
     "widget.content-upload"
@@ -1894,8 +1758,14 @@ Ext.ClassManager.addNameAliasMappings({
   "Xedu.view.topic.TopicsList": [
     "widget.topics-list-panel"
   ],
+  "Xedu.view.users.AllowedActionsMenu": [
+    "widget.allowed-actions-menu"
+  ],
   "Xedu.view.users.StudentDashBoard": [
     "widget.student-dashboard-view"
+  ],
+  "Xedu.view.users.UserDashBoard": [
+    "widget.user-dashboard-view"
   ],
   "Xedu.view.users.UserDetailsHeader": [
     "widget.user-details-header-view"
