@@ -1,4 +1,4 @@
-function _ab43f5f2a1c872770e373a95908ad831a3f9cc72(){};function _93e485d9004e1197927e4334cb3c53dda2d97003(){};function _afdfc7b96f8a9952919388108711a3d9b1d25176(){};function _0474114cea6da4e42f4e600e744d5100089a40ed(){};function _a6be30a34dcdd6dd9ee4b539ad9101c99a3ec256(){};function _f9ba2e747391a14348a1c4c0a8641f85bd4c7a78(){};function _1c0ede60dc665659dfafecccb181c57466635e4a(){};function _f2c99c02f65f25f0ed2a121b5fa1b7e5a5b6ddad(){};function _12d495bb42620dc17930cb0f5dd99e83c158425a(){};function _d802828ea23f49e2adb3a0a5838253c174de7fd4(){};function _c86db8b583f9bc78db2bebf9cfd7673ea8f7b4ef(){};function _c6aa5578c710d4e29f66132ec9715ba94c597ff4(){};function _6397ac22df86e95c6c50ea36db75fc653016c59c(){};function _2d4bc186f4d4b461e5cdb9f584f6c162ba5442ec(){};function _34ab03d65e77e0d8cec923ea1cf0ee7c552f48e5(){};function _cafede35948246f4cc1797f04e5ab4f841779ef6(){};function _3c35b33da8b675f7c5125e91c7d72cde6ce88cf7(){};function _72dc615499b4d65f07c92e3ce2ab0c4f6e5d1b71(){};function _d006fdfa260c7990ed879385e592e7330d1561f7(){};var mouseWheelHandler = function (e) {
+function _afdfc7b96f8a9952919388108711a3d9b1d25176(){};function _0474114cea6da4e42f4e600e744d5100089a40ed(){};function _a6be30a34dcdd6dd9ee4b539ad9101c99a3ec256(){};function _f9ba2e747391a14348a1c4c0a8641f85bd4c7a78(){};function _1c0ede60dc665659dfafecccb181c57466635e4a(){};function _f2c99c02f65f25f0ed2a121b5fa1b7e5a5b6ddad(){};function _12d495bb42620dc17930cb0f5dd99e83c158425a(){};function _d802828ea23f49e2adb3a0a5838253c174de7fd4(){};function _c86db8b583f9bc78db2bebf9cfd7673ea8f7b4ef(){};function _c6aa5578c710d4e29f66132ec9715ba94c597ff4(){};function _6397ac22df86e95c6c50ea36db75fc653016c59c(){};function _2d4bc186f4d4b461e5cdb9f584f6c162ba5442ec(){};function _34ab03d65e77e0d8cec923ea1cf0ee7c552f48e5(){};function _cafede35948246f4cc1797f04e5ab4f841779ef6(){};function _3c35b33da8b675f7c5125e91c7d72cde6ce88cf7(){};function _72dc615499b4d65f07c92e3ce2ab0c4f6e5d1b71(){};function _d006fdfa260c7990ed879385e592e7330d1561f7(){};var mouseWheelHandler = function (e) {
     var e = window.event || e,
         el = e.target,
         cmp,
@@ -66,7 +66,7 @@ Ext.application({
         'Xedu.Config',
         'Xedu.CommonUtils',
         'Xedu.view.Home',
-        'Ext.util.TaskManager',
+        // 'Ext.util.TaskManager',
         'Xedu.controller.Main',
         'Xedu.field.DateTextField',
         'Xedu.view.main.SideMenu',

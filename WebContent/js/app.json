@@ -61,7 +61,12 @@
             "path": "app.js",
             "bundle": true,  /* Indicates that all class dependencies are concatenated into this file when build */
             "update": "delta"
-        }
+        },        
+        {
+    		"path": "../js2/stomp.js",
+    		"remote":true,
+    		"update": "delta"
+    	}
     ],
 
     /**
